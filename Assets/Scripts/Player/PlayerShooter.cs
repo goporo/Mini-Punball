@@ -1,22 +1,27 @@
 using UnityEngine;
 
-public class ShooterController : MonoBehaviour
+[RequireComponent(typeof(PlayerRunStats))]
+public class PlayerShooter : MonoBehaviour
 {
     public Transform shootOrigin;
     public GameObject ballPrefab;
-    public float shootForce = 15f;
-    public float fixedY = 1f;
 
     private Plane aimPlane;
+    PlayerRunStats playerRunStats;
+
+    void Awake()
+    {
+        playerRunStats = GetComponent<PlayerRunStats>();
+    }
 
     void Start()
     {
-        aimPlane = new Plane(Vector3.up, new Vector3(0, fixedY, 0));
+        aimPlane = new Plane(Vector3.up, new Vector3(0, 1f, 0));
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0) && GameContext.Instance.CanShoot)
+        if (Input.GetMouseButtonUp(0) && LevelContext.Instance.CanShoot)
         {
             ShootBall();
         }
@@ -33,11 +38,10 @@ public class ShooterController : MonoBehaviour
             dir.Normalize();
 
             GameObject ball = Instantiate(ballPrefab, shootOrigin.position, Quaternion.identity);
-            var ballBehaviour = ball.GetComponent<BallBehaviour>();
-            if (ballBehaviour != null)
+            if (ball.TryGetComponent<BallBase>(out var ballBase))
             {
-                ballBehaviour.SetDirection(dir);
-                GameContext.Instance.CanShoot = false;
+                ballBase.Init(playerRunStats, dir);
+                LevelContext.Instance.CanShoot = false;
             }
         }
     }

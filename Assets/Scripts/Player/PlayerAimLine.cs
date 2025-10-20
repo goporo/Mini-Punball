@@ -27,7 +27,7 @@ public class AimLine : MonoBehaviour
     {
         if (ballPrefab != null)
         {
-            var ballBehaviour = ballPrefab.GetComponent<BallBehaviour>();
+            var ballBehaviour = ballPrefab.GetComponent<BallPhysics>();
             if (ballBehaviour != null)
             {
                 return ballBehaviour.BoxSize;
@@ -38,7 +38,7 @@ public class AimLine : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && GameContext.Instance.CanShoot)
+        if (Input.GetMouseButton(0) && LevelContext.Instance.CanShoot)
         {
             Plane xzPlane = new Plane(Vector3.up, shootOrigin.position);
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);

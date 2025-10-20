@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
-public class BallBehaviour : MonoBehaviour
+public class BallPhysics : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float constantSpeed = 15f;
@@ -15,15 +15,24 @@ public class BallBehaviour : MonoBehaviour
 
     public Vector3 BoxSize { get { return boxSize; } }
     public static event Action<Vector3> OnBallReturned;
-    private float startLineZ = -1.2f;
+    private float bottomLineZ = -1.2f;
+    private float topLineZ = 8f;
+    private Vector3 boxSize = Vector3.one * 0.1f;
 
     private Vector3 moveDirection;
     private Rigidbody rb;
-    private Vector3 boxSize = Vector3.one * 0.1f;
     private bool isMoving = false;
     private bool hasPassedStartLine = false;
+    private BallSO ballSO;
+    private PlayerRunStats playerRunStats;
 
 
+    public void Init(PlayerRunStats playerRunStats, BallSO ballSO, Vector3 initialDirection)
+    {
+        this.playerRunStats = playerRunStats;
+        this.ballSO = ballSO;
+        SetDirection(initialDirection);
+    }
 
     void Awake()
     {
@@ -46,14 +55,15 @@ public class BallBehaviour : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!hasPassedStartLine && transform.position.z > startLineZ)
+        if (!hasPassedStartLine && transform.position.z > bottomLineZ)
         {
             hasPassedStartLine = true;
         }
 
-        if (hasPassedStartLine && transform.position.z < startLineZ)
+        if (hasPassedStartLine)
         {
-            HandleBallReturned(transform.position);
+            if (transform.position.z > topLineZ || transform.position.z < bottomLineZ)
+                HandleBallReturned(transform.position);
         }
 
         if (isMoving)
@@ -69,8 +79,24 @@ public class BallBehaviour : MonoBehaviour
 
         targetPosition.y = fixedY;
 
-        if (Physics.BoxCast(transform.position, BoxSize * 0.5f, moveDirection, out RaycastHit hit, transform.rotation, moveDistance, bounceLayer))
+        if (Physics.BoxCast(transform.position, BoxSize * 1.0f, moveDirection, out RaycastHit hit, transform.rotation, moveDistance, bounceLayer))
         {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                Debug.Log("Ball hit: " + hit.collider.gameObject.name);
+                Enemy enemy = hit.collider.gameObject.GetComponent<Enemy>();
+
+                int finalDamage = ballSO.BaseDamage * playerRunStats.CurrentAttack;
+                var context = new DamageContext
+                {
+                    source = gameObject,
+                    amount = finalDamage,
+                    statusEffect = ballSO.statusEffect
+                };
+
+                if (enemy) enemy.TakeDamage(context);
+            }
+
             Vector3 hitPoint = transform.position + moveDirection * hit.distance;
             hitPoint.y = fixedY;
             transform.position = hitPoint;
@@ -102,18 +128,8 @@ public class BallBehaviour : MonoBehaviour
     void HandleBallReturned(Vector3 ballPos)
     {
         OnBallReturned?.Invoke(ballPos);
-        GameContext.Instance.CanShoot = true;
+        LevelContext.Instance.CanShoot = true;
         Destroy(gameObject, 0.05f);
     }
 
-
-
-    // void OnCollisionEnter(Collision col)
-    // {
-    //     if (col.gameObject.CompareTag("Monster"))
-    //     {
-    //         Monster m = col.gameObject.GetComponent<Monster>();
-    //         if (m) m.TakeDamage(1);
-    //     }
-    // }
 }
