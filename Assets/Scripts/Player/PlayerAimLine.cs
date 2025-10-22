@@ -38,7 +38,7 @@ public class AimLine : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && LevelContext.Instance.CanShoot)
+        if (Input.GetMouseButton(0) && LevelRuntimeData.Instance.CanShoot)
         {
             Plane xzPlane = new Plane(Vector3.up, shootOrigin.position);
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
-  m_Name: Ball_Normal
+  m_Script: {fileID: 11500000, guid: dc5b34d6749ad1c41af9711b9b0b149c, type: 3}
+  m_Name: Level_Database
   m_EditorClassIdentifier: 
-  BallType: 0
-  BaseDamage: 1
-  Description: 
-  BallPrefab: {fileID: 0}
+  levels:
+  - {fileID: 11400000, guid: d7bc6df658efd614e9e515cf3cccf193, type: 2}

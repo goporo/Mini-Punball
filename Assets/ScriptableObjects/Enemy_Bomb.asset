@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf6adcc16a4c7854cbf8734b7307dec3, type: 3}
-  m_Name: Enemy_Skeleton
+  m_Name: Enemy_Bomb
   m_EditorClassIdentifier: 
-  enemyName: Skeleton Warrior
+  enemyName: Bomb Monster
   variant: 0
   specie: 0
-  Description: Like a little pawn in chess
+  Description: Deals explosion damage to surrounding enemies on death
   baseHealth: 400
   baseAttack: 100
   enemyPrefab: {fileID: 6808648732641969604, guid: 0a0f930037c1bad43a0a8ecd377ab812, type: 3}

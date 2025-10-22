@@ -16,5 +16,5 @@ public enum BallType
     Normal,
     Fire,
     Ice,
-    Thunder
+    Lightning
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9c179cd30822d47bb76e468f9b315b, type: 3}
+  m_Name: Level_1
+  m_EditorClassIdentifier: 
+  boardPrefab: {fileID: 8629729260284965448, guid: 9bc7ab830c767c645a9358414093b869, type: 3}
+  availableEnemies:
+  - {fileID: 11400000, guid: 48a24924724530c4093d1b6833b2a69b, type: 2}
+  - {fileID: 11400000, guid: c19f35755c9078245976429492f3ab3c, type: 2}
+  - {fileID: 11400000, guid: 0bbff838fc9e09c4da5b5c20b5604195, type: 2}
+  minEnemiesPerWave: 1
+  maxEnemiesPerWave: 8
+  spawnLine: 1
+  totalWaves: 20
+  levelMultipliers:
+    hpMultiplier: 1
+    attackMultiplier: 1

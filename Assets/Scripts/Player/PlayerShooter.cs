@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerRunStats))]
@@ -5,9 +6,12 @@ public class PlayerShooter : MonoBehaviour
 {
     public Transform shootOrigin;
     public GameObject ballPrefab;
+    public static event Action<BallBase> OnBallSpawned;
 
     private Plane aimPlane;
     PlayerRunStats playerRunStats;
+
+
 
     void Awake()
     {
@@ -21,7 +25,7 @@ public class PlayerShooter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0) && LevelContext.Instance.CanShoot)
+        if (Input.GetMouseButtonUp(0) && LevelRuntimeData.Instance.CanShoot)
         {
             ShootBall();
         }
@@ -41,9 +45,11 @@ public class PlayerShooter : MonoBehaviour
             if (ball.TryGetComponent<BallBase>(out var ballBase))
             {
                 ballBase.Init(playerRunStats, dir);
-                LevelContext.Instance.CanShoot = false;
+                OnBallSpawned?.Invoke(ballBase);
+                LevelRuntimeData.Instance.CanShoot = false;
             }
         }
     }
+
 
 }

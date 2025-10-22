@@ -6,26 +6,26 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int maxHealth = 10;
     [SerializeField] protected EnemyUI enemyUI;
 
-    public int currentHealth;
-    public bool IsAlive => currentHealth > 0;
+    public int CurrentHealth;
+    public bool IsAlive => CurrentHealth > 0;
     public Vector3 Position => transform.position;
 
     public static event Action<Enemy> OnEnemyDied;
 
     protected virtual void Awake()
     {
-        currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
         enemyUI?.Init(maxHealth);
     }
 
     public virtual void TakeDamage(DamageContext context)
     {
         int amount = context.amount;
-        currentHealth -= amount;
-        enemyUI?.OnTakeDamage(currentHealth, maxHealth);
-        Debug.Log($"{name} took {amount} damage, hp = {currentHealth}");
+        CurrentHealth -= amount;
+        enemyUI?.OnTakeDamage(CurrentHealth, maxHealth);
+        // Debug.Log($"{name} took {amount} damage, hp = {CurrentHealth}");
 
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }

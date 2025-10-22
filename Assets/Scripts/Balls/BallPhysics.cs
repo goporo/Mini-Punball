@@ -14,9 +14,9 @@ public class BallPhysics : MonoBehaviour
     public LayerMask bounceLayer = -1;
 
     public Vector3 BoxSize { get { return boxSize; } }
-    public static event Action<Vector3> OnBallReturned;
-    private float bottomLineZ = -1.2f;
-    private float topLineZ = 8f;
+    public event Action<BallBase> OnReturned;
+    private float topLineZ = 5f;
+    private float bottomLineZ = -3.7f;
     private Vector3 boxSize = Vector3.one * 0.1f;
 
     private Vector3 moveDirection;
@@ -43,7 +43,7 @@ public class BallPhysics : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DelayAutoDestroy(lifeTime, Vector3.zero));
+        StartCoroutine(DelayAutoDestroy(lifeTime, GetComponent<BallBase>()));
     }
 
     public void SetDirection(Vector3 direction)
@@ -63,7 +63,7 @@ public class BallPhysics : MonoBehaviour
         if (hasPassedStartLine)
         {
             if (transform.position.z > topLineZ || transform.position.z < bottomLineZ)
-                HandleBallReturned(transform.position);
+                HandleBallReturned(GetComponent<BallBase>());
         }
 
         if (isMoving)
@@ -83,7 +83,6 @@ public class BallPhysics : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                Debug.Log("Ball hit: " + hit.collider.gameObject.name);
                 Enemy enemy = hit.collider.gameObject.GetComponent<Enemy>();
 
                 int finalDamage = ballSO.BaseDamage * playerRunStats.CurrentAttack;
@@ -119,16 +118,15 @@ public class BallPhysics : MonoBehaviour
         }
     }
 
-    IEnumerator DelayAutoDestroy(float delay, Vector3 ballPos)
+    IEnumerator DelayAutoDestroy(float delay, BallBase ball)
     {
         yield return new WaitForSeconds(delay);
-        HandleBallReturned(ballPos);
+        HandleBallReturned(ball);
     }
 
-    void HandleBallReturned(Vector3 ballPos)
+    void HandleBallReturned(BallBase ball)
     {
-        OnBallReturned?.Invoke(ballPos);
-        LevelContext.Instance.CanShoot = true;
+        OnReturned?.Invoke(ball);
         Destroy(gameObject, 0.05f);
     }
 

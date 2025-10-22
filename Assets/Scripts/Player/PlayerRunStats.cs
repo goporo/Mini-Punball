@@ -12,7 +12,7 @@ public class PlayerRunStats : MonoBehaviour
 
   void Awake()
   {
-    currentAttack = PlayerProfile.Instance.CharacterSO.BaseAttack;
+    currentAttack = GameManager.Instance.CharacterSO.BaseAttack;
   }
   public void ApplyAttackBuff(float multiplier)
   {
