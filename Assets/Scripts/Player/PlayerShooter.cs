@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerRunStats))]
@@ -10,12 +11,13 @@ public class PlayerShooter : MonoBehaviour
 
     private Plane aimPlane;
     PlayerRunStats playerRunStats;
-
+    BallManager ballManager;
 
 
     void Awake()
     {
         playerRunStats = GetComponent<PlayerRunStats>();
+        ballManager = GetComponentInChildren<BallManager>();
     }
 
     void Start()
@@ -41,13 +43,26 @@ public class PlayerShooter : MonoBehaviour
             dir.y = 0;
             dir.Normalize();
 
-            GameObject ball = Instantiate(ballPrefab, shootOrigin.position, Quaternion.identity);
-            if (ball.TryGetComponent<BallBase>(out var ballBase))
+            StartCoroutine(ShootBallsSequentially(dir));
+            LevelRuntimeData.Instance.CanShoot = false;
+        }
+    }
+
+    private IEnumerator ShootBallsSequentially(Vector3 dir)
+    {
+        int ballCount = 5;
+        float delay = 0.1f;
+
+        for (int i = 0; i < ballCount; i++)
+        {
+            var ballBase = ballManager.SpawnBall(shootOrigin.position, Quaternion.identity);
+            if (ballBase != null)
             {
                 ballBase.Init(playerRunStats, dir);
                 OnBallSpawned?.Invoke(ballBase);
-                LevelRuntimeData.Instance.CanShoot = false;
             }
+            if (i < ballCount - 1)
+                yield return new WaitForSeconds(delay);
         }
     }
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WaveController : MonoBehaviour
@@ -8,7 +9,6 @@ public class WaveController : MonoBehaviour
 
   [SerializeField] private EnemyManager enemyManager;
   [SerializeField] private PlayerManager playerManager;
-  [SerializeField] private BallManager ballManager;
   // [SerializeField] private RewardManager rewardManager;
   // [SerializeField] private PickupManager pickupManager;
   // [SerializeField] private EnemyAttackSystem enemyAttackSystem;
@@ -62,14 +62,14 @@ public class WaveController : MonoBehaviour
   {
     Debug.Log("Player shooting...");
     bool done = false;
-    void handler() => done = true;
-    ballManager.OnAllBallsReturned += handler;
+    void handler(List<BallBase> balls) => done = true;
+    BallManager.OnAllBallsReturned += handler;
 
     LevelRuntimeData.Instance.CanShoot = true;
     yield return new WaitUntil(() => done);
     LevelRuntimeData.Instance.CanShoot = false;
 
-    ballManager.OnAllBallsReturned -= handler;
+    BallManager.OnAllBallsReturned -= handler;
   }
 
   private IEnumerator RewardPhase()
@@ -95,7 +95,7 @@ public class WaveController : MonoBehaviour
   private IEnumerator MonsterMovePhase()
   {
     Debug.Log("Enemies moving...");
-    yield return _waitForSeconds;
+    yield return enemyManager.StartMove();
     // yield return board.MoveAllEnemiesForward();
 
   }

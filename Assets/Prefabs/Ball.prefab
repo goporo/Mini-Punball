@@ -101,7 +101,7 @@ MonoBehaviour:
   lifeTime: 15
   bounceLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
 --- !u!114 &-7381831293647542524
 MonoBehaviour:
   m_ObjectHideFlags: 0

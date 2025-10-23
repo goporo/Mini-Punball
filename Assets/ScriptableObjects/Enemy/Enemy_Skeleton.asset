@@ -19,3 +19,5 @@ MonoBehaviour:
   baseHealth: 400
   baseAttack: 100
   enemyPrefab: {fileID: 6808648732641969604, guid: 0a0f930037c1bad43a0a8ecd377ab812, type: 3}
+  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
+  deathBehavior: {fileID: 11400000, guid: 6971be3ce9013054eaef743527898c5f, type: 2}

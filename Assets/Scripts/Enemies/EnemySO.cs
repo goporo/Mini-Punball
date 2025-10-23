@@ -27,4 +27,8 @@ public class EnemySO : ScriptableObject
 
     [Header("Visuals / Prefab")]
     public GameObject enemyPrefab;
+    [Header("Behaviors")]
+    public MoveBehavior moveBehavior;
+    public DeathBehavior deathBehavior;
+
 }

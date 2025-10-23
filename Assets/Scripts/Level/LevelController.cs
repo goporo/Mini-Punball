@@ -10,7 +10,6 @@ public class LevelController : MonoBehaviour
     [Header("Test Hardcoded Level Data")]
     [SerializeField] private LevelSO levelData;
     [SerializeField] private BoardManager boardManager;
-    [SerializeField] private PlayerManager playerManager;
 
 
 
@@ -20,7 +19,6 @@ public class LevelController : MonoBehaviour
     {
         waveController = GetComponent<WaveController>();
         boardManager.InitBoard(levelData);
-        playerManager.InitPlayer();
     }
 
     private void Start()

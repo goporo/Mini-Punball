@@ -1,51 +1,52 @@
+using System.Collections;
 using UnityEngine;
-using System;
 
-public abstract class Enemy : MonoBehaviour
+public class Enemy : BoardObject
 {
-    [SerializeField] protected int maxHealth = 10;
-    [SerializeField] protected EnemyUI enemyUI;
+    [SerializeField] private EnemySO data;
+    [SerializeField] private EnemyUI enemyUI;
 
-    public int CurrentHealth;
-    public bool IsAlive => CurrentHealth > 0;
-    public Vector3 Position => transform.position;
+    private int currentHealth;
+    private MoveBehavior MoveBehavior => data.moveBehavior;
 
-    public static event Action<Enemy> OnEnemyDied;
 
-    protected virtual void Awake()
+    public event System.Action<Enemy> OnDeath;
+
+    private void Awake()
     {
-        CurrentHealth = maxHealth;
-        enemyUI?.Init(maxHealth);
+        currentHealth = data.baseHealth;
+        enemyUI?.Init(data.baseHealth);
     }
 
-    public virtual void TakeDamage(DamageContext context)
+    public IEnumerator DoMove(BoardState board)
     {
-        int amount = context.amount;
-        CurrentHealth -= amount;
-        enemyUI?.OnTakeDamage(CurrentHealth, maxHealth);
-        // Debug.Log($"{name} took {amount} damage, hp = {CurrentHealth}");
+        var target = MoveBehavior.GetTargetCell(this, board);
+        Debug.Log($"Enemy {name} moving from {CurrentCell} to {target}");
 
-        if (CurrentHealth <= 0)
+        if (board.TryMove(this, target))
         {
-            Die();
+            yield return MoveBehavior.AnimateMove(this, board);
         }
-        if (context.statusEffect != null)
+
+        yield break;
+    }
+
+    public override void SetCell(Vector2Int cell, BoardState board)
+    {
+        CurrentCell = cell;
+        transform.position = board.GetWorldPosition(cell.x, cell.y);
+    }
+
+    public void TakeDamage(DamageContext context)
+    {
+        currentHealth -= context.amount;
+        enemyUI?.OnTakeDamage(currentHealth, data.baseHealth);
+
+        if (currentHealth <= 0)
         {
-            ApplyStatusEffect(context.statusEffect);
+            data.deathBehavior?.OnDeath(this, board: null);
+            OnDeath?.Invoke(this);
         }
     }
 
-    public virtual void ApplyStatusEffect(IStatusEffect statusEffect)
-    {
-        statusEffect.Apply(this);
-    }
-
-    protected virtual void Die()
-    {
-        OnEnemyDied?.Invoke(this);
-        Destroy(gameObject);
-    }
-
-    // Optional: override for unique enemy logic
-    public abstract void PerformBehavior();
 }

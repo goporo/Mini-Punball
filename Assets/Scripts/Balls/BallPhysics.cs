@@ -33,6 +33,12 @@ public class BallPhysics : MonoBehaviour
         this.ballSO = ballSO;
         SetDirection(initialDirection);
     }
+    public void ResetState()
+    {
+        isMoving = false;
+        hasPassedStartLine = false;
+        moveDirection = Vector3.zero;
+    }
 
     void Awake()
     {
@@ -127,7 +133,6 @@ public class BallPhysics : MonoBehaviour
     void HandleBallReturned(BallBase ball)
     {
         OnReturned?.Invoke(ball);
-        Destroy(gameObject, 0.05f);
     }
 
 }
