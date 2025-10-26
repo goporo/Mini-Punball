@@ -16,10 +16,7 @@ public class BoardState : MonoBehaviour
     grid = new BoardObject[width, height];
   }
 
-  public Vector3 GetWorldPosition(int x, int y)
-  {
-    return origin + new Vector3(x * cellSize, 0, y * cellSize);
-  }
+
 
   public bool IsEmpty(int x, int y)
   {
@@ -32,8 +29,7 @@ public class BoardState : MonoBehaviour
     if (!IsEmpty(cell.x, cell.y))
       return false;
     grid[cell.x, cell.y] = boardObject;
-    Debug.Log($"Placed object at cell {cell}");
-    boardObject.SetCell(cell, this);
+    boardObject.SetCell(cell);
     return true;
   }
 
@@ -63,20 +59,24 @@ public class BoardState : MonoBehaviour
     return emptyCells[Random.Range(0, emptyCells.Count)];
   }
 
-  public bool TryMove(Enemy enemy, Vector2Int target)
+  public bool TryMove(BoardObject boardObject, Vector2Int target)
   {
     if (!IsInside(target) || IsOccupied(target)) return false;
 
-    grid[enemy.CurrentCell.x, enemy.CurrentCell.y] = null;
-    grid[target.x, target.y] = enemy;
-    enemy.SetCell(target, this);
-
+    grid[boardObject.CurrentCell.x, boardObject.CurrentCell.y] = null;
+    grid[target.x, target.y] = boardObject;
+    boardObject.SetCell(target);
     return true;
   }
 
   public bool IsOccupied(Vector2Int pos) => grid[pos.x, pos.y] != null;
 
   public bool IsInside(Vector2Int pos) => pos.x >= 0 && pos.y >= 0 && pos.x < grid.GetLength(0) && pos.y < grid.GetLength(1);
+
+  public Vector3 GetWorldPosition(int x, int y)
+  {
+    return origin + new Vector3(x * cellSize, 0, y * cellSize);
+  }
 
 
   // Visualize grid in editor

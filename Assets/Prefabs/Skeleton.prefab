@@ -74,9 +74,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 2205894756330936954, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 6808648732641969604}
+    - target: {fileID: 2205894756330936954, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
+      propertyPath: MoveBehavior
+      value: 
+      objectReference: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
     - target: {fileID: 2630661152810303810, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2630661152810303810, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -84,7 +92,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2630661152810303810, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2630661152810303810, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -124,6 +132,11 @@ PrefabInstance:
       addedObject: {fileID: 7233798802690512105}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
+--- !u!1 &6808648732641969604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 861813193641135113, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
+  m_PrefabInstance: {fileID: 6163435000351967693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8145066806640232591 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2630661152810303810, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}

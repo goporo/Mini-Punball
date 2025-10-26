@@ -1,14 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WaveController : MonoBehaviour
 {
+  public static Action<int> OnWaveChange;
   private static WaitForSeconds _waitForSeconds = new WaitForSeconds(.5f);
+  private int currentWave = 1;
 
-
-  [SerializeField] private EnemyManager enemyManager;
+  [SerializeField] private WaveSpawner waveSpawner;
+  [SerializeField] private BoardManager boardManager;
   [SerializeField] private PlayerManager playerManager;
+  [SerializeField] private WaveListSO waveList;
+
   // [SerializeField] private RewardManager rewardManager;
   // [SerializeField] private PickupManager pickupManager;
   // [SerializeField] private EnemyAttackSystem enemyAttackSystem;
@@ -17,6 +22,7 @@ public class WaveController : MonoBehaviour
 
   public IEnumerator RunWave(int waveNumber)
   {
+    OnWaveChange?.Invoke(currentWave);
     waveRunning = true;
 
     // 1️⃣ Spawn
@@ -40,15 +46,14 @@ public class WaveController : MonoBehaviour
     // 7️⃣ Monster move
     yield return MonsterMovePhase();
 
+    currentWave++;
     waveRunning = false;
   }
 
   private IEnumerator SpawnEnemiesPhase()
   {
-    Debug.Log("Spawning enemies...");
-    enemyManager.SpawnWave(1);
-    yield return _waitForSeconds;
-    // yield return enemyManager.SpawnWave(wave);
+    Debug.Log("Spawning wave...");
+    yield return waveSpawner.SpawnWave(waveList.GenerateWave(currentWave));
   }
 
   private IEnumerator ApplyEnemyStatusPhase()
@@ -95,7 +100,7 @@ public class WaveController : MonoBehaviour
   private IEnumerator MonsterMovePhase()
   {
     Debug.Log("Enemies moving...");
-    yield return enemyManager.StartMove();
+    yield return boardManager.StartMove();
     // yield return board.MoveAllEnemiesForward();
 
   }

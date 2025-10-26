@@ -5,16 +5,25 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Canvas))]
 public class LevelUI : MonoBehaviour
 {
-    [SerializeField] private TMP_Text waveText;
+    [SerializeField] private TMP_Text textWaveNumber;
 
-    public void Init(int maxHealth)
+    private void Awake()
     {
-        waveText.text = "1";
+        textWaveNumber.text = "1";
     }
 
-    public void OnWaveChange(int currentWave, int maxWaves)
+    void OnEnable()
     {
-        waveText.text = $"{currentWave}";
+        WaveController.OnWaveChange += HandleWaveChange;
+    }
+    void OnDisable()
+    {
+        WaveController.OnWaveChange -= HandleWaveChange;
+    }
+
+    public void HandleWaveChange(int newWave)
+    {
+        textWaveNumber.text = $"{newWave}";
     }
 
 

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba3d1f26e88f4f43995b89d2bd8ecff, type: 3}
+  m_Name: RandomWaveListSO
+  m_EditorClassIdentifier: 
+  availableBoardObjects:
+  - {fileID: 5409952272315634615, guid: 0a0f930037c1bad43a0a8ecd377ab812, type: 3}
+  ballPickup: {fileID: 446743786122653391, guid: 5875f48659473c64db42a953ef55bff8, type: 3}
+  boxPickup: {fileID: 446743786122653391, guid: 5875f48659473c64db42a953ef55bff8, type: 3}
+  bossWaveIndices: 14000000

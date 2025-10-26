@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 298165b3084693b4cbdb7d381f2d9a62, type: 3}
   m_Name: Character_Rolla
   m_EditorClassIdentifier: 
-  BaseAttack: 1
-  BaseBallType: 0
+  BaseHealth: 500
+  BaseAttack: 100
+  BaseBall: {fileID: 11400000, guid: 5bf057be5b9c97e469af4c68ec023447, type: 2}
+  BaseBallsCount: 5
   Description: 

@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Enemy : BoardObject
 {
-    [SerializeField] private EnemySO data;
     [SerializeField] private EnemyUI enemyUI;
 
+
     private int currentHealth;
-    private MoveBehavior MoveBehavior => data.moveBehavior;
+    private DeathBehavior DeathBehavior => data.deathBehavior;
 
 
     public event System.Action<Enemy> OnDeath;
@@ -18,24 +18,8 @@ public class Enemy : BoardObject
         enemyUI?.Init(data.baseHealth);
     }
 
-    public IEnumerator DoMove(BoardState board)
-    {
-        var target = MoveBehavior.GetTargetCell(this, board);
-        Debug.Log($"Enemy {name} moving from {CurrentCell} to {target}");
 
-        if (board.TryMove(this, target))
-        {
-            yield return MoveBehavior.AnimateMove(this, board);
-        }
 
-        yield break;
-    }
-
-    public override void SetCell(Vector2Int cell, BoardState board)
-    {
-        CurrentCell = cell;
-        transform.position = board.GetWorldPosition(cell.x, cell.y);
-    }
 
     public void TakeDamage(DamageContext context)
     {

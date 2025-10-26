@@ -1,19 +1,33 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public abstract class MoveBehavior : ScriptableObject
 {
-  public abstract Vector2Int GetTargetCell(Enemy enemy, BoardState board);
-  public virtual IEnumerator AnimateMove(Enemy enemy, BoardState board)
+  public abstract Vector2Int GetTargetCell(BoardObject boardObject, BoardState board);
+
+  public virtual void TeleportTo(BoardObject boardObject, BoardState board)
   {
-    Debug.Log("Default AnimateMove: simple lerp " + enemy.name);
-    Vector3 targetPos = board.GetWorldPosition(enemy.CurrentCell.x, enemy.CurrentCell.y);
-    float elapsed = 0f;
-    while (elapsed < 0.3f)
-    {
-      elapsed += Time.deltaTime;
-      enemy.transform.position = Vector3.Lerp(enemy.transform.position, targetPos, elapsed / 0.3f);
-      yield return null;
-    }
+    Vector3 targetPos = board.GetWorldPosition(boardObject.CurrentCell.x, boardObject.CurrentCell.y);
+    boardObject.transform.position = targetPos;
+  }
+
+  public virtual IEnumerator AnimateSpawn(BoardObject boardObject, BoardState board)
+  {
+    Vector3 targetPos = board.GetWorldPosition(boardObject.CurrentCell.x, boardObject.CurrentCell.y);
+    boardObject.transform.position = targetPos;
+    boardObject.transform.localScale = Vector3.zero;
+
+    yield return boardObject.transform
+        .DOScale(Vector3.one, 0.25f)
+        .SetEase(Ease.OutBack)
+        .WaitForCompletion();
+  }
+
+  public virtual IEnumerator AnimateMove(BoardObject boardObject, BoardState board)
+  {
+    Vector3 targetPos = board.GetWorldPosition(boardObject.CurrentCell.x, boardObject.CurrentCell.y);
+    boardObject.transform.position = targetPos;
+    yield break;
   }
 }

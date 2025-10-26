@@ -7,11 +7,12 @@ public class PlayerShooter : MonoBehaviour
 {
     public Transform shootOrigin;
     public GameObject ballPrefab;
-    public static event Action<BallBase> OnBallSpawned;
+    public static event Action<BallBase> OnBallFired;
 
     private Plane aimPlane;
     PlayerRunStats playerRunStats;
     BallManager ballManager;
+    int ballCount;
 
 
     void Awake()
@@ -23,6 +24,7 @@ public class PlayerShooter : MonoBehaviour
     void Start()
     {
         aimPlane = new Plane(Vector3.up, new Vector3(0, 1f, 0));
+        ballCount = GameManager.Instance.CharacterSO.BaseBallsCount;
     }
 
     void Update()
@@ -50,7 +52,6 @@ public class PlayerShooter : MonoBehaviour
 
     private IEnumerator ShootBallsSequentially(Vector3 dir)
     {
-        int ballCount = 5;
         float delay = 0.1f;
 
         for (int i = 0; i < ballCount; i++)
@@ -59,7 +60,7 @@ public class PlayerShooter : MonoBehaviour
             if (ballBase != null)
             {
                 ballBase.Init(playerRunStats, dir);
-                OnBallSpawned?.Invoke(ballBase);
+                OnBallFired?.Invoke(ballBase);
             }
             if (i < ballCount - 1)
                 yield return new WaitForSeconds(delay);
