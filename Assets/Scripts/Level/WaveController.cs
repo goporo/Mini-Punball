@@ -6,24 +6,21 @@ using UnityEngine;
 public class WaveController : MonoBehaviour
 {
   public static Action<int> OnWaveChange;
-  private static WaitForSeconds _waitForSeconds = new WaitForSeconds(.5f);
+  private static WaitForSeconds _waitForSeconds = new(.5f);
   private int currentWave = 1;
 
   [SerializeField] private WaveSpawner waveSpawner;
   [SerializeField] private BoardManager boardManager;
   [SerializeField] private PlayerManager playerManager;
   [SerializeField] private WaveListSO waveList;
+  [SerializeField] private PickupManager pickupManager;
 
   // [SerializeField] private RewardManager rewardManager;
-  // [SerializeField] private PickupManager pickupManager;
   // [SerializeField] private EnemyAttackSystem enemyAttackSystem;
-
-  private bool waveRunning;
 
   public IEnumerator RunWave(int waveNumber)
   {
     OnWaveChange?.Invoke(currentWave);
-    waveRunning = true;
 
     // 1️⃣ Spawn
     yield return SpawnEnemiesPhase();
@@ -34,20 +31,16 @@ public class WaveController : MonoBehaviour
     // 3️⃣ Player shoot
     yield return PlayerShootPhase();
 
-    // 4️⃣ Reward selection
-    yield return RewardPhase();
-
-    // 5️⃣ Collect pickups
+    // 4️⃣ Collect pickups
     yield return CollectPickupPhase();
 
-    // 6️⃣ Monster attack
+    // 5️⃣ Monster attack
     yield return MonsterAttackPhase();
 
-    // 7️⃣ Monster move
+    // 6️⃣ Monster move
     yield return MonsterMovePhase();
 
     currentWave++;
-    waveRunning = false;
   }
 
   private IEnumerator SpawnEnemiesPhase()
@@ -66,28 +59,20 @@ public class WaveController : MonoBehaviour
   private IEnumerator PlayerShootPhase()
   {
     Debug.Log("Player shooting...");
-    bool done = false;
-    void handler(List<BallBase> balls) => done = true;
-    BallManager.OnAllBallsReturned += handler;
-
-    LevelRuntimeData.Instance.CanShoot = true;
-    yield return new WaitUntil(() => done);
-    LevelRuntimeData.Instance.CanShoot = false;
-
-    BallManager.OnAllBallsReturned -= handler;
-  }
-
-  private IEnumerator RewardPhase()
-  {
-    Debug.Log("Reward phase...");
-    yield return _waitForSeconds;
+    playerManager.EnableShooting(true);
+    yield return new WaitUntil(() => playerManager.ShotAllBall);
+    playerManager.EnableShooting(false);
   }
 
   private IEnumerator CollectPickupPhase()
   {
     Debug.Log("Collecting pickups...");
-    yield return _waitForSeconds;
-    // yield return pickupManager.CollectAll();
+
+    if (pickupManager != null)
+    {
+      yield return pickupManager.ProcessAllPickups();
+    }
+
   }
 
   private IEnumerator MonsterAttackPhase()
@@ -101,15 +86,8 @@ public class WaveController : MonoBehaviour
   {
     Debug.Log("Enemies moving...");
     yield return boardManager.StartMove();
-    // yield return board.MoveAllEnemiesForward();
 
   }
-
-
-  public bool IsWaveRunning => waveRunning;
-
-
-
 
 
 }

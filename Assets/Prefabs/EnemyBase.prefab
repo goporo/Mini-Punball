@@ -69,9 +69,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 861813193641135113}
-  MoveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
-  data: {fileID: 11400000, guid: 48a24924724530c4093d1b6833b2a69b, type: 2}
+  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
   enemyUI: {fileID: 5125720304162542915}
+  data: {fileID: 11400000, guid: 48a24924724530c4093d1b6833b2a69b, type: 2}
 --- !u!1 &2389853447346811939
 GameObject:
   m_ObjectHideFlags: 0

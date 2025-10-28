@@ -4,64 +4,53 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// Orchestrates the board state and manages board objects
+[RequireComponent(typeof(BoardState))]
 public class BoardManager : MonoBehaviour
 {
-  private GameObject currentBoard;
-
-  private List<BoardObject> boardObjects = new();
-  public List<BoardObject> BoardObjects => boardObjects;
-
-  public void Register(BoardObject e) => boardObjects.Add(e);
-  public void Unregister(BoardObject e) => boardObjects.Remove(e);
   private BoardState board;
   private void Awake()
   {
     board = GetComponent<BoardState>();
   }
 
-  public void InitBoard(LevelSO levelData)
+  void OnEnable()
   {
-    if (currentBoard != null)
-    {
-      Destroy(currentBoard);
-    }
-
-    // Instantiate the board prefab
-    currentBoard = Instantiate(levelData.boardPrefab, transform);
-
+    EventBus.Subscribe<BoardObjectDeathEvent>(HandleBoardObjectDeath);
   }
 
-
-
-
-  public void HandleEnemyDeath(Enemy enemy)
+  void OnDisable()
   {
-    if (enemy != null)
-    {
-      enemy.OnDeath -= HandleEnemyDeath;
-    }
-    Unregister(enemy);
-    if (enemy != null)
-    {
-      Destroy(enemy.gameObject);
-    }
+    EventBus.Unsubscribe<BoardObjectDeathEvent>(HandleBoardObjectDeath);
+  }
+
+  private void HandleBoardObjectDeath(BoardObjectDeathEvent e)
+  {
+    board.ClearCell(e.BoardObject.CurrentCell);
+  }
+
+  public void InitBoard(LevelSO levelData)
+  {
+    Instantiate(levelData.boardPrefab, transform);
+
   }
 
   public IEnumerator StartMove()
   {
     var moves = new List<Coroutine>();
     var finished = 0;
+    var boardObjects = board.GetAllBoardObjects().ToList();
 
     foreach (var boardObject in boardObjects)
     {
-      StartCoroutine(EnemyMoveWrapper(boardObject, () => finished++));
+      StartCoroutine(MoveWrapper(boardObject, () => finished++));
     }
 
     yield return new WaitUntil(() => finished >= boardObjects.Count);
     yield return null;
   }
 
-  private IEnumerator EnemyMoveWrapper(BoardObject boardObject, Action onDone)
+  private IEnumerator MoveWrapper(BoardObject boardObject, Action onDone)
   {
     yield return boardObject.DoMove(board);
     onDone?.Invoke();

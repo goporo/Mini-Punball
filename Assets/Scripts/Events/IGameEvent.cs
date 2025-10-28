@@ -1,0 +1,60 @@
+
+using System.Collections.Generic;
+
+
+/// <summary>
+/// Marker interface for all events.
+/// </summary>
+public interface IGameEvent { }
+
+public struct BallReturnedEvent : IGameEvent
+{
+  public BallBase BallBase;
+  public BallReturnedEvent(BallBase ballBase) => BallBase = ballBase;
+}
+
+public struct BallFiredEvent : IGameEvent
+{
+  public BallBase BallBase;
+  public BallFiredEvent(BallBase ballBase) => BallBase = ballBase;
+}
+
+public struct BallCountChangedEvent : IGameEvent
+{
+  public int CurrentBallCount;
+  public BallCountChangedEvent(int currentBallCount) => CurrentBallCount = currentBallCount;
+}
+
+public struct PickupBallEvent : IGameEvent
+{
+  public int Amount;
+  public PickupBallEvent(int amount) => Amount = amount;
+}
+
+public struct PickupCollectedEvent : IGameEvent
+{
+  public IPickupable Pickup;
+  public PickupCollectedEvent(IPickupable pickup) => Pickup = pickup;
+}
+
+public struct BoardObjectDeathEvent : IGameEvent
+{
+  public BoardObject BoardObject;
+  public BoardObjectDeathEvent(BoardObject boardObject) => BoardObject = boardObject;
+}
+
+public struct AllBallShotEvent : IGameEvent
+{
+}
+
+public struct AllBallReturnedEvent : IGameEvent
+{
+  public List<BallBase> ReturnedBalls;
+  public AllBallReturnedEvent(List<BallBase> returnedBalls) => ReturnedBalls = returnedBalls;
+}
+
+public struct PlayerCanShootEvent : IGameEvent
+{
+  public bool CanShoot;
+  public PlayerCanShootEvent(bool canShoot) => CanShoot = canShoot;
+}

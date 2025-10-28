@@ -33,42 +33,20 @@ public class WaveSpawner : MonoBehaviour
         var pos = boardState.GetWorldPosition(x, y);
         var obj = Instantiate(boardObject.prefab, transform);
 
-        var enemy = obj.GetComponent<Enemy>();
-        if (enemy != null)
+        if (obj.TryGetComponent<Enemy>(out var enemy))
         {
           boardState.PlaceObject(enemy, new Vector2Int(x, y));
           enemy.transform.position = pos;
-          boardManager.Register(enemy);
-          enemy.OnDeath += boardManager.HandleEnemyDeath;
           spawnedEnemies.Add(enemy);
         }
-        else
+        else if (obj.TryGetComponent<PickupBall>(out var pickup))
         {
-          var pickup = obj.GetComponent<PickupBall>();
-          if (pickup != null)
-          {
-            boardState.PlaceObject(pickup, new Vector2Int(x, y));
-            pickup.transform.position = pos;
-            boardManager.Register(pickup);
-          }
+          boardState.PlaceObject(pickup, new Vector2Int(x, y));
+          pickup.transform.position = pos;
         }
       }
     }
 
-    // for (int i = 0; i < count; i++)
-    // {
-    //   var cell = board.GetRandomEmptyCell(spawnRow);
-    //   if (cell == null) yield break;
-
-    //   var (x, y) = cell.Value;
-    //   var pos = board.GetWorldPosition(x, y);
-    //   var enemy = Instantiate(enemyPrefab, transform).GetComponent<Enemy>();
-    //   board.PlaceObject(enemy, new Vector2Int(x, y));
-    //   enemy.transform.position = pos;
-    //   Register(enemy);
-    //   enemy.OnDeath += HandleEnemyDeath;
-    //   spawnedEnemies.Add(enemy);
-    // }
 
     foreach (var enemy in spawnedEnemies)
     {

@@ -1,66 +1,127 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(BallPool))]
 public class BallManager : MonoBehaviour
 {
-    private List<BallBase> movingBalls = new(); // Balls yet to return
-    private List<BallBase> listBalls = new();    // All balls for the wave
-    public int RemainingBalls => listBalls.Count - movingBalls.Count;
-    private BallPool ballPool;
+    [SerializeField] private BallDatabaseSO ballDatabaseSO;
 
-    public static event Action<List<BallBase>> OnAllBallsReturned;
+    public List<BallBase> playerBalls = new(); // Balls player owns in order
 
-    void Awake()
+    // Active wave tracking
+    private List<BallBase> activeBalls = new(); // Balls currently in motion during this wave
+    private List<BallBase> returnedBalls = new(); // Balls that have returned this wave
+    private int ballsShot = 0; // How many balls have been shot this wave
+
+    // Properties
+    public List<BallBase> PlayerBalls => new(playerBalls);
+    public int RemainingBalls => Mathf.Max(0, playerBalls.Count - ballsShot);
+
+    private CharacterSO characterSO;
+
+
+    public void Init(List<BallType> balls)
     {
-        ballPool = GetComponent<BallPool>();
-    }
-
-    void Start()
-    {
-        for (int i = 0; i < GameManager.Instance.CharacterSO.BaseBallsCount; i++)
+        playerBalls.Clear();
+        foreach (var type in balls)
         {
-            var ball = ballPool.Get();
-            ballPool.Return(ball);
+            var ballConfig = ballDatabaseSO.GetConfig(type);
+            var ballObj = Instantiate(ballConfig.BallPrefab, transform);
+            var ballBase = ballObj.GetComponent<BallBase>();
+            ballObj.SetActive(false);
+            playerBalls.Add(ballBase);
         }
     }
 
-    public void RegisterBall(BallBase ball)
+    private void Awake()
     {
-        ball.GetComponent<BallPhysics>().OnReturned += HandleBallReturned;
+        characterSO = GameManager.Instance.CharacterSO;
+    }
 
-        // If this is the first ball of a new wave, reset lists
-        if (movingBalls.Count == 0)
+    private void OnEnable()
+    {
+        EventBus.Subscribe<BallFiredEvent>(OnBallFired);
+        EventBus.Subscribe<BallReturnedEvent>(OnBallReturned);
+        EventBus.Subscribe<PickupBallEvent>(HandlePickupBall);
+    }
+
+    private void OnDisable()
+    {
+        EventBus.Unsubscribe<BallFiredEvent>(OnBallFired);
+        EventBus.Unsubscribe<BallReturnedEvent>(OnBallReturned);
+        EventBus.Unsubscribe<PickupBallEvent>(HandlePickupBall);
+    }
+
+    private void HandlePickupBall(PickupBallEvent e)
+    {
+        for (int i = 0; i < e.Amount; i++)
         {
-            movingBalls.Clear();
-            listBalls.Clear();
+            AddBall();
         }
-        movingBalls.Add(ball);
-        listBalls.Add(ball);
     }
 
-    private void HandleBallReturned(BallBase ball)
+    private void AddBall(BallType? type = null)
     {
-        ball.GetComponent<BallPhysics>().OnReturned -= HandleBallReturned;
-        ballPool.Return(ball);
-        movingBalls.Remove(ball);
+        BallType ballType = type ?? characterSO.BallConfig.BallType;
+        var ballConfig = ballDatabaseSO.GetConfig(ballType);
+        var ballObj = Instantiate(ballConfig.BallPrefab, transform);
+        var ballBase = ballObj.GetComponent<BallBase>();
+        ballObj.SetActive(false);
+        playerBalls.Add(ballBase);
+        EventBus.Publish(new BallCountChangedEvent(playerBalls.Count));
+    }
 
-        if (movingBalls.Count == 0)
+    private void OnBallFired(BallFiredEvent e)
+    {
+        var ball = e.BallBase;
+        activeBalls.Add(ball);
+        EventBus.Publish(new BallCountChangedEvent(RemainingBalls));
+    }
+
+    private void OnBallReturned(BallReturnedEvent e)
+    {
+        var ball = e.BallBase;
+
+        activeBalls.Remove(ball);
+        returnedBalls.Add(ball);
+
+        ball.gameObject.SetActive(false);
+
+        if (activeBalls.Count == 0)
         {
-            OnAllBallsReturned?.Invoke(listBalls);
+            EventBus.Publish(new AllBallReturnedEvent(new List<BallBase>(returnedBalls)));
+            ResetForNextWave();
         }
     }
 
-    public BallBase SpawnBall(Vector3 position, Quaternion? rotation)
+    private void ResetForNextWave()
     {
-        BallBase ball = ballPool.Get();
-        var ballPhysics = ball.GetComponent<BallPhysics>();
-        if (ballPhysics != null)
-            ballPhysics.ResetState();
-        ball.transform.SetPositionAndRotation(position, rotation ?? Quaternion.identity);
-        return ball;
+        ballsShot = 0;
+        foreach (var ball in returnedBalls)
+        {
+            if (ball != null)
+                ball.gameObject.SetActive(false);
+        }
+        activeBalls.Clear();
+        returnedBalls.Clear();
     }
+
+    public BallBase SpawnNextBall(Vector3 position, Quaternion? rotation = null)
+    {
+        var ballBase = playerBalls[ballsShot];
+        ballsShot++;
+        if (ballsShot == playerBalls.Count)
+        {
+            EventBus.Publish(new AllBallShotEvent());
+        }
+        ballBase.transform.SetPositionAndRotation(position, rotation ?? Quaternion.identity);
+        ballBase.gameObject.SetActive(true);
+        // Optionally reset state if needed
+        var ballPhysics = ballBase.GetComponent<BallPhysics>();
+        ballPhysics?.ResetState();
+        return ballBase;
+    }
+
 }
-

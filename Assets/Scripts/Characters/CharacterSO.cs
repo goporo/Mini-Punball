@@ -6,7 +6,7 @@ public class CharacterSO : ScriptableObject
 {
     public int BaseHealth;
     public int BaseAttack;
-    public BallSO BaseBall;
+    public BallSO BallConfig;
     public int BaseBallsCount;
     [TextArea] public string Description;
 

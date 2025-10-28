@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ba3d1f26e88f4f43995b89d2bd8ecff, type: 3}
-  m_Name: RandomWaveListSO
+  m_Name: WaveList_Random
   m_EditorClassIdentifier: 
   availableBoardObjects:
   - {fileID: 5409952272315634615, guid: 0a0f930037c1bad43a0a8ecd377ab812, type: 3}

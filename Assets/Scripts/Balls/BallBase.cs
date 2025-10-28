@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BallPhysics))]
-public abstract class BallBase : MonoBehaviour
+public class BallBase : MonoBehaviour
 {
-    [SerializeField] private BallSO ballStats;
-    public BallSO BallStats => ballStats;
-    public IStatusEffect StatusEffect => ballStats.statusEffect;
+    [SerializeField] private BallSO config;
+    public BallSO Config => config;
+    public IStatusEffect StatusEffect => config.statusEffect;
 
     private PlayerRunStats playerRunStats;
     private Vector3 initialDirection;
@@ -18,21 +18,9 @@ public abstract class BallBase : MonoBehaviour
         this.playerRunStats = playerRunStats;
         this.initialDirection = initialDirection;
         var ballPhysics = GetComponent<BallPhysics>();
-        ballPhysics?.Init(playerRunStats, ballStats, initialDirection);
+        ballPhysics?.Init(playerRunStats, config, initialDirection);
     }
 
-    void Awake()
-    {
-    }
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
 
 }
 

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using Unity.VisualScripting;
 
 public class BoardState : MonoBehaviour
 {
@@ -11,12 +13,25 @@ public class BoardState : MonoBehaviour
 
   private BoardObject[,] grid;
 
+  // Simple event for debug updates
+  public static System.Action OnBoardChanged;
+
   private void Awake()
   {
     grid = new BoardObject[width, height];
   }
 
 
+
+  public List<BoardObject> GetAllBoardObjects()
+  {
+    var objects = new List<BoardObject>();
+    for (int x = 0; x < width; x++)
+      for (int y = 0; y < height; y++)
+        if (grid[x, y] != null)
+          objects.Add(grid[x, y]);
+    return objects;
+  }
 
   public bool IsEmpty(int x, int y)
   {
@@ -30,6 +45,10 @@ public class BoardState : MonoBehaviour
       return false;
     grid[cell.x, cell.y] = boardObject;
     boardObject.SetCell(cell);
+
+    // Notify debugger
+    OnBoardChanged?.Invoke();
+
     return true;
   }
 
@@ -45,6 +64,9 @@ public class BoardState : MonoBehaviour
   public void ClearCell(Vector2Int cell)
   {
     grid[cell.x, cell.y] = null;
+
+    // Notify debugger
+    OnBoardChanged?.Invoke();
   }
 
   public (int x, int y)? GetRandomEmptyCell(int row)
@@ -66,6 +88,10 @@ public class BoardState : MonoBehaviour
     grid[boardObject.CurrentCell.x, boardObject.CurrentCell.y] = null;
     grid[target.x, target.y] = boardObject;
     boardObject.SetCell(target);
+
+    // Notify debugger
+    OnBoardChanged?.Invoke();
+
     return true;
   }
 
@@ -76,6 +102,18 @@ public class BoardState : MonoBehaviour
   public Vector3 GetWorldPosition(int x, int y)
   {
     return origin + new Vector3(x * cellSize, 0, y * cellSize);
+  }
+
+  public BoardObject GetObjectAt(int x, int y)
+  {
+    if (!IsInside(new Vector2Int(x, y))) return null;
+    return grid[x, y];
+  }
+
+  public void GetGridDimensions(out int gridWidth, out int gridHeight)
+  {
+    gridWidth = width;
+    gridHeight = height;
   }
 
 

@@ -1,18 +1,20 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerRunStats))]
 public class PlayerShooter : MonoBehaviour
 {
-    public Transform shootOrigin;
-    public GameObject ballPrefab;
-    public static event Action<BallBase> OnBallFired;
+    [SerializeField] private Transform shootOrigin;
+    [SerializeField] private GameObject ballPrefab;
 
     private Plane aimPlane;
     PlayerRunStats playerRunStats;
     BallManager ballManager;
     int ballCount;
+    private bool canShoot = false;
 
 
     void Awake()
@@ -21,15 +23,34 @@ public class PlayerShooter : MonoBehaviour
         ballManager = GetComponentInChildren<BallManager>();
     }
 
+    void OnEnable()
+    {
+        EventBus.Subscribe<PlayerCanShootEvent>(SetCanShoot);
+    }
+
+    void OnDisable()
+    {
+        EventBus.Unsubscribe<PlayerCanShootEvent>(SetCanShoot);
+    }
+
+    private void SetCanShoot(PlayerCanShootEvent evt)
+    {
+        canShoot = evt.CanShoot;
+    }
+
     void Start()
     {
         aimPlane = new Plane(Vector3.up, new Vector3(0, 1f, 0));
         ballCount = GameManager.Instance.CharacterSO.BaseBallsCount;
+        BallType ballType = GameManager.Instance.CharacterSO.BallConfig.BallType;
+        List<BallType> ballList = Enumerable.Repeat(ballType, ballCount).ToList();
+        ballManager.Init(ballList);
+
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0) && LevelRuntimeData.Instance.CanShoot)
+        if (Input.GetMouseButtonUp(0) && canShoot)
         {
             ShootBall();
         }
@@ -46,24 +67,32 @@ public class PlayerShooter : MonoBehaviour
             dir.Normalize();
 
             StartCoroutine(ShootBallsSequentially(dir));
-            LevelRuntimeData.Instance.CanShoot = false;
+            EventBus.Publish(new PlayerCanShootEvent(false));
         }
     }
 
     private IEnumerator ShootBallsSequentially(Vector3 dir)
     {
+        Debug.Log("Shooting balls sequentially");
         float delay = 0.1f;
 
-        for (int i = 0; i < ballCount; i++)
+        // Shoot all balls in the player's collection
+        while (ballManager.RemainingBalls > 0)
         {
-            var ballBase = ballManager.SpawnBall(shootOrigin.position, Quaternion.identity);
+            var ballBase = ballManager.SpawnNextBall(shootOrigin.position, Quaternion.identity);
             if (ballBase != null)
             {
                 ballBase.Init(playerRunStats, dir);
-                OnBallFired?.Invoke(ballBase);
+                EventBus.Publish(new BallFiredEvent(ballBase));
+
+                // Add delay between shots if there are more balls to shoot
+                if (ballManager.RemainingBalls > 0)
+                    yield return new WaitForSeconds(delay);
             }
-            if (i < ballCount - 1)
-                yield return new WaitForSeconds(delay);
+            else
+            {
+                break; // No more balls to shoot
+            }
         }
     }
 

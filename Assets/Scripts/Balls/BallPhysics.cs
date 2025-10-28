@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
@@ -7,14 +8,12 @@ public class BallPhysics : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float constantSpeed = 15f;
-    public float fixedY = 1f;
     public float lifeTime = 15f;
 
     [Header("Bounce Settings")]
     public LayerMask bounceLayer = -1;
 
     public Vector3 BoxSize { get { return boxSize; } }
-    public event Action<BallBase> OnReturned;
     private float topLineZ = 5f;
     private float bottomLineZ = -3.7f;
     private Vector3 boxSize = Vector3.one * 0.1f;
@@ -83,7 +82,6 @@ public class BallPhysics : MonoBehaviour
         float moveDistance = constantSpeed * Time.fixedDeltaTime;
         Vector3 targetPosition = transform.position + moveDirection * moveDistance;
 
-        targetPosition.y = fixedY;
 
         if (Physics.BoxCast(transform.position, BoxSize * 1.0f, moveDirection, out RaycastHit hit, transform.rotation, moveDistance, bounceLayer))
         {
@@ -103,7 +101,6 @@ public class BallPhysics : MonoBehaviour
             }
 
             Vector3 hitPoint = transform.position + moveDirection * hit.distance;
-            hitPoint.y = fixedY;
             transform.position = hitPoint;
 
             Vector3 reflection = Vector3.Reflect(moveDirection, hit.normal);
@@ -114,13 +111,21 @@ public class BallPhysics : MonoBehaviour
             if (remainingDistance > 0)
             {
                 Vector3 bounceTarget = transform.position + moveDirection * remainingDistance;
-                bounceTarget.y = fixedY;
                 transform.position = bounceTarget;
             }
         }
         else
         {
             transform.position = targetPosition;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.CompareTag("Pickup"))
+        {
+            other.GetComponent<IPickupable>()?.OnPickup();
         }
     }
 
@@ -132,7 +137,7 @@ public class BallPhysics : MonoBehaviour
 
     void HandleBallReturned(BallBase ball)
     {
-        OnReturned?.Invoke(ball);
+        EventBus.Publish(new BallReturnedEvent(ball));
     }
 
 }

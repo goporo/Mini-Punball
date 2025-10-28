@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1894642319330633793}
   - component: {fileID: 8678258872145215284}
   - component: {fileID: 4424925028315744210}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 446743786122653391}
   m_Layer: 0
   m_Name: Pickup Ball
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,7 +166,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &446743786122653391
 MonoBehaviour:
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6655424852632887561}
-  data: {fileID: 11400000, guid: 48a24924724530c4093d1b6833b2a69b, type: 2}
+  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
 --- !u!1 &8355366658076977092
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 6902652440840033768}
   - component: {fileID: 7437402346432046182}
   - component: {fileID: 7556611186256453296}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 3657214983957190779}
   - component: {fileID: 4849428114619121837}
   - component: {fileID: 9015359588574490847}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}

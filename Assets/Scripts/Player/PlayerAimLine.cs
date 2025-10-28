@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(LineRenderer))]
 public class AimLine : MonoBehaviour
@@ -11,6 +12,7 @@ public class AimLine : MonoBehaviour
     public GameObject ballPrefab;
 
     private LineRenderer lineRenderer;
+    private bool canShoot = false;
 
     void Awake()
     {
@@ -21,6 +23,21 @@ public class AimLine : MonoBehaviour
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
+    }
+
+    void OnEnable()
+    {
+        EventBus.Subscribe<PlayerCanShootEvent>(SetCanShoot);
+    }
+
+    void OnDisable()
+    {
+        EventBus.Unsubscribe<PlayerCanShootEvent>(SetCanShoot);
+    }
+
+    private void SetCanShoot(PlayerCanShootEvent evt)
+    {
+        canShoot = evt.CanShoot;
     }
 
     Vector3 GetBallSize()
@@ -38,7 +55,7 @@ public class AimLine : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && LevelRuntimeData.Instance.CanShoot)
+        if (Input.GetMouseButton(0) && canShoot)
         {
             Plane xzPlane = new Plane(Vector3.up, shootOrigin.position);
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);

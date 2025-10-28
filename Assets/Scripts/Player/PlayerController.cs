@@ -18,24 +18,25 @@ public class PlayerController : MonoBehaviour
   }
   void OnEnable()
   {
-    BallManager.OnAllBallsReturned += HandleAllBallsReturned;
-    PlayerShooter.OnBallFired += HandleBallFired;
+    EventBus.Subscribe<AllBallReturnedEvent>(HandleAllBallsReturned);
+    EventBus.Subscribe<PlayerCanShootEvent>(HandlePlayerCanShoot);
   }
-
   void OnDisable()
   {
-    BallManager.OnAllBallsReturned -= HandleAllBallsReturned;
-    PlayerShooter.OnBallFired -= HandleBallFired;
+    EventBus.Unsubscribe<AllBallReturnedEvent>(HandleAllBallsReturned);
+    EventBus.Unsubscribe<PlayerCanShootEvent>(HandlePlayerCanShoot);
   }
-  void HandleAllBallsReturned(List<BallBase> balls)
+  private void HandlePlayerCanShoot(PlayerCanShootEvent e)
   {
-    MoveCharacter(balls[0].transform.position);
+    playerUI.UpdateBallCount(ballManager.playerBalls.Count);
+    playerUI.EnableTextBall(true);
   }
-  void HandleBallFired(BallBase ball)
+
+  void HandleAllBallsReturned(AllBallReturnedEvent e)
   {
-    playerUI.OnBallCountChanged(ballManager.RemainingBalls);
-    ballManager.RegisterBall(ball);
+    MoveCharacter(e.ReturnedBalls[0].transform.position);
   }
+
   public void MoveCharacter(Vector3 pos)
   {
     float newX = Mathf.Clamp(pos.x, leftBoundary, rightBoundary);

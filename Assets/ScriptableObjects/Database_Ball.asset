@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5b34d6749ad1c41af9711b9b0b149c, type: 3}
-  m_Name: Level_Database
+  m_Script: {fileID: 11500000, guid: 425acb7abd4995a47b45c92f2061ea3d, type: 3}
+  m_Name: Database_Ball
   m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 11400000, guid: d7bc6df658efd614e9e515cf3cccf193, type: 2}
+  balls:
+  - {fileID: 11400000, guid: 5bf057be5b9c97e469af4c68ec023447, type: 2}
+  - {fileID: 11400000, guid: 5d7cd1dd1229cbd4dbe013c2637a7b74, type: 2}
