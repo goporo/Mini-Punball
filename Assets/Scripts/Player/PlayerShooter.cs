@@ -72,7 +72,6 @@ public class PlayerShooter : MonoBehaviour
 
     private IEnumerator ShootBallsSequentially(Vector3 dir)
     {
-        Debug.Log("Shooting balls sequentially");
         float delay = 0.1f;
 
         // Shoot all balls in the player's collection

@@ -11,12 +11,12 @@ A tiny Unity prototype inspired by HABBY’s PunBall — a fast, arcade “shoot
 Note: This is a learning/demo project, not a full clone. Meta-progression, monetization, and live-ops systems are intentionally out of scope.
 
 ## Requirements
-- Unity 2022.3.43f1 (LTS) or newer in the 2022.3 LTS line
+- Unity 2022.3.62f3 (LTS) or newer in the 2022.3 LTS line
 - Windows/macOS for editor; mobile targets optional
 
 ## Getting started
 1. Clone or download this repository.
-2. Open the project folder in Unity 2022.3.43f1.
+2. Open the project folder in Unity 2022.3.62f3.
 3. Open a scene under `Assets/Scenes/` (for example, your main gameplay scene) and press Play.
 
 ## How to play

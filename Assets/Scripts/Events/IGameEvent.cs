@@ -41,6 +41,7 @@ public struct PickupCollectedEvent : IGameEvent
   public PickupCollectedEvent(IPickupable pickup) => Pickup = pickup;
 }
 
+[DontLogEvent]
 public struct BoardObjectDeathEvent : IGameEvent
 {
   public BoardObject BoardObject;
