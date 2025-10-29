@@ -3,9 +3,8 @@ using UnityEngine;
 using DG.Tweening;
 
 [CreateAssetMenu(menuName = "MiniPunBall/MoveBehavior/NoMoveBehavior")]
-public class NoMoveBehavior : MoveBehavior
+public class MoveNone : MoveBehavior
 {
-
   public override Vector2Int GetTargetCell(BoardObject boardObject, BoardState board)
   {
     return boardObject.CurrentCell;

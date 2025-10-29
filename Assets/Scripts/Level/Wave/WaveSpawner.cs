@@ -33,6 +33,7 @@ public class WaveSpawner : MonoBehaviour
         var pos = boardState.GetWorldPosition(x, y);
         var obj = Instantiate(boardObject.prefab, transform);
 
+        // todo refactor use interface
         if (obj.TryGetComponent<Enemy>(out var enemy))
         {
           boardState.PlaceObject(enemy, new Vector2Int(x, y));
@@ -43,6 +44,11 @@ public class WaveSpawner : MonoBehaviour
         {
           boardState.PlaceObject(pickup, new Vector2Int(x, y));
           pickup.transform.position = pos;
+        }
+        else if (obj.TryGetComponent<PickupBox>(out var pickupBox))
+        {
+          boardState.PlaceObject(pickupBox, new Vector2Int(x, y));
+          pickupBox.transform.position = pos;
         }
       }
     }

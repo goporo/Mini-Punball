@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "MiniPunBall/Enemy/DeathEffect/Split")]
-public class SplitDeath : DeathEffect
+public class DeathSplit : DeathEffect
 {
   public override void OnDeath(Enemy enemy, BoardState board)
   {

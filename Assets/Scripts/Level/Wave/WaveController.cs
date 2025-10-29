@@ -59,19 +59,13 @@ public class WaveController : MonoBehaviour
   private IEnumerator PlayerShootPhase()
   {
     Debug.Log("Player shooting...");
-    playerManager.EnableShooting(true);
-    yield return new WaitUntil(() => playerManager.ShotAllBall);
-    playerManager.EnableShooting(false);
+    yield return playerManager.StartShooting();
   }
 
   private IEnumerator CollectPickupPhase()
   {
     Debug.Log("Collecting pickups...");
-
-    if (pickupManager != null)
-    {
-      yield return pickupManager.ProcessAllPickups();
-    }
+    yield return pickupManager.ProcessAllPickups();
 
   }
 

@@ -20,7 +20,6 @@ public abstract class BoardObject : MonoBehaviour
   public IEnumerator DoMove(BoardState board)
   {
     var target = moveBehavior.GetTargetCell(this, board);
-    // Debug.Log($"Enemy {name} moving from {CurrentCell} to {target}");
 
     if (board.TryMove(this, target))
     {
@@ -36,10 +35,9 @@ public abstract class BoardObject : MonoBehaviour
     boardObject.transform.position = targetPos;
     boardObject.transform.localScale = Vector3.zero;
 
-    yield return boardObject.transform
-        .DOScale(Vector3.one, 0.25f)
-        .SetEase(Ease.OutBack)
-        .WaitForCompletion();
+    Tween scaleTween = AnimationUtility.PlayScale(boardObject.transform, Vector3.one, 0.25f, Ease.OutBack);
+    if (scaleTween != null)
+      yield return scaleTween.WaitForCompletion();
   }
 
   public void HandleOnDeath()

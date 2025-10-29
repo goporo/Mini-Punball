@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName = "MiniPunBall/Enemy/MoveBehavior/TeleportRandom")]
-public class TeleportRandom : MoveBehavior
+[CreateAssetMenu(menuName = "MiniPunBall/Enemy/MoveBehavior/MoveTeleportRandom")]
+public class MoveTeleportRandom : MoveBehavior
 {
   public override Vector2Int GetTargetCell(BoardObject boardObject, BoardState board)
   {

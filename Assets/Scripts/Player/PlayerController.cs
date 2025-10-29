@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
   private void HandlePlayerCanShoot(PlayerCanShootEvent e)
   {
     playerUI.UpdateBallCount(ballManager.playerBalls.Count);
-    playerUI.EnableTextBall(true);
+    if (e.CanShoot) playerUI.EnableTextBall(true);
   }
 
   void HandleAllBallsReturned(AllBallReturnedEvent e)

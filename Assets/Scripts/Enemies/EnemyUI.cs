@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Canvas))]
-public class EnemyUI : MonoBehaviour
+public class EnemyUI : MonoBehaviour, IHealthUI
 {
     [SerializeField] private TMP_Text healthText;
     [SerializeField] private Image healthBar;

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -16,12 +17,19 @@ public class PlayerManager : MonoBehaviour
   {
     EventBus.Unsubscribe<AllBallReturnedEvent>(OnAllBallsReturned);
   }
-  public void EnableShooting(bool enable)
+
+  private void EnableShooting(bool enable)
   {
     shotAllBall = !enable;
     canShoot = enable;
-    EventBus.Publish(new PlayerCanShootEvent(enable));
+  }
 
+  public IEnumerator StartShooting()
+  {
+    EnableShooting(true);
+    EventBus.Publish(new PlayerCanShootEvent(true));
+    yield return new WaitUntil(() => ShotAllBall);
+    EnableShooting(false);
   }
 
   private void OnAllBallsReturned(AllBallReturnedEvent evt)

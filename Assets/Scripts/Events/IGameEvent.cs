@@ -7,18 +7,21 @@ using System.Collections.Generic;
 /// </summary>
 public interface IGameEvent { }
 
+[DontLogEvent]
 public struct BallReturnedEvent : IGameEvent
 {
   public BallBase BallBase;
   public BallReturnedEvent(BallBase ballBase) => BallBase = ballBase;
 }
 
+[DontLogEvent]
 public struct BallFiredEvent : IGameEvent
 {
   public BallBase BallBase;
   public BallFiredEvent(BallBase ballBase) => BallBase = ballBase;
 }
 
+[DontLogEvent]
 public struct BallCountChangedEvent : IGameEvent
 {
   public int CurrentBallCount;
@@ -27,8 +30,9 @@ public struct BallCountChangedEvent : IGameEvent
 
 public struct PickupBallEvent : IGameEvent
 {
-  public int Amount;
-  public PickupBallEvent(int amount) => Amount = amount;
+}
+public struct PickupBoxEvent : IGameEvent
+{
 }
 
 public struct PickupCollectedEvent : IGameEvent

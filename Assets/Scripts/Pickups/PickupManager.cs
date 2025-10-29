@@ -23,8 +23,6 @@ public class PickupManager : MonoBehaviour
 
   public IEnumerator ProcessAllPickups()
   {
-    Debug.Log($"Processing {pendingPickups.Count} pickups...");
-
     while (pendingPickups.Count > 0)
     {
       var pickup = pendingPickups.Dequeue();
@@ -32,8 +30,13 @@ public class PickupManager : MonoBehaviour
       // Apply the pickup effect
       if (pickup is PickupBall pickupBall)
       {
-        EventBus.Publish(new PickupBallEvent(1));
+        EventBus.Publish(new PickupBallEvent());
         pickupBall.HandleOnDeath();
+      }
+      else if (pickup is PickupBox pickupBox)
+      {
+        EventBus.Publish(new PickupBoxEvent());
+        pickupBox.HandleOnDeath();
       }
       yield return null;
     }

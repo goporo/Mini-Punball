@@ -56,10 +56,7 @@ public class BallManager : MonoBehaviour
 
     private void HandlePickupBall(PickupBallEvent e)
     {
-        for (int i = 0; i < e.Amount; i++)
-        {
-            AddBall();
-        }
+        AddBall();
     }
 
     private void AddBall(BallType? type = null)

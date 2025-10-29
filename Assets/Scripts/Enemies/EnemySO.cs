@@ -30,6 +30,7 @@ public class EnemySO : ScriptableObject, IBoardData
 
     [Header("Behaviors")]
     public MoveBehavior moveBehavior;
-    public DeathEffect DeathEffect;
+    public DeathEffect deathEffect;
+    public SkillBehavior skillBehavior;
 
 }

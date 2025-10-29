@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 [RequireComponent(typeof(LineRenderer))]
 public class AimLine : MonoBehaviour
@@ -14,6 +13,10 @@ public class AimLine : MonoBehaviour
     private LineRenderer lineRenderer;
     private bool canShoot = false;
 
+    private List<Vector3> contactPoints = new List<Vector3>();
+    private static Material _whiteMat;
+    private static Mesh _sphereMesh;
+
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -23,6 +26,22 @@ public class AimLine : MonoBehaviour
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
+
+        // Create a simple white unlit material if not already
+        if (_whiteMat == null)
+        {
+            Shader shader = Shader.Find("Unlit/Color");
+            if (shader == null) shader = Shader.Find("Sprites/Default");
+            _whiteMat = new Material(shader);
+            _whiteMat.color = Color.white;
+        }
+        // Cache the mesh for a sphere
+        if (_sphereMesh == null)
+        {
+            GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            _sphereMesh = temp.GetComponent<MeshFilter>().sharedMesh;
+            Destroy(temp);
+        }
     }
 
     void OnEnable()
@@ -74,12 +93,16 @@ public class AimLine : MonoBehaviour
         else
         {
             lineRenderer.positionCount = 0;
+            contactPoints.Clear();
         }
     }
+
     void DrawReflectionPath(Vector3 startPos, Vector3 direction)
     {
         Vector3 ballSize = GetBallSize();
+
         List<Vector3> points = new List<Vector3> { startPos };
+        contactPoints.Clear();
         Vector3 currentPos = startPos;
         Vector3 currentDir = direction;
         float yLevel = startPos.y;
@@ -91,6 +114,8 @@ public class AimLine : MonoBehaviour
                 Vector3 hitPoint = currentPos + currentDir * hit.distance;
                 hitPoint.y = yLevel;
                 points.Add(hitPoint);
+
+                contactPoints.Add(hitPoint); // Store for drawing
 
                 currentDir = Vector3.Reflect(currentDir, hit.normal);
                 currentDir.y = 0;
@@ -109,5 +134,20 @@ public class AimLine : MonoBehaviour
 
         lineRenderer.positionCount = points.Count;
         lineRenderer.SetPositions(points.ToArray());
+    }
+
+    void OnRenderObject()
+    {
+        if (_whiteMat == null || _sphereMesh == null || contactPoints.Count == 0) return;
+        _whiteMat.SetPass(0);
+        Vector3 ballSize = GetBallSize();
+        ballSize *= 4f;
+
+        foreach (var pos in contactPoints)
+        {
+            // Draw a sphere at the contact point, scaled to match the ball size
+            Matrix4x4 matrix = Matrix4x4.TRS(pos, Quaternion.identity, ballSize);
+            Graphics.DrawMeshNow(_sphereMesh, matrix);
+        }
     }
 }

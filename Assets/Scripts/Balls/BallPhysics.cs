@@ -87,7 +87,7 @@ public class BallPhysics : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                Enemy enemy = hit.collider.gameObject.GetComponent<Enemy>();
+                Enemy target = hit.collider.gameObject.GetComponent<Enemy>();
 
                 int finalDamage = ballSO.BaseDamage * playerRunStats.CurrentAttack;
                 var context = new DamageContext
@@ -97,7 +97,7 @@ public class BallPhysics : MonoBehaviour
                     statusEffect = ballSO.statusEffect
                 };
 
-                if (enemy) enemy.TakeDamage(context);
+                target?.TakeDamage(context);
             }
 
             Vector3 hitPoint = transform.position + moveDirection * hit.distance;

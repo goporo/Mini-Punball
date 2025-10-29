@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Attribute to mark events that should not be logged
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+public class DontLogEventAttribute : Attribute { }
 
 public static class EventBus
 {
@@ -65,7 +68,9 @@ public static class EventBus
     }
 
 #if UNITY_EDITOR
-    if (EventBusSettings.LogEvents)
+    // Only log if not marked with DontLogEventAttribute
+    bool dontLog = Attribute.IsDefined(type, typeof(DontLogEventAttribute));
+    if (EventBusSettings.LogEvents && !dontLog)
       Debug.Log($"[EventBus] {type.Name} published");
 #endif
   }

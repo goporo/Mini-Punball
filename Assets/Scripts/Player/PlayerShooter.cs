@@ -8,7 +8,6 @@ using UnityEngine;
 public class PlayerShooter : MonoBehaviour
 {
     [SerializeField] private Transform shootOrigin;
-    [SerializeField] private GameObject ballPrefab;
 
     private Plane aimPlane;
     PlayerRunStats playerRunStats;
