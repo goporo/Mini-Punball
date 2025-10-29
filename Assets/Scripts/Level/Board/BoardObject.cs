@@ -26,7 +26,6 @@ public abstract class BoardObject : MonoBehaviour
       yield return moveBehavior.AnimateMove(this, board);
     }
 
-    yield break;
   }
 
   public virtual IEnumerator AnimateSpawn(BoardObject boardObject, BoardState board)
@@ -38,6 +37,12 @@ public abstract class BoardObject : MonoBehaviour
     Tween scaleTween = AnimationUtility.PlayScale(boardObject.transform, Vector3.one, 0.25f, Ease.OutBack);
     if (scaleTween != null)
       yield return scaleTween.WaitForCompletion();
+  }
+
+  public IEnumerator MoveAndDie(BoardState board)
+  {
+    yield return moveBehavior.AnimateMove(this, board);
+    HandleOnDeath();
   }
 
   public void HandleOnDeath()

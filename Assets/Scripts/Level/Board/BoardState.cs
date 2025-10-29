@@ -21,8 +21,6 @@ public class BoardState : MonoBehaviour
     grid = new BoardObject[width, height];
   }
 
-
-
   public List<BoardObject> GetAllBoardObjects()
   {
     var objects = new List<BoardObject>();
@@ -31,6 +29,16 @@ public class BoardState : MonoBehaviour
         if (grid[x, y] != null)
           objects.Add(grid[x, y]);
     return objects;
+  }
+
+  public List<Enemy> GetAllEnemies()
+  {
+    return GetAllBoardObjects().OfType<Enemy>().ToList();
+  }
+
+  public List<IAttacker> GetAllAttackers()
+  {
+    return GetAllBoardObjects().OfType<IAttacker>().ToList();
   }
 
   public bool IsEmpty(int x, int y)

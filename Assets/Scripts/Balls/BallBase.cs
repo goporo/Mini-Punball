@@ -26,7 +26,6 @@ public class BallBase : MonoBehaviour
 
 public struct DamageContext
 {
-    public GameObject source;
     public int amount;
     public IStatusEffect statusEffect;
 }

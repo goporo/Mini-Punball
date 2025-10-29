@@ -182,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6655424852632887561}
   moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
+  skillBehavior: {fileID: 11400000, guid: d049e9082834fc94582afad3a9cdf6e3, type: 2}
 --- !u!1 &8355366658076977092
 GameObject:
   m_ObjectHideFlags: 0

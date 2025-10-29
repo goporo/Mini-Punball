@@ -20,4 +20,9 @@ public class GameManager : SingletonPersist<GameManager>
     characterSO.BaseAttack *= level;
     Debug.Log("Applied player upgrade");
   }
+
+  public void LoadScene(string sceneName)
+  {
+    UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+  }
 }

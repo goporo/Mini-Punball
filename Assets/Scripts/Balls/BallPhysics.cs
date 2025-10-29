@@ -87,12 +87,11 @@ public class BallPhysics : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                Enemy target = hit.collider.gameObject.GetComponent<Enemy>();
+                var target = hit.collider.gameObject.GetComponent<HealthComponent>();
 
                 int finalDamage = ballSO.BaseDamage * playerRunStats.CurrentAttack;
                 var context = new DamageContext
                 {
-                    source = gameObject,
                     amount = finalDamage,
                     statusEffect = ballSO.statusEffect
                 };

@@ -72,7 +72,7 @@ public class WaveController : MonoBehaviour
   private IEnumerator MonsterAttackPhase()
   {
     Debug.Log("Enemies attacking...");
-    yield return _waitForSeconds;
+    yield return boardManager.StartAttack();
     // yield return enemyAttackSystem.ExecuteAttacks();
   }
 

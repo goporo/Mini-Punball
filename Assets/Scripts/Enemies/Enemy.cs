@@ -3,15 +3,14 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 
-public class Enemy : BoardObject
+[RequireComponent(typeof(HealthComponent))]
+public class Enemy : BoardObject, IAttacker
 {
     [SerializeField] private EnemyUI enemyUI;
 
     [SerializeField] private EnemySO data;
-    [SerializeField] private HealthComponent healthComponent;
-
-
-
+    private HealthComponent healthComponent;
+    private SkillBehavior skillBehavior => data.skillBehavior;
 
     public IEnumerator AnimateSpawn(BoardState board)
     {
@@ -25,31 +24,29 @@ public class Enemy : BoardObject
         currentHealth = data.baseHealth;
         enemyUI?.Init(data.baseHealth);
         healthComponent = GetComponent<HealthComponent>();
+        healthComponent.Init(currentHealth);
     }
 
-    private bool isBeingDestroyed = false;
-
-    private void OnDestroy()
+    void OnEnable()
     {
-        isBeingDestroyed = true;
-        if (transform != null)
-            transform.DOKill();
+        healthComponent.OnDied += HandleOnDeath;
     }
 
-    public void TakeDamage(DamageContext context)
+    void OnDisable()
     {
-        currentHealth -= context.amount;
+        healthComponent.OnDied -= HandleOnDeath;
+    }
 
-        // Use the utility for animation
-        if (!isBeingDestroyed)
-            AnimationUtility.PlayBounce(transform);
-
-        if (currentHealth <= 0)
+    public IEnumerator DoAttack(BoardState board)
+    {
+        if (CurrentCell.y == 0)
         {
-            HandleOnDeath();
-            return;
+            yield return skillBehavior.AttackAndDie(this, new DamageContext { amount = data.baseAttack });
         }
-        enemyUI?.OnTakeDamage(currentHealth, data.baseHealth);
+        else
+        {
+            yield return skillBehavior.UseSkill(this, board);
+        }
     }
 
 }

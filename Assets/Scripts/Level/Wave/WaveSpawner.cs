@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-  private readonly int spawnRow = 6;
+  [SerializeField] private int spawnRow = 6;
   [SerializeField] private BoardState boardState;
   [SerializeField] private BoardManager boardManager;
 

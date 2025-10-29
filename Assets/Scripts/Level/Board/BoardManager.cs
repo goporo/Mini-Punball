@@ -35,9 +35,27 @@ public class BoardManager : MonoBehaviour
 
   }
 
+  public IEnumerator StartAttack()
+  {
+    var finished = 0;
+    var attackers = board.GetAllAttackers().ToList();
+    foreach (var attacker in attackers)
+    {
+      StartCoroutine(StartAttackWrapper(attacker, () => finished++));
+    }
+
+    yield return new WaitUntil(() => finished >= attackers.Count);
+  }
+
+  public IEnumerator StartAttackWrapper(IAttacker attacker, Action onDone)
+  {
+    yield return attacker.DoAttack(board);
+    onDone?.Invoke();
+  }
+
+
   public IEnumerator StartMove()
   {
-    var moves = new List<Coroutine>();
     var finished = 0;
     var boardObjects = board.GetAllBoardObjects().ToList();
 
@@ -47,7 +65,6 @@ public class BoardManager : MonoBehaviour
     }
 
     yield return new WaitUntil(() => finished >= boardObjects.Count);
-    yield return null;
   }
 
   private IEnumerator MoveWrapper(BoardObject boardObject, Action onDone)
