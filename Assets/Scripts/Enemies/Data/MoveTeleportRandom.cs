@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "MiniPunBall/Enemy/MoveBehavior/MoveTeleportRandom")]
 public class MoveTeleportRandom : MoveBehavior
 {
-  public override Vector2Int GetTargetCell(BoardObject boardObject, BoardState board)
+  public override Vector2Int GetTargetCell(BoardObject boardObject)
   {
     // var freeCells = board.GetAllFreeCells();
     // return freeCells[Random.Range(0, freeCells.Count)];

@@ -2,9 +2,16 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Reward : BoardObject, IPickupable, IAttacker
 {
   [SerializeField] private SkillBehavior skillBehavior;
+  private Collider rewardCollider;
+
+  void Awake()
+  {
+    rewardCollider = GetComponent<Collider>();
+  }
   public void OnPickup()
   {
     DeactivateCollider();
@@ -13,24 +20,17 @@ public class Reward : BoardObject, IPickupable, IAttacker
 
   private void DeactivateCollider()
   {
-    var collider = GetComponent<Collider>();
-    if (collider != null)
-      collider.enabled = false;
+    rewardCollider.enabled = false;
   }
 
   private IEnumerator AnimateToPlayerAndCollect()
   {
-    // Hardcoded player position for now (you can replace this with actual player position later)
     Vector3 playerPosition = new Vector3(3f, 0f, -5f);
-
-    // Animate movement to player using AnimationUtility
     float animationDuration = 0.5f;
     Tween moveTween = AnimationUtility.PlayMove(transform, playerPosition, animationDuration, Ease.InQuad);
-    if (moveTween != null)
-      yield return moveTween.WaitForCompletion();
-
-    // Publish the collected event to queue it in PickupManager
+    yield return moveTween.WaitForCompletion();
     EventBus.Publish(new PickupCollectedEvent(this));
+    HandleOnDeath();
   }
 
   public IEnumerator DoAttack(BoardState board)
@@ -38,10 +38,6 @@ public class Reward : BoardObject, IPickupable, IAttacker
     if (CurrentCell.y == 0)
     {
       yield return skillBehavior.AttackAndDie(this, new DamageContext { amount = 0 });
-    }
-    else
-    {
-      yield return skillBehavior.UseSkill(this, board);
     }
   }
 }

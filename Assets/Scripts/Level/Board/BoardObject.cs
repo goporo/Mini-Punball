@@ -19,7 +19,7 @@ public abstract class BoardObject : MonoBehaviour
 
   public IEnumerator DoMove(BoardState board)
   {
-    var target = moveBehavior.GetTargetCell(this, board);
+    var target = moveBehavior.GetTargetCell(this);
 
     if (board.TryMove(this, target))
     {

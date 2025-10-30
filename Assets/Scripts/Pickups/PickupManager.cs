@@ -5,15 +5,20 @@ using UnityEngine;
 public class PickupManager : MonoBehaviour
 {
   private Queue<IPickupable> pendingPickups = new();
+  private bool isWaitingForSkillSelection = false;
 
   private void OnEnable()
   {
     EventBus.Subscribe<PickupCollectedEvent>(OnPickupCollected);
+    EventBus.Subscribe<SkillSelectedEvent>(OnSkillSelected);
+    EventBus.Subscribe<PickupBoxEvent>(OnPickupBoxEvent);
   }
 
   private void OnDisable()
   {
     EventBus.Unsubscribe<PickupCollectedEvent>(OnPickupCollected);
+    EventBus.Unsubscribe<SkillSelectedEvent>(OnSkillSelected);
+    EventBus.Unsubscribe<PickupBoxEvent>(OnPickupBoxEvent);
   }
 
   private void OnPickupCollected(PickupCollectedEvent e)
@@ -21,24 +26,44 @@ public class PickupManager : MonoBehaviour
     pendingPickups.Enqueue(e.Pickup);
   }
 
+  private void OnSkillSelected(SkillSelectedEvent e)
+  {
+    isWaitingForSkillSelection = false;
+  }
+
+  private void OnPickupBoxEvent(PickupBoxEvent e)
+  {
+    isWaitingForSkillSelection = true;
+  }
+
   public IEnumerator ProcessAllPickups()
   {
+    // Phase 1: Process all PickupBox pickups first, one by one
+    Queue<IPickupable> others = new Queue<IPickupable>();
     while (pendingPickups.Count > 0)
     {
       var pickup = pendingPickups.Dequeue();
-
-      // Apply the pickup effect
-      if (pickup is PickupBall pickupBall)
-      {
-        EventBus.Publish(new PickupBallEvent());
-        pickupBall.HandleOnDeath();
-      }
-      else if (pickup is PickupBox pickupBox)
+      if (pickup is PickupBox)
       {
         EventBus.Publish(new PickupBoxEvent());
-        pickupBox.HandleOnDeath();
+        yield return new WaitUntil(() => !isWaitingForSkillSelection);
+        yield return new WaitForSeconds(0.5f); // Small delay after skill selection
+      }
+      else
+      {
+        others.Enqueue(pickup);
       }
       yield return null;
+    }
+
+    // Phase 2: Process all other pickups at the same time
+    while (others.Count > 0)
+    {
+      var pickup = others.Dequeue();
+      if (pickup is PickupBall)
+      {
+        EventBus.Publish(new PickupBallEvent());
+      }
     }
   }
 

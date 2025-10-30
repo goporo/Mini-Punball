@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(WaveController))]
@@ -12,8 +11,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private BoardManager boardManager;
 
 
-
-    private int currentWave = 0;
+    private int currentLevel = 1;
 
     void Awake()
     {
@@ -28,16 +26,12 @@ public class LevelController : MonoBehaviour
 
     private IEnumerator RunLevel()
     {
-        while (currentWave < levelData.totalWaves)
+        for (int wave = 1; wave <= levelData.totalWaves; wave++)
         {
-            Debug.Log($"▶️ Starting wave {currentWave + 1}");
-            yield return waveController.RunWave(1);
-
-            // Wait until enemies are all dead before moving on
-
-            currentWave++;
+            Debug.Log($"▶️ Starting wave {wave}");
+            yield return waveController.RunWave(currentLevel, wave);
+            // Optionally: Wait for all enemies dead, pickups collected, etc.
         }
-
         OnLevelComplete();
     }
 
@@ -45,6 +39,16 @@ public class LevelController : MonoBehaviour
     {
         Debug.Log("🏁 Level complete!");
         // Show summary, unlock next level, etc.
+    }
+
+    public void Toggle2xGameSpeed()
+    {
+        if (Time.timeScale == 1f)
+        {
+            Time.timeScale = 2f;
+            return;
+        }
+        Time.timeScale = 1f;
     }
 }
 

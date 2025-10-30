@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class MoveBehavior : ScriptableObject
 {
-  public abstract Vector2Int GetTargetCell(BoardObject boardObject, BoardState board);
+  public abstract Vector2Int GetTargetCell(BoardObject boardObject);
 
   public virtual IEnumerator AnimateMove(BoardObject boardObject, BoardState board)
   {

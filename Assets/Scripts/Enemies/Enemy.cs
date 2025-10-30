@@ -16,15 +16,20 @@ public class Enemy : BoardObject, IAttacker
     {
         yield return AnimateSpawn(this, board);
     }
-    private int currentHealth;
+    private int waveHealth;
+    private int waveAttack;
 
+    public void Init(float hpMultiplier, float attackMultiplier)
+    {
+        waveHealth = Mathf.CeilToInt(data.baseHealth * hpMultiplier);
+        waveAttack = Mathf.CeilToInt(data.baseAttack * attackMultiplier);
+        enemyUI?.Init(waveHealth);
+        healthComponent.Init(waveHealth);
+    }
 
     private void Awake()
     {
-        currentHealth = data.baseHealth;
-        enemyUI?.Init(data.baseHealth);
         healthComponent = GetComponent<HealthComponent>();
-        healthComponent.Init(currentHealth);
     }
 
     void OnEnable()
@@ -41,7 +46,7 @@ public class Enemy : BoardObject, IAttacker
     {
         if (CurrentCell.y == 0)
         {
-            yield return skillBehavior.AttackAndDie(this, new DamageContext { amount = data.baseAttack });
+            yield return skillBehavior.AttackAndDie(this, new DamageContext { amount = waveAttack });
         }
         else
         {

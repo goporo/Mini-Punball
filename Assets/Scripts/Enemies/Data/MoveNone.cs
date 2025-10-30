@@ -5,7 +5,7 @@ using DG.Tweening;
 [CreateAssetMenu(menuName = "MiniPunBall/MoveBehavior/NoMoveBehavior")]
 public class MoveNone : MoveBehavior
 {
-  public override Vector2Int GetTargetCell(BoardObject boardObject, BoardState board)
+  public override Vector2Int GetTargetCell(BoardObject boardObject)
   {
     return boardObject.CurrentCell;
   }

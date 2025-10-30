@@ -2,6 +2,19 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 
+
+public struct HealthChangedEvent
+{
+  public int Current;
+  public int Max;
+
+  public HealthChangedEvent(int current, int max)
+  {
+    Current = current;
+    Max = max;
+  }
+}
+
 public class HealthComponent : MonoBehaviour, IDamageable
 {
   private int maxHealth;
@@ -11,9 +24,9 @@ public class HealthComponent : MonoBehaviour, IDamageable
   private bool isBeingDestroyed = false;
 
 
-  public void Init(int health)
+  public void Init(int maxHealth)
   {
-    maxHealth = health;
+    this.maxHealth = maxHealth;
     currentHealth = maxHealth;
   }
 

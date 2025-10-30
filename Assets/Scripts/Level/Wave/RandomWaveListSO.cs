@@ -8,13 +8,17 @@ public class RandomWaveListSO : WaveListSO
     // [SerializeField] private GameObject bossPrefab;
     [SerializeField] private BoardObject ballPickup;
     [SerializeField] private BoardObject boxPickup;
+    public LevelMultiplierSO levelMultiplier;
 
 
     [SerializeField] private List<int> bossWaveIndices = new() { 20 }; // e.g., {20, 40} for 40-wave level
 
-    public override WaveContent GenerateWave(int waveNumber)
+    public override WaveContent GenerateWave(int level, int waveNumber)
     {
         var content = new WaveContent();
+        content.levelMultiplier = levelMultiplier;
+        content.LevelNumber = level;
+        content.WaveNumber = waveNumber;
 
         // Boss wave rule: check if this wave is a boss wave
         // if (bossWaveIndices.Contains(waveNumber))
@@ -65,6 +69,11 @@ public class RandomWaveListSO : WaveListSO
 public class WaveContent
 {
     public WaveRow[] waveRows;
+    public LevelMultiplierSO levelMultiplier;
+    public int LevelNumber;
+    public int WaveNumber;
+    public float HPMultiplier => levelMultiplier != null ? levelMultiplier.GetWaveHpMultiplier(LevelNumber, WaveNumber) : 1f;
+    public float AttackMultiplier => levelMultiplier != null ? levelMultiplier.GetWaveAttackMultiplier(LevelNumber) : 1f;
 }
 
 [System.Serializable]

@@ -7,8 +7,8 @@ public class PlayerController : MonoBehaviour
 {
   private float leftBoundary = 0f;
   private float rightBoundary = 5f;
-  [SerializeField] PlayerUI playerUI;
-  [SerializeField] BallManager ballManager;
+  [SerializeField] private PlayerUI playerUI;
+  [SerializeField] private BallManager ballManager;
   private HealthComponent healthComponent;
 
 

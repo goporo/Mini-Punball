@@ -3,27 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PickupManager))]
 public class WaveController : MonoBehaviour
 {
   public static Action<int> OnWaveChange;
   private static WaitForSeconds _waitForSeconds = new(.5f);
-  private int currentWave = 1;
 
   [SerializeField] private WaveSpawner waveSpawner;
   [SerializeField] private BoardManager boardManager;
   [SerializeField] private PlayerManager playerManager;
   [SerializeField] private WaveListSO waveList;
-  [SerializeField] private PickupManager pickupManager;
+  private PickupManager pickupManager;
 
-  // [SerializeField] private RewardManager rewardManager;
-  // [SerializeField] private EnemyAttackSystem enemyAttackSystem;
-
-  public IEnumerator RunWave(int waveNumber)
+  private void Awake()
   {
-    OnWaveChange?.Invoke(currentWave);
+    pickupManager = GetComponent<PickupManager>();
+  }
+
+  public IEnumerator RunWave(int levelNumber, int waveNumber)
+  {
+    OnWaveChange?.Invoke(waveNumber);
 
     // 1️⃣ Spawn
-    yield return SpawnEnemiesPhase();
+    yield return SpawnEnemiesPhase(levelNumber, waveNumber);
 
     // 2️⃣ Apply status effects
     yield return ApplyEnemyStatusPhase();
@@ -39,14 +41,12 @@ public class WaveController : MonoBehaviour
 
     // 6️⃣ Monster move
     yield return MonsterMovePhase();
-
-    currentWave++;
   }
 
-  private IEnumerator SpawnEnemiesPhase()
+  private IEnumerator SpawnEnemiesPhase(int levelNumber, int waveNumber)
   {
-    Debug.Log("Spawning wave...");
-    yield return waveSpawner.SpawnWave(waveList.GenerateWave(currentWave));
+    Debug.Log($"Spawning wave {waveNumber} for level {levelNumber}...");
+    yield return waveSpawner.SpawnWave(waveList.GenerateWave(levelNumber, waveNumber));
   }
 
   private IEnumerator ApplyEnemyStatusPhase()

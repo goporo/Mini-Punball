@@ -54,6 +54,9 @@ public class BoardState : MonoBehaviour
     grid[cell.x, cell.y] = boardObject;
     boardObject.SetCell(cell);
 
+    var pos = GetWorldPosition(cell.x, cell.y);
+    boardObject.transform.position = pos;
+
     // Notify debugger
     OnBoardChanged?.Invoke();
 

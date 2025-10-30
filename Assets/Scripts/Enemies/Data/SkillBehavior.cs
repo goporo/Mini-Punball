@@ -18,19 +18,15 @@ public abstract class SkillBehavior : ScriptableObject
 
     yield return seq.WaitForCompletion();
 
-    var playerHealth = FindObjectOfType<PlayerController>().GetComponent<HealthComponent>();
-    playerHealth.TakeDamage(damageContext);
+    if (damageContext.amount > 0)
+    {
+      var playerHealth = FindObjectOfType<PlayerController>().GetComponent<HealthComponent>();
+      playerHealth.TakeDamage(damageContext);
+
+    }
 
     boardObject.HandleOnDeath();
     yield break;
   }
 
-  public virtual IEnumerator MoveAndDie(BoardObject boardObject, BoardState board)
-  {
-    var target = boardObject.moveBehavior.GetTargetCell(boardObject, board);
-    yield return boardObject.moveBehavior.AnimateMove(boardObject, board);
-
-    boardObject.HandleOnDeath();
-    yield break;
-  }
 }

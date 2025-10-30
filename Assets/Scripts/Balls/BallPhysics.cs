@@ -8,15 +8,17 @@ public class BallPhysics : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float constantSpeed = 15f;
-    public float lifeTime = 15f;
+    private float lifeTime = 30f;
 
     [Header("Bounce Settings")]
     public LayerMask bounceLayer = -1;
+    [Tooltip("Minimum distance for a valid collision to prevent self-collision")]
+    [HideInInspector] public float minCollisionDistance = 0.01f;
+    public Vector3 boxSize = Vector3.one * 0.1f;
 
     public Vector3 BoxSize { get { return boxSize; } }
     private float topLineZ = 5f;
-    private float bottomLineZ = -3.7f;
-    private Vector3 boxSize = Vector3.one * 0.1f;
+    private float startLineZ = -4f;
 
     private Vector3 moveDirection;
     private Rigidbody rb;
@@ -24,6 +26,7 @@ public class BallPhysics : MonoBehaviour
     private bool hasPassedStartLine = false;
     private BallSO ballSO;
     private PlayerRunStats playerRunStats;
+    private BallBase ballBase;
 
 
     public void Init(PlayerRunStats playerRunStats, BallSO ballSO, Vector3 initialDirection)
@@ -44,11 +47,13 @@ public class BallPhysics : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         rb.useGravity = false;
+        ballBase = GetComponent<BallBase>();
+
     }
 
     void Start()
     {
-        StartCoroutine(DelayAutoDestroy(lifeTime, GetComponent<BallBase>()));
+        StartCoroutine(DelayAutoReturn(lifeTime, ballBase));
     }
 
     public void SetDirection(Vector3 direction)
@@ -60,15 +65,15 @@ public class BallPhysics : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!hasPassedStartLine && transform.position.z > bottomLineZ)
+        if (!hasPassedStartLine && transform.position.z > startLineZ)
         {
             hasPassedStartLine = true;
         }
 
         if (hasPassedStartLine)
         {
-            if (transform.position.z > topLineZ || transform.position.z < bottomLineZ)
-                HandleBallReturned(GetComponent<BallBase>());
+            if (transform.position.z > topLineZ || transform.position.z < startLineZ)
+                HandleBallReturned(ballBase);
         }
 
         if (isMoving)
@@ -80,11 +85,14 @@ public class BallPhysics : MonoBehaviour
     void MoveBall()
     {
         float moveDistance = constantSpeed * Time.fixedDeltaTime;
-        Vector3 targetPosition = transform.position + moveDirection * moveDistance;
 
-
+        // Classic brick breaker approach: BoxCast ahead, move, then bounce if hit
         if (Physics.BoxCast(transform.position, BoxSize * 1.0f, moveDirection, out RaycastHit hit, transform.rotation, moveDistance, bounceLayer))
         {
+            // Move to just before the hit point
+            float safeDistance = Mathf.Max(0, hit.distance - minCollisionDistance);
+            transform.position += moveDirection * safeDistance;
+
             if (hit.collider.CompareTag("Enemy"))
             {
                 var target = hit.collider.gameObject.GetComponent<HealthComponent>();
@@ -99,23 +107,17 @@ public class BallPhysics : MonoBehaviour
                 target?.TakeDamage(context);
             }
 
-            Vector3 hitPoint = transform.position + moveDirection * hit.distance;
-            transform.position = hitPoint;
-
             Vector3 reflection = Vector3.Reflect(moveDirection, hit.normal);
             reflection.y = 0;
-            moveDirection = reflection.normalized;
 
-            float remainingDistance = moveDistance - hit.distance;
-            if (remainingDistance > 0)
+            if (reflection.sqrMagnitude > 0.01f)
             {
-                Vector3 bounceTarget = transform.position + moveDirection * remainingDistance;
-                transform.position = bounceTarget;
+                moveDirection = reflection.normalized;
             }
         }
         else
         {
-            transform.position = targetPosition;
+            transform.position += moveDirection * moveDistance;
         }
     }
 
@@ -128,7 +130,7 @@ public class BallPhysics : MonoBehaviour
         }
     }
 
-    IEnumerator DelayAutoDestroy(float delay, BallBase ball)
+    IEnumerator DelayAutoReturn(float delay, BallBase ball)
     {
         yield return new WaitForSeconds(delay);
         HandleBallReturned(ball);

@@ -12,7 +12,6 @@ public class WaveSpawner : MonoBehaviour
 
   public IEnumerator SpawnWave(WaveContent waveContent)
   {
-    int count = UnityEngine.Random.Range(1, 6);
     yield return StartCoroutine(SpawnWaveObjects(waveContent));
   }
 
@@ -30,26 +29,21 @@ public class WaveSpawner : MonoBehaviour
         if (cell == null) continue;
 
         var (x, y) = cell.Value;
-        var pos = boardState.GetWorldPosition(x, y);
+
         var obj = Instantiate(boardObject.prefab, transform);
 
         // todo refactor use interface
         if (obj.TryGetComponent<Enemy>(out var enemy))
         {
           boardState.PlaceObject(enemy, new Vector2Int(x, y));
-          enemy.transform.position = pos;
+          enemy.Init(waveContent.HPMultiplier, waveContent.AttackMultiplier);
           spawnedEnemies.Add(enemy);
         }
-        else if (obj.TryGetComponent<PickupBall>(out var pickup))
+        else if (obj.TryGetComponent<Reward>(out var reward))
         {
-          boardState.PlaceObject(pickup, new Vector2Int(x, y));
-          pickup.transform.position = pos;
+          boardState.PlaceObject(reward, new Vector2Int(x, y));
         }
-        else if (obj.TryGetComponent<PickupBox>(out var pickupBox))
-        {
-          boardState.PlaceObject(pickupBox, new Vector2Int(x, y));
-          pickupBox.transform.position = pos;
-        }
+
       }
     }
 

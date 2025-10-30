@@ -64,14 +64,21 @@ public struct PlayerCanShootEvent : IGameEvent
   public PlayerCanShootEvent(bool canShoot) => CanShoot = canShoot;
 }
 
-public struct HealthChangedEvent
-{
-  public int Current;
-  public int Max;
 
-  public HealthChangedEvent(int current, int max)
+public struct SkillSelectedEvent : IGameEvent
+{
+  public PlayerSkillSO PlayerSkillSO;
+
+  public SkillSelectedEvent(PlayerSkillSO playerSkillSO)
   {
-    Current = current;
-    Max = max;
+    PlayerSkillSO = playerSkillSO;
   }
+}
+
+public struct SkillSelectionCompleteEvent : IGameEvent
+{
+}
+
+public struct ResetSkillsEvent : IGameEvent
+{
 }
