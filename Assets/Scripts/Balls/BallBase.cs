@@ -6,7 +6,7 @@ using UnityEngine;
 public class BallBase : MonoBehaviour
 {
     [SerializeField] private BallSO config;
-    public BallSO Config => config;
+    public BallSO Stats => config;
     public IStatusEffect StatusEffect => config.statusEffect;
 
     private PlayerRunStats playerRunStats;
@@ -28,4 +28,10 @@ public struct DamageContext
 {
     public int amount;
     public IStatusEffect statusEffect;
+
+    public DamageContext(int amount, IStatusEffect statusEffect)
+    {
+        this.amount = amount;
+        this.statusEffect = statusEffect;
+    }
 }

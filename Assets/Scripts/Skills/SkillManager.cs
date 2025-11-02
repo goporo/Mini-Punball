@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
   public GameObject skillSelectionUI;
+  private List<SkillRuntime> activeSkills = new();
 
 
   private void Awake()
@@ -22,6 +24,88 @@ public class SkillManager : MonoBehaviour
     EventBus.Unsubscribe<PickupBoxEvent>(OnPickupBoxEvent);
   }
 
+
+  public void AddSkill(PlayerSkillSO skill)
+  {
+    if (skill == null)
+    {
+      Debug.LogError("[SkillManager] Attempted to add null skill!");
+      return;
+    }
+
+    // Check if skill already exists and is stackable
+    var existingSkill = activeSkills.Find(s => s.skill.SkillID == skill.SkillID);
+
+    if (existingSkill != null)
+    {
+      if (skill.isStackable && existingSkill.stackCount < skill.maxStacks)
+      {
+        existingSkill.stackCount++;
+        Debug.Log($"[SkillManager] Stacked skill: {skill.skillName} (x{existingSkill.stackCount})");
+        return;
+      }
+      else
+      {
+        Debug.Log($"[SkillManager] Skill already at max stacks or not stackable: {skill.skillName}");
+        return;
+      }
+    }
+
+    Debug.Log($"[SkillManager] Added skill: {skill.skillName}");
+
+    try
+    {
+      var runtime = new SkillRuntime(skill);
+
+      foreach (var trigger in skill.triggers)
+      {
+        var disposable = trigger.Subscribe(runtime, ctx =>
+        {
+          // Check all conditions first
+          if (!CheckConditions(skill.conditions, ctx))
+            return;
+
+          // Execute all effects if conditions pass
+          foreach (var effect in skill.effects)
+            effect.Execute(ctx);
+        });
+        runtime.subscriptions.Add(disposable);
+      }
+
+      activeSkills.Add(runtime);
+    }
+    catch (System.Exception ex)
+    {
+      Debug.LogError($"[SkillManager] Failed to add skill {skill.skillName}: {ex.Message}");
+    }
+  }
+
+  private bool CheckConditions(List<ConditionSO> conditions, IEffectContext ctx)
+  {
+    if (conditions == null || conditions.Count == 0)
+      return true;
+
+    foreach (var condition in conditions)
+    {
+      if (condition == null)
+        continue; // Skip null conditions silently
+
+      if (!condition.Evaluate(ctx))
+        return false;
+    }
+    return true;
+  }
+
+
+  public void ClearSkills()
+  {
+    foreach (var skill in activeSkills)
+      skill.Dispose();
+    activeSkills.Clear();
+  }
+
+
+
   private void OnPickupBoxEvent(PickupBoxEvent e)
   {
     skillSelectionUI.SetActive(true);
@@ -32,6 +116,6 @@ public class SkillManager : MonoBehaviour
   {
     Debug.Log($"Skill selected: {e.PlayerSkillSO.name}");
     skillSelectionUI.SetActive(false);
-    // Update UI or game state based on the selected skill
+    AddSkill(e.PlayerSkillSO);
   }
 }

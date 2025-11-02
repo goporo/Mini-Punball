@@ -40,7 +40,7 @@ public class PlayerUI : MonoBehaviour, IHealthUI
     {
         textHealth.text = $"{maxHealth}";
         barHealth.fillAmount = 1f;
-        textBall.text = GameManager.Instance.CharacterSO.BaseBallsCount.ToString();
+        textBall.text = GlobalContext.Instance.CharacterSO.BaseBallsCount.ToString();
     }
 
     public void OnBallCountChanged(BallCountChangedEvent e)

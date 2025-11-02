@@ -64,13 +64,14 @@ public struct PlayerCanShootEvent : IGameEvent
   public PlayerCanShootEvent(bool canShoot) => CanShoot = canShoot;
 }
 
-
 public struct SkillSelectedEvent : IGameEvent
 {
+  public IEffectContext Context;
   public PlayerSkillSO PlayerSkillSO;
 
-  public SkillSelectedEvent(PlayerSkillSO playerSkillSO)
+  public SkillSelectedEvent(IEffectContext context, PlayerSkillSO playerSkillSO)
   {
+    Context = context;
     PlayerSkillSO = playerSkillSO;
   }
 }
@@ -79,6 +80,8 @@ public struct SkillSelectionCompleteEvent : IGameEvent
 {
 }
 
-public struct ResetSkillsEvent : IGameEvent
+public struct EnemyDeathEvent : IGameEvent
 {
+  public BallHitContext Context;
+  public EnemyDeathEvent(BallHitContext context) => Context = context;
 }

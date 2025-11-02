@@ -37,7 +37,7 @@ public class BallManager : MonoBehaviour
 
     private void Awake()
     {
-        characterSO = GameManager.Instance.CharacterSO;
+        characterSO = GlobalContext.Instance.CharacterSO;
     }
 
     private void OnEnable()
@@ -59,7 +59,7 @@ public class BallManager : MonoBehaviour
         AddBall();
     }
 
-    private void AddBall(BallType? type = null)
+    public void AddBall(BallType? type = null)
     {
         BallType ballType = type ?? characterSO.BallConfig.BallType;
         var ballConfig = ballDatabaseSO.GetConfig(ballType);
@@ -68,6 +68,16 @@ public class BallManager : MonoBehaviour
         ballObj.SetActive(false);
         playerBalls.Add(ballBase);
         EventBus.Publish(new BallCountChangedEvent(playerBalls.Count));
+    }
+
+    public bool HasBall(BallType type)
+    {
+        foreach (var ball in playerBalls)
+        {
+            if (ball.Stats.BallType == type)
+                return true;
+        }
+        return false;
     }
 
     private void OnBallFired(BallFiredEvent e)

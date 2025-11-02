@@ -27,7 +27,7 @@ public class SkillCard : MonoBehaviour
 
   public void Init(PlayerSkillSO playerSkillSO)
   {
-    skillID = playerSkillSO.skillID;
+    skillID = playerSkillSO.SkillID;
     skillName.text = playerSkillSO.skillName;
   }
 

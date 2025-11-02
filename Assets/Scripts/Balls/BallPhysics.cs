@@ -3,7 +3,8 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(BoxCollider))]
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(BallBase))]
 public class BallPhysics : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -14,19 +15,25 @@ public class BallPhysics : MonoBehaviour
     public LayerMask bounceLayer = -1;
     [Tooltip("Minimum distance for a valid collision to prevent self-collision")]
     [HideInInspector] public float minCollisionDistance = 0.01f;
-    public Vector3 boxSize = Vector3.one * 0.1f;
 
-    public Vector3 BoxSize { get { return boxSize; } }
+    public Vector3 BoxSize
+    {
+        get
+        {
+            if (boxCollider == null) boxCollider = GetComponent<BoxCollider>();
+            return boxCollider.size;
+        }
+    }
     private float topLineZ = 5f;
-    private float startLineZ = -4f;
+    private float startLineZ = -5f;
 
     private Vector3 moveDirection;
-    private Rigidbody rb;
     private bool isMoving = false;
-    private bool hasPassedStartLine = false;
+    private bool isReturnable = false;
     private BallSO ballSO;
     private PlayerRunStats playerRunStats;
     private BallBase ballBase;
+    private BoxCollider boxCollider;
 
 
     public void Init(PlayerRunStats playerRunStats, BallSO ballSO, Vector3 initialDirection)
@@ -38,17 +45,14 @@ public class BallPhysics : MonoBehaviour
     public void ResetState()
     {
         isMoving = false;
-        hasPassedStartLine = false;
+        isReturnable = false;
         moveDirection = Vector3.zero;
     }
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.isKinematic = true;
-        rb.useGravity = false;
         ballBase = GetComponent<BallBase>();
-
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     void Start()
@@ -61,27 +65,24 @@ public class BallPhysics : MonoBehaviour
         moveDirection = direction.normalized;
         moveDirection.y = 0;
         isMoving = true;
+        isReturnable = true;
     }
 
     void FixedUpdate()
     {
-        if (!hasPassedStartLine && transform.position.z > startLineZ)
-        {
-            hasPassedStartLine = true;
-        }
-
-        if (hasPassedStartLine)
-        {
-            if (transform.position.z > topLineZ || transform.position.z < startLineZ)
-                HandleBallReturned(ballBase);
-        }
-
         if (isMoving)
         {
             MoveBall();
         }
-    }
 
+        if (isReturnable)
+        {
+            if (transform.position.z > topLineZ || transform.position.z < startLineZ)
+            {
+                HandleBallReturned(ballBase);
+            }
+        }
+    }
     void MoveBall()
     {
         float moveDistance = constantSpeed * Time.fixedDeltaTime;
@@ -97,14 +98,13 @@ public class BallPhysics : MonoBehaviour
             {
                 var target = hit.collider.gameObject.GetComponent<HealthComponent>();
 
-                int finalDamage = ballSO.BaseDamage * playerRunStats.CurrentAttack;
-                var context = new DamageContext
+                var ctx = new ResolveHitContext
                 {
-                    amount = finalDamage,
-                    statusEffect = ballSO.statusEffect
+                    Enemy = target?.GetComponent<Enemy>(),
+                    Ball = ballBase
                 };
+                CombatResolver.Instance.ResolveHit(ctx);
 
-                target?.TakeDamage(context);
             }
 
             Vector3 reflection = Vector3.Reflect(moveDirection, hit.normal);

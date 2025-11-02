@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(WaveController))]
 public class LevelController : MonoBehaviour
@@ -26,13 +27,14 @@ public class LevelController : MonoBehaviour
 
     private IEnumerator RunLevel()
     {
-        for (int wave = 1; wave <= levelData.totalWaves; wave++)
+        int wave = 1;
+        while (true)
         {
             Debug.Log($"▶️ Starting wave {wave}");
             yield return waveController.RunWave(currentLevel, wave);
             // Optionally: Wait for all enemies dead, pickups collected, etc.
+            wave++;
         }
-        OnLevelComplete();
     }
 
     private void OnLevelComplete()
@@ -45,7 +47,7 @@ public class LevelController : MonoBehaviour
     {
         if (Time.timeScale == 1f)
         {
-            Time.timeScale = 2f;
+            Time.timeScale = 3f;
             return;
         }
         Time.timeScale = 1f;

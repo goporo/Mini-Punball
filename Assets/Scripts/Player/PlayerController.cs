@@ -15,10 +15,9 @@ public class PlayerController : MonoBehaviour
   void Awake()
   {
     healthComponent = GetComponent<HealthComponent>();
-    int maxHealth = GameManager.Instance.CharacterSO.BaseHealth;
+    int maxHealth = GlobalContext.Instance.CharacterSO.BaseHealth;
     playerUI.Init(maxHealth);
     healthComponent.Init(maxHealth);
-
   }
   void OnEnable()
   {

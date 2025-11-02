@@ -10,6 +10,7 @@ public abstract class BoardObject : MonoBehaviour
   public Vector2Int CurrentCell { get; set; }
   public int Size { get; }
   public MoveBehavior moveBehavior;
+  public Vector3 Position => transform.position + Vector3.up * 1.0f;
 
 
   public void SetCell(Vector2Int cell)
@@ -45,7 +46,7 @@ public abstract class BoardObject : MonoBehaviour
     HandleOnDeath();
   }
 
-  public void HandleOnDeath()
+  public virtual void HandleOnDeath()
   {
     EventBus.Publish(new BoardObjectDeathEvent(this));
     Destroy(gameObject);

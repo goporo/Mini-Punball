@@ -69,7 +69,8 @@ public class SkillSelectionUI : MonoBehaviour
     if (playerSkillSO != null)
     {
       Debug.Log($"Skill selected: {playerSkillSO.skillName}");
-      EventBus.Publish(new SkillSelectedEvent(playerSkillSO));
+      var ctx = new EffectContext(null);
+      EventBus.Publish(new SkillSelectedEvent(ctx, playerSkillSO));
       // Close the UI and notify that selection is complete
       gameObject.SetActive(false);
       EventBus.Publish(new SkillSelectionCompleteEvent());

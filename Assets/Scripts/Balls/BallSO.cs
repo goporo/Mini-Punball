@@ -8,6 +8,7 @@ public class BallSO : ScriptableObject
     public IStatusEffect statusEffect;
     [TextArea] public string Description;
     public GameObject BallPrefab;
+    public EffectSO<BallHitContext> onHitEffect;
 
 }
 
@@ -16,5 +17,7 @@ public enum BallType
     Normal,
     Fire,
     Ice,
-    Lightning
+    Lightning,
+    Missile,
+    Laser
 }

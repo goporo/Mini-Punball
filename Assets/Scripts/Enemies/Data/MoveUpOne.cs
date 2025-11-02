@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
-[CreateAssetMenu(menuName = "MiniPunBall/MoveBehavior/MoveUpOne")]
+[CreateAssetMenu(menuName = "MiniPunBall/Enemy/MoveUpOne")]
 public class MoveUpOne : MoveBehavior
 {
   public override Vector2Int GetTargetCell(BoardObject boardObject)

@@ -5,12 +5,11 @@ using UnityEngine;
 public class SkillDatabaseSO : ScriptableObject
 {
   public PlayerSkillSO[] skills;
-
   public PlayerSkillSO GetSkillByID(int id)
   {
     foreach (var skill in skills)
     {
-      if (skill.skillID == id)
+      if (skill.SkillID == id)
       {
         return skill;
       }
@@ -25,7 +24,7 @@ public class SkillDatabaseSO : ScriptableObject
     List<PlayerSkillSO> availableSkills = new List<PlayerSkillSO>();
     foreach (var skill in skills)
     {
-      if (!excludeIDs.Contains(skill.skillID))
+      if (!excludeIDs.Contains(skill.SkillID))
       {
         availableSkills.Add(skill);
       }

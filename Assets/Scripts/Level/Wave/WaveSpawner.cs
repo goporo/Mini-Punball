@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-  [SerializeField] private int spawnRow = 6;
   [SerializeField] private BoardState boardState;
   [SerializeField] private BoardManager boardManager;
 
@@ -25,7 +24,7 @@ public class WaveSpawner : MonoBehaviour
     {
       foreach (var boardObject in row.boardObjects)
       {
-        var cell = boardState.GetRandomEmptyCell(spawnRow);
+        var cell = boardState.GetRandomEmptyCell(row.index);
         if (cell == null) continue;
 
         var (x, y) = cell.Value;

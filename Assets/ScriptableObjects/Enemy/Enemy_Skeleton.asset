@@ -20,4 +20,4 @@ MonoBehaviour:
   baseAttack: 100
   moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
   deathEffect: {fileID: 11400000, guid: 6971be3ce9013054eaef743527898c5f, type: 2}
-  skillBehavior: {fileID: 11400000, guid: d049e9082834fc94582afad3a9cdf6e3, type: 2}
+  enemySkillBehavior: {fileID: 11400000, guid: d049e9082834fc94582afad3a9cdf6e3, type: 2}

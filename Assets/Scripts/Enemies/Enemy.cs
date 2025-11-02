@@ -10,7 +10,8 @@ public class Enemy : BoardObject, IAttacker
 
     [SerializeField] private EnemySO data;
     private HealthComponent healthComponent;
-    private SkillBehavior skillBehavior => data.skillBehavior;
+    public HealthComponent HealthComponent => healthComponent;
+    private EnemySkillBehavior EnemySkillBehavior => data.enemySkillBehavior;
 
     public IEnumerator AnimateSpawn(BoardState board)
     {
@@ -46,12 +47,18 @@ public class Enemy : BoardObject, IAttacker
     {
         if (CurrentCell.y == 0)
         {
-            yield return skillBehavior.AttackAndDie(this, new DamageContext { amount = waveAttack });
+            yield return EnemySkillBehavior.AttackAndDie(this, new DamageContext { amount = waveAttack });
         }
         else
         {
-            yield return skillBehavior.UseSkill(this, board);
+            yield return EnemySkillBehavior.UseSkill(this, board);
         }
+    }
+
+    public override void HandleOnDeath()
+    {
+        EventBus.Publish(new EnemyDeathEvent { Context = new BallHitContext(this, 69, null) });
+        base.HandleOnDeath();
     }
 
 }

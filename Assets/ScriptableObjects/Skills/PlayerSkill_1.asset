@@ -16,3 +16,10 @@ MonoBehaviour:
   skillName: LIGHTNING BALL
   description: Add one lightning ball
   icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 0}
+  conditions: []
+  effects: []
+  isStackable: 0
+  maxStacks: 1

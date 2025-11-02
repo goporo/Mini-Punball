@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
-[CreateAssetMenu(menuName = "MiniPunBall/SkillBehavior/SkillNone")]
-public class SkillNone : SkillBehavior
+[CreateAssetMenu(menuName = "MiniPunBall/Enemy/SkillNone")]
+public class SkillNone : EnemySkillBehavior
 {
   public override IEnumerator UseSkill(BoardObject boardObject, BoardState board)
   {

@@ -2,7 +2,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class SkillBehavior : ScriptableObject
+public abstract class EnemySkillBehavior : ScriptableObject
 {
   public abstract IEnumerator UseSkill(BoardObject boardObject, BoardState board);
   public virtual IEnumerator AttackAndDie(BoardObject boardObject, DamageContext damageContext)

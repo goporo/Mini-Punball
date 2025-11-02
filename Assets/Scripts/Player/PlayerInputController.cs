@@ -14,7 +14,6 @@ public class PlayerInputController : MonoBehaviour
 {
   [Header("Shooting Settings")]
   [SerializeField] private Transform shootOrigin;
-  [SerializeField] private GameObject ballPrefab;
 
   [Header("Aim Line Settings")]
   [SerializeField] private int maxBounces = 5;
@@ -66,8 +65,8 @@ public class PlayerInputController : MonoBehaviour
 
   void Start()
   {
-    int ballCount = GameManager.Instance.CharacterSO.BaseBallsCount;
-    BallType ballType = GameManager.Instance.CharacterSO.BallConfig.BallType;
+    int ballCount = GlobalContext.Instance.CharacterSO.BaseBallsCount;
+    BallType ballType = GlobalContext.Instance.CharacterSO.BallConfig.BallType;
     List<BallType> ballList = Enumerable.Repeat(ballType, ballCount).ToList();
     ballManager.Init(ballList);
   }
@@ -95,17 +94,7 @@ public class PlayerInputController : MonoBehaviour
 
   Vector3 GetBallSize()
   {
-    if (ballPrefab != null)
-    {
-      var ballBehaviour = ballPrefab.GetComponent<BallPhysics>();
-      if (ballBehaviour != null)
-      {
-        return ballBehaviour.BoxSize;
-      }
-    }
-
-    Debug.LogWarning("PlayerInputController: Ball prefab not assigned or missing BallPhysics component. Using default box size.");
-    return Vector3.one * 0.1f;
+    return Vector3.one * 0.25f;
   }
 
   void Update()
@@ -223,13 +212,7 @@ public class PlayerInputController : MonoBehaviour
     Vector3 ballSize = GetBallSize();
 
     float minCollisionDistance = 0.01f;
-    if (ballPrefab != null)
-    {
-      if (ballPrefab.TryGetComponent<BallPhysics>(out var ballBehaviour))
-      {
-        minCollisionDistance = ballBehaviour.minCollisionDistance;
-      }
-    }
+
 
     List<Vector3> points = new() { startPos };
     contactPoints.Clear();

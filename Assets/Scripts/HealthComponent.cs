@@ -17,11 +17,15 @@ public struct HealthChangedEvent
 
 public class HealthComponent : MonoBehaviour, IDamageable
 {
+  [Tooltip("The mesh that will have the bounce animation applied")]
+  [SerializeField] private Transform targetMesh;
   private int maxHealth;
   private int currentHealth;
   public event Action<HealthChangedEvent> OnHealthChanged;
   public event Action OnDied;
   private bool isBeingDestroyed = false;
+
+  public int CurrentHealth => currentHealth;
 
 
   public void Init(int maxHealth)
@@ -30,20 +34,20 @@ public class HealthComponent : MonoBehaviour, IDamageable
     currentHealth = maxHealth;
   }
 
-  public void TakeDamage(DamageContext context)
+  public bool TakeDamage(DamageContext context)
   {
     currentHealth -= context.amount;
-    if (!isBeingDestroyed) AnimationUtility.PlayBounce(transform);
+    if (!isBeingDestroyed) AnimationUtility.PlayBounce(targetMesh != null ? targetMesh : transform);
     if (currentHealth <= 0)
     {
       currentHealth = 0;
-      HandlePlayerDeath();
+      HandleDeath();
     }
     OnHealthChanged?.Invoke(new HealthChangedEvent(currentHealth, maxHealth));
-
+    return currentHealth <= 0;
   }
 
-  private void HandlePlayerDeath()
+  private void HandleDeath()
   {
     OnDied?.Invoke();
     isBeingDestroyed = true;
@@ -52,8 +56,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
   private void OnDestroy()
   {
-    if (transform != null)
-      transform.DOKill();
+    (targetMesh != null ? targetMesh : transform).DOKill();
   }
 
 }

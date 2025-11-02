@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Reward : BoardObject, IPickupable, IAttacker
 {
-  [SerializeField] private SkillBehavior skillBehavior;
+  [SerializeField] private EnemySkillBehavior EnemySkillBehavior;
   private Collider rewardCollider;
 
   void Awake()
@@ -37,7 +37,7 @@ public class Reward : BoardObject, IPickupable, IAttacker
   {
     if (CurrentCell.y == 0)
     {
-      yield return skillBehavior.AttackAndDie(this, new DamageContext { amount = 0 });
+      yield return EnemySkillBehavior.AttackAndDie(this, new DamageContext { amount = 0 });
     }
   }
 }

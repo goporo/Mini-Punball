@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using DG.Tweening;
 
-public class GameManager : SingletonPersist<GameManager>
+public class GlobalContext : SingletonPersist<GlobalContext>
 {
   [SerializeField] CharacterSO characterSO;
 

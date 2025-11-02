@@ -67,12 +67,6 @@ public static class EventBus
       }
     }
 
-#if UNITY_EDITOR
-    // Only log if not marked with DontLogEventAttribute
-    bool dontLog = Attribute.IsDefined(type, typeof(DontLogEventAttribute));
-    if (EventBusSettings.LogEvents && !dontLog)
-      Debug.Log($"[EventBus] {type.Name} published");
-#endif
   }
 
   /// <summary>
@@ -85,10 +79,17 @@ public static class EventBus
 }
 
 
-#if UNITY_EDITOR
-[CreateAssetMenu(menuName = "Game/EventBus Settings")]
-public class EventBusSettings : ScriptableObject
+public class Unsubscriber : IDisposable
 {
-  public static bool LogEvents = true;
+  private readonly Action _unsubscribeAction;
+
+  public Unsubscriber(Action unsubscribeAction)
+  {
+    _unsubscribeAction = unsubscribeAction;
+  }
+
+  public void Dispose()
+  {
+    _unsubscribeAction?.Invoke();
+  }
 }
-#endif
