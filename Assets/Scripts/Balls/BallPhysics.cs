@@ -8,7 +8,7 @@ using UnityEngine;
 public class BallPhysics : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float constantSpeed = 15f;
+    private float constantSpeed = 10f;
     private float lifeTime = 30f;
 
     [Header("Bounce Settings")]

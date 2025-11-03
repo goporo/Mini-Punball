@@ -24,18 +24,21 @@ public class HealthComponent : MonoBehaviour, IDamageable
   public event Action<HealthChangedEvent> OnHealthChanged;
   public event Action OnDied;
   private bool isBeingDestroyed = false;
+  private bool isDead = false;
 
   public int CurrentHealth => currentHealth;
-
 
   public void Init(int maxHealth)
   {
     this.maxHealth = maxHealth;
     currentHealth = maxHealth;
+    isDead = false;
+    isBeingDestroyed = false;
   }
 
   public bool TakeDamage(DamageContext context)
   {
+    if (isDead) return true;
     currentHealth -= context.amount;
     if (!isBeingDestroyed) AnimationUtility.PlayBounce(targetMesh != null ? targetMesh : transform);
     if (currentHealth <= 0)
@@ -49,16 +52,16 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
   private void HandleDeath()
   {
+    if (isDead) return;
+    isDead = true;
     OnDied?.Invoke();
     isBeingDestroyed = true;
   }
-
 
   private void OnDestroy()
   {
     (targetMesh != null ? targetMesh : transform).DOKill();
   }
-
 }
 
 

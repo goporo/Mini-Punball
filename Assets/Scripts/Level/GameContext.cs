@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 
 public class GameContext : Singleton<GameContext>
@@ -9,6 +10,7 @@ public class GameContext : Singleton<GameContext>
   public SkillManager SkillManager { get; private set; }
   public ComboManager ComboManager { get; private set; }
   public BoardState BoardState { get; private set; }
+  public VFXManager VFXManager { get; private set; }
 
   protected override void Awake()
   {
@@ -18,6 +20,7 @@ public class GameContext : Singleton<GameContext>
     SkillManager = FindObjectOfType<SkillManager>();
     ComboManager = FindObjectOfType<ComboManager>();
     BoardState = FindObjectOfType<BoardState>();
+    VFXManager = FindObjectOfType<VFXManager>();
   }
 }
 

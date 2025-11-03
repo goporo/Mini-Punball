@@ -21,6 +21,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 46f4c25c440a61d498ec88d6af558730, type: 2}
   conditions: []
   effects:
-  - {fileID: 11400000, guid: 0e18f7537f1b477459599a4230201928, type: 2}
+  - {fileID: 11400000, guid: 9f3362395f8873d48aef47c5638b3efe, type: 2}
   isStackable: 0
   maxStacks: 1

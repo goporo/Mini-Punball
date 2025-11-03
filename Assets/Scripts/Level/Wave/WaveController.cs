@@ -1,13 +1,26 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PickupManager))]
 public class WaveController : MonoBehaviour
 {
+  public enum WaveState
+  {
+    Idle,
+    Spawning,
+    ApplyingStatus,
+    PlayerShooting,
+    CollectingPickups,
+    MonsterAttacking,
+    MonsterMoving,
+    Complete
+  }
+
   public static Action<int> OnWaveChange;
-  private static WaitForSeconds _waitForSeconds = new(.5f);
+  public static Action<WaveState> OnStateChange;
+
+  private static WaitForSeconds waitABit = new(.4f);
 
   [SerializeField] private WaveSpawner waveSpawner;
   [SerializeField] private BoardManager boardManager;
@@ -15,73 +28,139 @@ public class WaveController : MonoBehaviour
   [SerializeField] private WaveListSO waveList;
   private PickupManager pickupManager;
 
+  private WaveState _currentState = WaveState.Idle;
+  private int currentLevelNumber;
+  private int currentWaveNumber;
+  private LevelSO levelData;
+  public WaveState CurrentState => _currentState;
+
   private void Awake()
   {
     pickupManager = GetComponent<PickupManager>();
   }
 
-  public IEnumerator RunWave(int levelNumber, int waveNumber)
+  public IEnumerator RunWave(int levelNumber, int waveNumber, LevelSO levelData)
   {
+    currentLevelNumber = levelNumber;
+    currentWaveNumber = waveNumber;
+    this.levelData = levelData;
+
     OnWaveChange?.Invoke(waveNumber);
 
-    // 1️⃣ Spawn
-    yield return SpawnEnemiesPhase(levelNumber, waveNumber);
+    yield return ExecuteStateMachine();
+  }
 
-    // 2️⃣ Apply status effects
-    yield return ApplyEnemyStatusPhase();
+  private IEnumerator ExecuteStateMachine()
+  {
+    yield return ChangeState(WaveState.Spawning);
+    yield return ChangeState(WaveState.ApplyingStatus);
+    yield return ChangeState(WaveState.PlayerShooting);
+    yield return ChangeState(WaveState.CollectingPickups);
+    yield return ChangeState(WaveState.MonsterAttacking);
+    yield return ChangeState(WaveState.MonsterMoving);
+    yield return ChangeState(WaveState.Complete);
+  }
 
-    // 3️⃣ Player shoot
-    yield return PlayerShootPhase();
+  private IEnumerator ChangeState(WaveState newState)
+  {
+    _currentState = newState;
+    OnStateChange?.Invoke(_currentState);
 
-    // 4️⃣ Collect pickups
-    yield return CollectPickupPhase();
+    Debug.Log($"[WaveController] State Changed: {_currentState}");
 
-    // 5️⃣ Monster attack
-    yield return MonsterAttackPhase();
+    yield return ExecuteState(_currentState);
+  }
 
-    // 6️⃣ Monster move
-    yield return MonsterMovePhase();
+  private IEnumerator ExecuteState(WaveState state)
+  {
+    switch (state)
+    {
+      case WaveState.Spawning:
+        yield return SpawnEnemiesPhase(currentLevelNumber, currentWaveNumber);
+        break;
+
+      case WaveState.ApplyingStatus:
+        yield return ApplyEnemyStatusPhase();
+        break;
+
+      case WaveState.PlayerShooting:
+        yield return PlayerShootPhase();
+        break;
+
+      case WaveState.CollectingPickups:
+        yield return CollectPickupPhase();
+        break;
+
+      case WaveState.MonsterAttacking:
+        yield return MonsterAttackPhase();
+        break;
+
+      case WaveState.MonsterMoving:
+        yield return MonsterMovePhase();
+        break;
+
+      case WaveState.Complete:
+        Debug.Log("[WaveController] Wave Complete!");
+        break;
+
+      default:
+        Debug.LogWarning($"[WaveController] Unknown state: {state}");
+        break;
+    }
   }
 
   private IEnumerator SpawnEnemiesPhase(int levelNumber, int waveNumber)
   {
-    Debug.Log($"Spawning wave {waveNumber} for level {levelNumber}...");
-    yield return waveSpawner.SpawnWave(waveList.GenerateWave(levelNumber, waveNumber));
+    Enemy[] availableEnemies = levelData.availableEnemies;
+    yield return waveSpawner.SpawnWave(waveList.GenerateWave(levelNumber, waveNumber, availableEnemies));
   }
 
   private IEnumerator ApplyEnemyStatusPhase()
   {
-    Debug.Log("Applying enemy status...");
-    yield return _waitForSeconds;
-    // yield return enemyManager.ApplyStatusEffects();
+    yield return waitABit;
+    // TODO: Add VFX waiting here if needed
+    // yield return WaitForVFX("StatusEffectVFX");
   }
 
   private IEnumerator PlayerShootPhase()
   {
-    Debug.Log("Player shooting...");
     yield return playerManager.StartShooting();
+    yield return WaitAllEffectsFinished();
   }
 
   private IEnumerator CollectPickupPhase()
   {
-    Debug.Log("Collecting pickups...");
     yield return pickupManager.ProcessAllPickups();
-
+    // TODO: Add VFX waiting here if needed
+    // yield return WaitForVFX("PickupVFX");
   }
 
   private IEnumerator MonsterAttackPhase()
   {
-    Debug.Log("Enemies attacking...");
     yield return boardManager.StartAttack();
-    // yield return enemyAttackSystem.ExecuteAttacks();
+    yield return WaitAllEffectsFinished();
   }
 
   private IEnumerator MonsterMovePhase()
   {
-    Debug.Log("Enemies moving...");
     yield return boardManager.StartMove();
+    // TODO: Add VFX waiting here if needed
+    // yield return WaitForVFX("MoveVFX");
+  }
+  private IEnumerator WaitAllEffectsFinished()
+  {
+    Debug.Log("Waiting for all effects to finish...");
+    yield return new WaitUntil(() => GameContext.Instance.VFXManager.AllEffectsFinished());
+    yield return waitABit;
 
   }
 
-
+  /// <summary>
+  /// Manually transition to a specific state (useful for external control or skipping states)
+  /// </summary>
+  public void ForceStateTransition(WaveState targetState)
+  {
+    Debug.Log($"[WaveController] Force state transition to: {targetState}");
+    StartCoroutine(ChangeState(targetState));
+  }
 }

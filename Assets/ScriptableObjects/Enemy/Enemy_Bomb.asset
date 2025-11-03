@@ -18,4 +18,6 @@ MonoBehaviour:
   Description: Deals explosion damage to surrounding enemies on death
   baseHealth: 400
   baseAttack: 100
-  enemyPrefab: {fileID: 6808648732641969604, guid: 0a0f930037c1bad43a0a8ecd377ab812, type: 3}
+  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
+  deathEffect: {fileID: 11400000, guid: a597a6bd4ba6f3b45a03a224756a815d, type: 2}
+  enemySkillBehavior: {fileID: 11400000, guid: 9eeee0b1a238a7e4f9ada32901825aad, type: 2}

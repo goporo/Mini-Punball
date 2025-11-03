@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
   m_Name: Ball_Laser_H
   m_EditorClassIdentifier: 
-  BallType: 0
-  BaseDamage: 1
+  BallType: 5
+  BaseDamage: 0
   Description: 
-  BallPrefab: {fileID: 2350128812012421003, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
-  onHitEffect: {fileID: 11400000, guid: 26a33b39afd23cc42ace347b20b92bff, type: 2}
+  BallPrefab: {fileID: 6602140071421409616, guid: 4f74e31c45320b240b46a1e94f374ef6, type: 3}
+  onHitEffect: {fileID: 11400000, guid: e7005475087f132428561903dcba7972, type: 2}

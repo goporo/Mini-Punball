@@ -35,7 +35,7 @@ public class WaveSpawner : MonoBehaviour
         if (obj.TryGetComponent<Enemy>(out var enemy))
         {
           boardState.PlaceObject(enemy, new Vector2Int(x, y));
-          enemy.Init(waveContent.HPMultiplier, waveContent.AttackMultiplier);
+          enemy.Init(waveContent.HPMultiplier, waveContent.AttackMultiplier, boardState);
           spawnedEnemies.Add(enemy);
         }
         else if (obj.TryGetComponent<Reward>(out var reward))

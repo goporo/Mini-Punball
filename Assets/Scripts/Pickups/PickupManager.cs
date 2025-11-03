@@ -39,7 +39,7 @@ public class PickupManager : MonoBehaviour
   public IEnumerator ProcessAllPickups()
   {
     // Phase 1: Process all PickupBox pickups first, one by one
-    Queue<IPickupable> others = new Queue<IPickupable>();
+    Queue<IPickupable> others = new();
     while (pendingPickups.Count > 0)
     {
       var pickup = pendingPickups.Dequeue();

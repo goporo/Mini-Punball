@@ -52,4 +52,10 @@ public abstract class BoardObject : MonoBehaviour
     Destroy(gameObject);
   }
 
+  public void HandleOnSacrifice()
+  {
+    EventBus.Publish(new BoardObjectDeathEvent(this));
+    Destroy(gameObject);
+  }
+
 }

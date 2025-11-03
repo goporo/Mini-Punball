@@ -12,14 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b9c179cd30822d47bb76e468f9b315b, type: 3}
   m_Name: Level_1
   m_EditorClassIdentifier: 
+  LevelNumber: 1
   boardPrefab: {fileID: 8629729260284965448, guid: 9bc7ab830c767c645a9358414093b869, type: 3}
   availableEnemies:
-  - {fileID: 11400000, guid: 48a24924724530c4093d1b6833b2a69b, type: 2}
-  - {fileID: 11400000, guid: c19f35755c9078245976429492f3ab3c, type: 2}
-  - {fileID: 11400000, guid: 0bbff838fc9e09c4da5b5c20b5604195, type: 2}
+  - {fileID: 7839028478513046216, guid: bda9aa2f7704b714880808c1fde48285, type: 3}
+  - {fileID: 5675986024820118595, guid: 7172b579b4406cf4592f909216020aeb, type: 3}
+  - {fileID: 7839028478513046216, guid: bda9aa2f7704b714880808c1fde48285, type: 3}
   spawnLine: 1
   totalWaves: 20
-  levelMultipliers:
-    hpMultiplier: 1
-    attackMultiplier: 1
   waveListSO: {fileID: 11400000, guid: 9f0ccf9151ea6bc4b862aef6d2ab6c1b, type: 2}

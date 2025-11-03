@@ -1,25 +1,24 @@
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+[RequireComponent(typeof(LineRenderer))]
+public class Laser : RegisterableEffect
 {
     private LineRenderer lr;
-    public float lifeTime = 5f; // how long it stays visible
+    private float lifeTime = .25f;
     private float timer;
     public Vector3 Startpoint;
     public Vector3 Endpoint;
-    private Color laserColor = new Color(1f, 0.45f, 0f); // light yellow
 
     void Awake()
     {
         lr = GetComponent<LineRenderer>();
-        Init(Startpoint, Endpoint);
+        RegisterEffect();
     }
 
     public void Init(Vector3 start, Vector3 end)
     {
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);
-        lr.startColor = lr.endColor = laserColor;
         timer = lifeTime;
     }
 
@@ -27,5 +26,10 @@ public class Laser : MonoBehaviour
     {
         timer -= Time.deltaTime;
         if (timer <= 0f) Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        UnregisterEffect();
     }
 }

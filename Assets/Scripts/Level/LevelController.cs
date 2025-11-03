@@ -31,7 +31,7 @@ public class LevelController : MonoBehaviour
         while (true)
         {
             Debug.Log($"▶️ Starting wave {wave}");
-            yield return waveController.RunWave(currentLevel, wave);
+            yield return waveController.RunWave(currentLevel, wave, levelData);
             // Optionally: Wait for all enemies dead, pickups collected, etc.
             wave++;
         }

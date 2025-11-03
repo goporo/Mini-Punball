@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EnemySkillBehavior : ScriptableObject
 {
-  public abstract IEnumerator UseSkill(BoardObject boardObject, BoardState board);
+  public abstract IEnumerator UseSkill(Enemy enemy, BoardState board);
   public virtual IEnumerator AttackAndDie(BoardObject boardObject, DamageContext damageContext)
   {
     // Simple jump forward and shake animation
@@ -25,7 +25,7 @@ public abstract class EnemySkillBehavior : ScriptableObject
 
     }
 
-    boardObject.HandleOnDeath();
+    boardObject.HandleOnSacrifice();
     yield break;
   }
 

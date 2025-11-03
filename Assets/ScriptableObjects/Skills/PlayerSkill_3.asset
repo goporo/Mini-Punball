@@ -16,3 +16,11 @@ MonoBehaviour:
   skillName: H-LASER BALL
   description: Add one horizontal laser ball
   icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
+  conditions: []
+  effects:
+  - {fileID: 11400000, guid: 47be701102359be4fa7a4767f2ab533f, type: 2}
+  isStackable: 0
+  maxStacks: 1

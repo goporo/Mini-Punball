@@ -50,8 +50,48 @@ public class BoardState : MonoBehaviour
     var enemies = exclude == null
         ? GetAllEnemies()
         : GetAllEnemies().Where(e => e != exclude).ToList();
+
+    if (enemies.Count == 0 && exclude != null)
+      return exclude;
+
     if (enemies.Count == 0) return null;
     return enemies.OrderBy(e => e.HealthComponent.CurrentHealth).First();
+  }
+
+  public List<Enemy> GetLowestHealthEnemies(int count, Enemy exclude = null)
+  {
+    var enemies = exclude == null
+        ? GetAllEnemies()
+        : GetAllEnemies().Where(e => e != exclude).ToList();
+
+    var sorted = enemies
+        .OrderBy(e => e.HealthComponent.CurrentHealth)
+        .ToList();
+
+    if (sorted.Count == 0)
+      return new List<Enemy>();
+
+    // Fill up with the first enemy if not enough
+    while (sorted.Count < count)
+    {
+      sorted.Add(sorted[0]);
+    }
+
+    return sorted.Take(count).ToList();
+  }
+
+  public Enemy[] GetTwoLowestHealthEnemies(Enemy exclude = null)
+  {
+    var enemies = exclude == null
+        ? GetAllEnemies()
+        : GetAllEnemies().Where(e => e != exclude).ToList();
+
+    if (enemies.Count == 0)
+      return null;
+    if (enemies.Count == 1)
+      return new Enemy[] { enemies[0], enemies[0] };
+
+    return enemies.OrderBy(e => e.HealthComponent.CurrentHealth).Take(2).ToArray();
   }
 
   public List<IAttacker> GetAllAttackers()
@@ -62,6 +102,51 @@ public class BoardState : MonoBehaviour
   public bool IsEmpty(int x, int y)
   {
     return grid[x, y] == null;
+  }
+
+
+  public List<BoardObject> GetSurroundingObjects(Vector2Int center, int radius)
+  {
+    List<BoardObject> objects = new List<BoardObject>();
+    for (int dx = -radius; dx <= radius; dx++)
+    {
+      for (int dy = -radius; dy <= radius; dy++)
+      {
+        if (dx == 0 && dy == 0) continue; // Skip center
+        Vector2Int pos = new Vector2Int(center.x + dx, center.y + dy);
+        if (IsInside(pos) && grid[pos.x, pos.y] != null)
+        {
+          objects.Add(grid[pos.x, pos.y]);
+        }
+      }
+    }
+    return objects;
+  }
+
+  public List<BoardObject> GetRowObjects(Vector2Int original)
+  {
+    List<BoardObject> rowObjects = new List<BoardObject>();
+    for (int x = 0; x < width; x++)
+    {
+      if (grid[x, original.y] != null)
+      {
+        rowObjects.Add(grid[x, original.y]);
+      }
+    }
+    return rowObjects;
+  }
+
+  public List<BoardObject> GetColumnObjects(Vector2Int original)
+  {
+    List<BoardObject> columnObjects = new List<BoardObject>();
+    for (int y = 0; y < height; y++)
+    {
+      if (grid[original.x, y] != null)
+      {
+        columnObjects.Add(grid[original.x, y]);
+      }
+    }
+    return columnObjects;
   }
 
 

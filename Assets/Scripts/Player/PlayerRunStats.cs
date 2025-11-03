@@ -8,6 +8,7 @@ public class PlayerRunStats : MonoBehaviour
 
   public int CurrentAttack => playerStats.Attack;
   public BallManager Balls;
+  public HealthComponent HealthComponent;
 
 
   public class PlayerStats

@@ -9,9 +9,14 @@ public class Enemy : BoardObject, IAttacker
     [SerializeField] private EnemyUI enemyUI;
 
     [SerializeField] private EnemySO data;
+    public WaveStats Stats;
     private HealthComponent healthComponent;
     public HealthComponent HealthComponent => healthComponent;
     private EnemySkillBehavior EnemySkillBehavior => data.enemySkillBehavior;
+    private DeathEffect DeathEffect => data.deathEffect;
+    private BoardState board;
+
+
 
     public IEnumerator AnimateSpawn(BoardState board)
     {
@@ -20,12 +25,14 @@ public class Enemy : BoardObject, IAttacker
     private int waveHealth;
     private int waveAttack;
 
-    public void Init(float hpMultiplier, float attackMultiplier)
+    public void Init(float hpMultiplier, float attackMultiplier, BoardState board)
     {
         waveHealth = Mathf.CeilToInt(data.baseHealth * hpMultiplier);
         waveAttack = Mathf.CeilToInt(data.baseAttack * attackMultiplier);
         enemyUI?.Init(waveHealth);
         healthComponent.Init(waveHealth);
+        Stats = new WaveStats(waveHealth, waveAttack);
+        this.board = board;
     }
 
     private void Awake()
@@ -58,7 +65,19 @@ public class Enemy : BoardObject, IAttacker
     public override void HandleOnDeath()
     {
         EventBus.Publish(new EnemyDeathEvent { Context = new BallHitContext(this, 69, null) });
+        DeathEffect.OnDeath(this, board);
         base.HandleOnDeath();
+    }
+
+    public struct WaveStats
+    {
+        public int Health;
+        public int Attack;
+        public WaveStats(int health, int attack)
+        {
+            Health = health;
+            Attack = attack;
+        }
     }
 
 }

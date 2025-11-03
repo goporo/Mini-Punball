@@ -3,19 +3,29 @@ using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class Reward : BoardObject, IPickupable, IAttacker
+public class Reward : BoardObject, IPickupable, IAttacker, IDamageable
 {
   [SerializeField] private EnemySkillBehavior EnemySkillBehavior;
   private Collider rewardCollider;
+  private bool isCollected = false;
 
   void Awake()
   {
     rewardCollider = GetComponent<Collider>();
   }
+
   public void OnPickup()
   {
+    if (isCollected) return;
+    isCollected = true;
     DeactivateCollider();
     StartCoroutine(AnimateToPlayerAndCollect());
+  }
+
+  public bool TakeDamage(DamageContext context)
+  {
+    OnPickup();
+    return true;
   }
 
   private void DeactivateCollider()

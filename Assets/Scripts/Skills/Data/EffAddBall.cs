@@ -6,7 +6,7 @@ public class EffAddBall : EffectSO
   public BallType BallType;
   public override void Execute(IEffectContext ctx)
   {
-    GameContext.Instance.Player.Balls.AddBall(BallType.Missile);
+    GameContext.Instance.Player.Balls.AddBall(BallType);
   }
 
 }

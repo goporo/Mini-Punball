@@ -22,5 +22,5 @@ MonoBehaviour:
   conditions: []
   effects:
   - {fileID: 11400000, guid: 14aa8562fad95a041b2233a132101f2a, type: 2}
-  isStackable: 0
-  maxStacks: 1
+  isStackable: 1
+  maxStacks: 3

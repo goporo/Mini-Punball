@@ -106,7 +106,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.8113208, g: 0.359213, b: 0, a: 1}
+      key0: {r: 1, g: 0.72206724, b: 0.3150943, a: 0.5529412}
       key1: {r: 0, g: 0, b: 0, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -208,7 +208,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9131f77c73e3f064eafbc8b2c5fba6aa, type: 2}
+  - {fileID: 2100000, guid: 17266463b0f45944ea2f8037ea49c18c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,7 +262,7 @@ PrefabInstance:
     - target: {fileID: -8696365571415498249, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: config
       value: 
-      objectReference: {fileID: 11400000, guid: 5bf057be5b9c97e469af4c68ec023447, type: 2}
+      objectReference: {fileID: 11400000, guid: 8c526a705ebb43842a82a8666af62f00, type: 2}
     - target: {fileID: 2350128812012421003, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_Name
       value: Ball Laser
