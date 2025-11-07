@@ -30,7 +30,6 @@ public class BallPhysics : MonoBehaviour
     private Vector3 moveDirection;
     private bool isMoving = false;
     private bool isReturnable = false;
-    private BallSO ballSO;
     private PlayerRunStats playerRunStats;
     private BallBase ballBase;
     private BoxCollider boxCollider;
@@ -39,7 +38,6 @@ public class BallPhysics : MonoBehaviour
     public void Init(PlayerRunStats playerRunStats, BallSO ballSO, Vector3 initialDirection)
     {
         this.playerRunStats = playerRunStats;
-        this.ballSO = ballSO;
         SetDirection(initialDirection);
     }
     public void ResetState()

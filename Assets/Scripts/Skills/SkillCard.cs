@@ -6,7 +6,7 @@ public class SkillCard : MonoBehaviour
 {
   private int skillID;
   public TMP_Text skillName;
-  public Sprite icon;
+  public Image icon;
   public Button buttonCard;
   public Button buttonInfo;
   public event System.Action<int> OnSkillInfoClicked;
@@ -29,6 +29,7 @@ public class SkillCard : MonoBehaviour
   {
     skillID = playerSkillSO.SkillID;
     skillName.text = playerSkillSO.skillName;
+    if (playerSkillSO.icon) icon.sprite = playerSkillSO.icon;
   }
 
   public void OnCardClick()

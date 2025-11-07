@@ -6,10 +6,20 @@ public class ExplodeDeath : DeathEffect
 {
   [SerializeField] private int radius = 1;
   [SerializeField] private float damageByHealthRatio = 0.5f;
+
   public override void OnDeath(Enemy enemy, BoardState board)
   {
     Debug.Log($"{enemy.name} exploded!");
     var targets = board.GetSurroundingObjects(enemy.CurrentCell, radius);
+
+    // Spawn explosion VFX from centralized VFXManager pool (generic)
+    GameContext.Instance.VFXManager.SpawnVFX<ExplodeVFX, BasicVFXParams>(
+      new BasicVFXParams
+      {
+        Position = enemy.Position,
+      }
+    );
+
     foreach (var obj in targets)
     {
       if (obj == null) continue;
@@ -22,8 +32,5 @@ public class ExplodeDeath : DeathEffect
         target.TakeDamage(ctx);
       }
     }
-
-
   }
-
 }

@@ -18,9 +18,9 @@ public class EnemySO : ScriptableObject, IBoardData
     public string Id => name;
 
     [Header("Basic Info")]
-    public string enemyName;
-    public EnemyVariant variant;
-    public EnemySpecie specie;
+    public string Name;
+    public EnemyVariant Variant;
+    public EnemySpecie Specie;
 
     [TextArea] public string Description;
 

@@ -15,7 +15,7 @@ MonoBehaviour:
   skillID: 2
   skillName: MISSILE BALL
   description: Add one missile ball
-  icon: {fileID: 0}
+  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

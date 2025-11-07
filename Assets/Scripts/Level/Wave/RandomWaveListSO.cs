@@ -110,7 +110,9 @@ public class RandomWaveListSO : WaveListSO
 
         // Determine if this level introduces a new enemy type (must include in spawn)
         Enemy introducedEnemy = null;
-        if (wave == 6 && levelEnemies != null && levelEnemies.Length >= 2)
+        if (wave == 1 && levelEnemies != null && levelEnemies.Length >= 2)
+            introducedEnemy = levelEnemies[0]; // Last added at level 1
+        else if (wave == 6 && levelEnemies != null && levelEnemies.Length >= 2)
             introducedEnemy = levelEnemies[1]; // Last added at level 6
         else if (wave == 12 && levelEnemies != null && levelEnemies.Length >= 3)
             introducedEnemy = levelEnemies[2]; // Last added at level 12
@@ -163,8 +165,25 @@ public class RandomWaveListSO : WaveListSO
 
         if (wave == 1)
         {
-            // Row 6: full row (enemies + ballPickup)
-            AddFullRow(6);
+            if (introducedEnemy != null)
+            {
+                // Row 6: introduced enemy + 2 random enemies + ballPickup
+                var row = new WaveRow();
+                row.index = 6;
+                row.boardObjects.Add(introducedEnemy);
+                for (int i = 0; i < 2; i++)
+                {
+                    var enemy = GetEnemyByRatio(enemies);
+                    row.boardObjects.Add(enemy);
+                }
+                row.boardObjects.Add(ballPickup);
+                rows.Add(row);
+            }
+            else
+            {
+                // Row 6: full row (enemies + ballPickup)
+                AddFullRow(6);
+            }
             // Row 5: 2 enemies only
             AddEnemyRow(5, 2);
             // Row 4: 2 enemies only

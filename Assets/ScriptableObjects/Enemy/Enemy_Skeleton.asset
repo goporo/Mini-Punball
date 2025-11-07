@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6adcc16a4c7854cbf8734b7307dec3, type: 3}
   m_Name: Enemy_Skeleton
   m_EditorClassIdentifier: 
-  enemyName: Skeleton Warrior
-  variant: 0
-  specie: 0
+  Name: Skeleton
+  Variant: 0
+  Specie: 0
   Description: Like a little pawn in chess
   baseHealth: 400
   baseAttack: 100

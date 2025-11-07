@@ -33,7 +33,7 @@ public class Reward : BoardObject, IPickupable, IAttacker, IDamageable
     rewardCollider.enabled = false;
   }
 
-  private IEnumerator AnimateToPlayerAndCollect()
+  public IEnumerator AnimateToPlayerAndCollect()
   {
     Vector3 playerPosition = new Vector3(3f, 0f, -5f);
     float animationDuration = 0.5f;

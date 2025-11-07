@@ -67,5 +67,14 @@ public class PickupManager : MonoBehaviour
     }
   }
 
+  private void PullAllPickups()
+  {
+    while (pendingPickups.Count > 0)
+    {
+      var pickup = pendingPickups.Dequeue();
+      pickup.OnPickup();
+    }
+  }
+
   public int PendingPickupCount => pendingPickups.Count;
 }

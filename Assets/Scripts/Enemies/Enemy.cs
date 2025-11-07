@@ -9,6 +9,7 @@ public class Enemy : BoardObject, IAttacker
     [SerializeField] private EnemyUI enemyUI;
 
     [SerializeField] private EnemySO data;
+    public EnemySO Data => data;
     public WaveStats Stats;
     private HealthComponent healthComponent;
     public HealthComponent HealthComponent => healthComponent;

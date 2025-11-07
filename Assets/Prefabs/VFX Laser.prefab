@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2248696108973984703}
   - component: {fileID: 7153433724280572401}
-  - component: {fileID: 7263908363096458878}
+  - component: {fileID: -5935234301464877178}
   m_Layer: 0
   m_Name: VFX Laser
   m_TagString: Untagged
@@ -137,7 +137,7 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &7263908363096458878
+--- !u!114 &-5935234301464877178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,8 +146,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6961892878001724902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2946c60fb850e47bc34b7457827f4a, type: 3}
+  m_Script: {fileID: 11500000, guid: e5905c3bcbea6884e810e9de51841341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Startpoint: {x: -5, y: 2, z: 0.5}
-  Endpoint: {x: 9, y: 2, z: 0.5}
+  laserLifetime: 0.25

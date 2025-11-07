@@ -85,3 +85,27 @@ public struct EnemyDeathEvent : IGameEvent
   public BallHitContext Context;
   public EnemyDeathEvent(BallHitContext context) => Context = context;
 }
+
+public struct OnWaveStartEvent : IGameEvent
+{
+  public int LevelNumber;
+  public int WaveNumber;
+  public Enemy[] AvailableEnemies;
+
+  public OnWaveStartEvent(int levelNumber, int waveNumber, Enemy[] availableEnemies = null)
+  {
+    LevelNumber = levelNumber;
+    WaveNumber = waveNumber;
+    AvailableEnemies = availableEnemies;
+  }
+}
+
+public struct OnSkillPickedEvent : IGameEvent
+{
+  public PlayerSkillSO SkillData;
+
+  public OnSkillPickedEvent(PlayerSkillSO skillData)
+  {
+    SkillData = skillData;
+  }
+}

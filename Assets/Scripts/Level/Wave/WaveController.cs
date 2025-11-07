@@ -17,7 +17,6 @@ public class WaveController : MonoBehaviour
     Complete
   }
 
-  public static Action<int> OnWaveChange;
   public static Action<WaveState> OnStateChange;
 
   private static WaitForSeconds waitABit = new(.4f);
@@ -45,13 +44,13 @@ public class WaveController : MonoBehaviour
     currentWaveNumber = waveNumber;
     this.levelData = levelData;
 
-    OnWaveChange?.Invoke(waveNumber);
 
     yield return ExecuteStateMachine();
   }
 
   private IEnumerator ExecuteStateMachine()
   {
+    yield return waitABit;
     yield return ChangeState(WaveState.Spawning);
     yield return ChangeState(WaveState.ApplyingStatus);
     yield return ChangeState(WaveState.PlayerShooting);
@@ -112,6 +111,7 @@ public class WaveController : MonoBehaviour
   private IEnumerator SpawnEnemiesPhase(int levelNumber, int waveNumber)
   {
     Enemy[] availableEnemies = levelData.availableEnemies;
+    EventBus.Publish(new OnWaveStartEvent(levelNumber, waveNumber, availableEnemies));
     yield return waveSpawner.SpawnWave(waveList.GenerateWave(levelNumber, waveNumber, availableEnemies));
   }
 

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6adcc16a4c7854cbf8734b7307dec3, type: 3}
   m_Name: Enemy_Bomb
   m_EditorClassIdentifier: 
-  enemyName: Bomb Monster
-  variant: 0
-  specie: 0
-  Description: Deals explosion damage to surrounding enemies on death
-  baseHealth: 400
+  Name: Bomber
+  Variant: 0
+  Specie: 0
+  Description: Deals explosion damage on death
+  baseHealth: 500
   baseAttack: 100
   moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
   deathEffect: {fileID: 11400000, guid: a597a6bd4ba6f3b45a03a224756a815d, type: 2}

@@ -65,7 +65,7 @@ public class SkillManager : MonoBehaviour
           if (!CheckConditions(skill.conditions, ctx))
             return;
 
-          // Execute all effects if conditions pass
+          // Execute all effects immediately if conditions pass
           foreach (var effect in skill.effects)
             effect.Execute(ctx);
         });
@@ -114,8 +114,8 @@ public class SkillManager : MonoBehaviour
 
   private void OnSkillSelected(SkillSelectedEvent e)
   {
-    Debug.Log($"Skill selected: {e.PlayerSkillSO.name}");
     skillSelectionUI.SetActive(false);
+    EventBus.Publish(new OnSkillPickedEvent(e.PlayerSkillSO));
     AddSkill(e.PlayerSkillSO);
   }
 }

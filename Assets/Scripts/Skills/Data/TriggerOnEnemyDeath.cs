@@ -6,14 +6,14 @@ public class TriggerOnEnemyDeath : TriggerSO<BallHitContext>
 {
   public override IDisposable Subscribe(SkillRuntime runtime, Action<BallHitContext> fire)
   {
-    Action<EnemyDeathEvent> onEnemyDeath = e =>
+    Action<EnemyDeathEvent> onEnemyDeath = (EnemyDeathEvent e) =>
     {
       var context = new BallHitContext(e.Context.Enemy, e.Context.Damage, null);
       fire(context);
-      Debug.Log("[TriggerOnEnemyDeath] Enemy died, trigger fired");
     };
 
-    EventBus.Subscribe(onEnemyDeath);
+    EventBus.Subscribe<EnemyDeathEvent>(onEnemyDeath);
     return new Unsubscriber(() => EventBus.Unsubscribe(onEnemyDeath));
   }
+
 }

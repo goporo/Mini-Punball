@@ -7,6 +7,7 @@ public class TriggerOnSkillGain : TriggerSO
   public override IDisposable Subscribe(SkillRuntime runtime, Action<IEffectContext> fire)
   {
     fire(new EffectContext(null));
+    Debug.Log("Fired on skill gain!");
     return new DummyDisposable();
   }
 

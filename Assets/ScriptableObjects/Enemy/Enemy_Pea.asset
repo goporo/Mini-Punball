@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6adcc16a4c7854cbf8734b7307dec3, type: 3}
   m_Name: Enemy_Pea
   m_EditorClassIdentifier: 
-  enemyName: Pea Shooter
-  variant: 0
-  specie: 0
+  Name: Pea Shooter
+  Variant: 0
+  Specie: 0
   Description: Shoot a pea attack
   baseHealth: 320
   baseAttack: 20

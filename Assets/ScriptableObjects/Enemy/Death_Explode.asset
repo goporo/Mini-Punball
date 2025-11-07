@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df1edc8b8687b340bde89a3f6f11b29, type: 3}
   m_Name: Death_Explode
   m_EditorClassIdentifier: 
+  radius: 1
+  damageByHealthRatio: 0.5
+  explodeVFX: {fileID: 7234308485966349456, guid: f6b4dd06a60d6b94aab5381c2a487f32, type: 3}
