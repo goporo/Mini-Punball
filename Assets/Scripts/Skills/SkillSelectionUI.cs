@@ -15,13 +15,14 @@ public class SkillSelectionUI : MonoBehaviour
 
   private void Awake()
   {
-    popupInfo.SetActive(false);
   }
 
   void OnEnable()
   {
     LoadSkills();
     buttonResetSkills.onClick.AddListener(OnResetSkills);
+    popupInfo.SetActive(false);
+
   }
 
   void OnDisable()

@@ -23,13 +23,16 @@ public class ExplodeDeath : DeathEffect
     foreach (var obj in targets)
     {
       if (obj == null) continue;
-      if (obj.TryGetComponent<IDamageable>(out var target))
+      if (obj.TryGetComponent<Enemy>(out var target))
       {
-        var ctx = new DamageContext
-        {
-          amount = Mathf.RoundToInt(enemy.Stats.Health * damageByHealthRatio),
-        };
-        target.TakeDamage(ctx);
+        var amount = Mathf.RoundToInt(enemy.Stats.Health * damageByHealthRatio);
+        CombatResolver.Instance.ResolveEffectHit(
+          new ResolveEffectHitContext(target, amount, null, DamageType.Explosion)
+        );
+      }
+      else if (obj.TryGetComponent<IDamageable>(out var damageable))
+      {
+        damageable.TakeDamage(new DamageContext { });
       }
     }
   }

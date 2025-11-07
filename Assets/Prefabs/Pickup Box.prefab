@@ -108,6 +108,7 @@ MonoBehaviour:
   prefab: {fileID: 2290007942432323559}
   moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
   EnemySkillBehavior: {fileID: 11400000, guid: d049e9082834fc94582afad3a9cdf6e3, type: 2}
+  collectiblePrefab: {fileID: 1565724499865851618, guid: 6f8d3f65ba320ff458783ae969d287a7, type: 3}
 --- !u!54 &3233697049864902584
 Rigidbody:
   m_ObjectHideFlags: 0

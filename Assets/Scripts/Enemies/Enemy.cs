@@ -51,6 +51,7 @@ public class Enemy : BoardObject, IAttacker
         healthComponent.OnDied -= HandleOnDeath;
     }
 
+
     public IEnumerator DoAttack(BoardState board)
     {
         if (CurrentCell.y == 0)

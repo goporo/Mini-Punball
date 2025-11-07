@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnLaser", order = 0)]
-public class EffSpawnLaser : EffectSO<BallHitContext>
+public class EffSpawnLaser : EffectSO<EffectContext>
 {
   public int multiplier = 1;
   [SerializeField] private Direction direction = Direction.Horizontal;
 
-  public override void Execute(BallHitContext ctx)
+  public override void Execute(EffectContext ctx)
   {
     Vector3 startPoint;
     Vector3 endPoint;
@@ -39,15 +39,20 @@ public class EffSpawnLaser : EffectSO<BallHitContext>
     ApplyDamageToSelectedTargets(ctx, targets);
   }
 
-  private void ApplyDamageToSelectedTargets(BallHitContext ctx, List<BoardObject> targets)
+  private void ApplyDamageToSelectedTargets(EffectContext ctx, List<BoardObject> targets)
   {
     foreach (var obj in targets)
     {
       if (obj == null) continue;
-      if (obj.TryGetComponent<IDamageable>(out var target))
+      if (obj.TryGetComponent<Enemy>(out var target))
       {
-        var damageCtx = new DamageContext(ctx.Player.Stats.Attack * multiplier, null);
-        target.TakeDamage(damageCtx);
+        CombatResolver.Instance.ResolveEffectHit(
+          new ResolveEffectHitContext(target, ctx.Player.Stats.Attack * multiplier, null, DamageType.Laser)
+        );
+      }
+      else if (obj.TryGetComponent<IDamageable>(out var damageable))
+      {
+        damageable.TakeDamage(new DamageContext { });
       }
     }
   }

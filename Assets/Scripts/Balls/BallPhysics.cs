@@ -94,14 +94,13 @@ public class BallPhysics : MonoBehaviour
 
             if (hit.collider.CompareTag("Enemy"))
             {
-                var target = hit.collider.gameObject.GetComponent<HealthComponent>();
-
-                var ctx = new ResolveHitContext
+                var hitbox = hit.collider.gameObject.GetComponent<Hitbox>();
+                if (hitbox)
                 {
-                    Enemy = target?.GetComponent<Enemy>(),
-                    Ball = ballBase
-                };
-                CombatResolver.Instance.ResolveHit(ctx);
+                    var ctx = new ResolveBallHitContext(hitbox.Enemy, ballBase.Stats.BaseDamage, ballBase.Stats.OnHitEffect, ballBase.Stats.DamageType);
+                    hitbox.OnHit(ctx);
+
+                }
 
             }
 

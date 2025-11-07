@@ -126,7 +126,6 @@ public class VFXManager : MonoBehaviour
         var vfx = typedPool.GetTyped();
         if (vfx != null)
         {
-          Debug.Log($"Spawning VFX {typeof(T).Name} ");
           vfx.OnSpawn(spawnParams);
           return vfx;
         }

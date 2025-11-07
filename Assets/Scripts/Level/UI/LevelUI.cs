@@ -13,6 +13,7 @@ public class LevelUI : MonoBehaviour
     [SerializeField] private GameObject panelNewSkillInfo;
     [SerializeField] private TMP_Text textNewSkillName;
     [SerializeField] private TMP_Text textNewSkillDescription;
+
     private float panelDisplayDuration = 3f;
 
 
@@ -77,5 +78,7 @@ public class LevelUI : MonoBehaviour
         yield return new WaitForSeconds(delay);
         panelNewMonsterInfo.SetActive(false);
     }
+
+
 
 }

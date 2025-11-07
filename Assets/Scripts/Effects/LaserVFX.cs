@@ -7,7 +7,7 @@ using UnityEngine;
 public class LaserVFX : BaseVFX<LaserVFXParams>
 {
   [Header("Laser Settings")]
-  [SerializeField] private float laserLifetime = 0.25f;
+  private float laserLifetime = 0.2f;
 
   private LineRenderer lineRenderer;
 

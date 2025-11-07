@@ -11,6 +11,7 @@ public class GameContext : Singleton<GameContext>
   public ComboManager ComboManager { get; private set; }
   public BoardState BoardState { get; private set; }
   public VFXManager VFXManager { get; private set; }
+  public UIPool UIPool { get; private set; }
 
   protected override void Awake()
   {
@@ -21,6 +22,7 @@ public class GameContext : Singleton<GameContext>
     ComboManager = FindObjectOfType<ComboManager>();
     BoardState = FindObjectOfType<BoardState>();
     VFXManager = FindObjectOfType<VFXManager>();
+    UIPool = FindObjectOfType<UIPool>();
   }
 }
 

@@ -30,3 +30,17 @@ public struct LaserVFXParams : IVFXSpawnParams
     EndPoint = endPoint;
   }
 }
+
+public struct MissileVFXParams : IVFXSpawnParams
+{
+  public Vector3 Position { get; set; }
+  public Enemy Target { get; set; }
+  public System.Action Callback { get; set; }
+
+  public MissileVFXParams(Vector3 position, Enemy target, System.Action callback)
+  {
+    Position = position;
+    Target = target;
+    Callback = callback;
+  }
+}

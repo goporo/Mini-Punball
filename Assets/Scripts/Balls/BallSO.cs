@@ -5,10 +5,12 @@ public class BallSO : ScriptableObject
 {
     public BallType BallType;
     public int BaseDamage;
-    public IStatusEffect statusEffect;
+    public IStatusEffect StatusEffect;
+    public DamageType DamageType;
+
     [TextArea] public string Description;
     public GameObject BallPrefab;
-    public EffectSO<BallHitContext> onHitEffect;
+    public EffectSO<EffectContext> OnHitEffect;
 
 }
 

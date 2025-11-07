@@ -7,7 +7,7 @@ public class BallBase : MonoBehaviour
 {
     [SerializeField] private BallSO config;
     public BallSO Stats => config;
-    public IStatusEffect StatusEffect => config.statusEffect;
+    public IStatusEffect StatusEffect => config.StatusEffect;
 
     private PlayerRunStats playerRunStats;
     private Vector3 initialDirection;
@@ -27,11 +27,11 @@ public class BallBase : MonoBehaviour
 public struct DamageContext
 {
     public int amount;
-    public IStatusEffect statusEffect;
+    public DamageType damageType;
 
-    public DamageContext(int amount, IStatusEffect statusEffect)
+    public DamageContext(int amount, DamageType damageType)
     {
         this.amount = amount;
-        this.statusEffect = statusEffect;
+        this.damageType = damageType;
     }
 }

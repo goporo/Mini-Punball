@@ -2,13 +2,13 @@ using UnityEngine;
 
 public interface IEffectContext
 {
-  PlayerRunStats Player => GameContext.Instance.Player;
-  Enemy Enemy { get; }
+  PlayerRunStats Player { get; }
 
 }
 
 public class EffectContext : IEffectContext
 {
+  public PlayerRunStats Player => GameContext.Instance.Player;
   public Enemy Enemy { get; }
   public EffectContext(Enemy enemy)
   {

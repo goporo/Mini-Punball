@@ -39,6 +39,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
   public bool TakeDamage(DamageContext context)
   {
     if (isDead) return true;
+
     currentHealth -= context.amount;
     if (!isBeingDestroyed) AnimationUtility.PlayBounce(targetMesh != null ? targetMesh : transform);
     if (currentHealth <= 0)
@@ -62,6 +63,8 @@ public class HealthComponent : MonoBehaviour, IDamageable
   {
     (targetMesh != null ? targetMesh : transform).DOKill();
   }
+
+
 }
 
 

@@ -115,9 +115,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2073704915548901597}
   - component: {fileID: 1024116384841430107}
-  - component: {fileID: 165782872281191413}
+  - component: {fileID: 4421344404767068349}
   m_Layer: 0
-  m_Name: Spawned Missile
+  m_Name: VFX Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,7 +252,7 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
---- !u!114 &165782872281191413
+--- !u!114 &4421344404767068349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7028563249317134327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceac9c02e17357c459e347c6466c1286, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b29e54ef40077441a87a976c5fbd9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  particleSystems: []

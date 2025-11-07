@@ -1,11 +1,11 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffNone", order = 0)]
-public class EffNone : EffectSO
+public class EffNone : EffectSO<EffectContext>
 {
-  public override void Execute(IEffectContext ctx)
+  public override void Execute(EffectContext ctx)
   {
-    // Do nothing
+    // Intentionally left blank
   }
 }
 

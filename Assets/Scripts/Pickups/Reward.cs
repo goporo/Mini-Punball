@@ -6,6 +6,8 @@ using UnityEngine;
 public class Reward : BoardObject, IPickupable, IAttacker, IDamageable
 {
   [SerializeField] private EnemySkillBehavior EnemySkillBehavior;
+  [SerializeField] private GameObject collectiblePrefab;
+
   private Collider rewardCollider;
   private bool isCollected = false;
 
@@ -19,7 +21,8 @@ public class Reward : BoardObject, IPickupable, IAttacker, IDamageable
     if (isCollected) return;
     isCollected = true;
     DeactivateCollider();
-    StartCoroutine(AnimateToPlayerAndCollect());
+    var collectible = Instantiate(collectiblePrefab, transform.position, Quaternion.identity);
+    HandleOnDeath();
   }
 
   public bool TakeDamage(DamageContext context)

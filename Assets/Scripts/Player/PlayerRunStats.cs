@@ -9,6 +9,7 @@ public class PlayerRunStats : MonoBehaviour
   public int CurrentAttack => playerStats.Attack;
   public BallManager Balls;
   public HealthComponent HealthComponent;
+  public Vector3 Position => transform.position + Vector3.up * 1.0f;
 
 
   public class PlayerStats

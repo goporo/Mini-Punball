@@ -109,3 +109,26 @@ public struct OnSkillPickedEvent : IGameEvent
     SkillData = skillData;
   }
 }
+
+public struct OnHitEvent : IGameEvent
+{
+  public PlayerRunStats player;
+  public Enemy enemy;
+  public int damageDealt;
+  public bool killed;
+  public DamageType damageType;
+
+  public OnHitEvent(
+      PlayerRunStats player,
+      Enemy enemy,
+      int damageDealt,
+      bool killed,
+      DamageType damageType)
+  {
+    this.player = player;
+    this.enemy = enemy;
+    this.damageDealt = damageDealt;
+    this.killed = killed;
+    this.damageType = damageType;
+  }
+}

@@ -20,8 +20,7 @@ public abstract class EnemySkillBehavior : ScriptableObject
 
     if (damageContext.amount > 0)
     {
-      var playerHealth = FindObjectOfType<PlayerController>().GetComponent<HealthComponent>();
-      playerHealth.TakeDamage(damageContext);
+      CombatResolver.Instance.PlayerTakeDamage(new DamageContext { amount = damageContext.amount, damageType = damageContext.damageType });
 
     }
 
