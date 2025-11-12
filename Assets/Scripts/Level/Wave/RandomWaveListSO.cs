@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RandomWaveListSO", menuName = "MiniPunBall/RandomWaveListSO", order = 0)]
 public class RandomWaveListSO : WaveListSO
 {
-    [SerializeField] private BoardObject ballPickup;
-    [SerializeField] private BoardObject boxPickup;
+    [SerializeField] private BoardObject pickupBall;
+    [SerializeField] private BoardObject pickupBox;
     [SerializeField] private Enemy baseEnemy;
     [SerializeField] LevelMultiplierSO levelMultiplier;
     [SerializeField] int totalWaves = 20;
@@ -140,9 +140,9 @@ public class RandomWaveListSO : WaveListSO
 
             // ballPickup on even waves (including wave 1), boxPickup on odd waves
             if (wave % 2 == 0 || wave == 1)
-                row.boardObjects.Add(ballPickup);
+                row.boardObjects.Add(pickupBall);
             else
-                row.boardObjects.Add(boxPickup);
+                row.boardObjects.Add(pickupBox);
             rows.Add(row);
         }
 
@@ -176,7 +176,7 @@ public class RandomWaveListSO : WaveListSO
                     var enemy = GetEnemyByRatio(enemies);
                     row.boardObjects.Add(enemy);
                 }
-                row.boardObjects.Add(ballPickup);
+                row.boardObjects.Add(pickupBall);
                 rows.Add(row);
             }
             else

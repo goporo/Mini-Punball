@@ -16,14 +16,14 @@ public class PlayerUI : MonoBehaviour, IHealthUI
     {
         EventBus.Subscribe<BallCountChangedEvent>(OnBallCountChanged);
         EventBus.Subscribe<AllBallShotEvent>(HandleAllBallShot);
-        healthComponent.OnHealthChanged += HandleTakeDamage;
+        healthComponent.OnHealthChanged += HandleHealthChange;
     }
 
     void OnDisable()
     {
         EventBus.Unsubscribe<BallCountChangedEvent>(OnBallCountChanged);
         EventBus.Unsubscribe<AllBallShotEvent>(HandleAllBallShot);
-        healthComponent.OnHealthChanged -= HandleTakeDamage;
+        healthComponent.OnHealthChanged -= HandleHealthChange;
     }
 
     private void HandleAllBallShot(AllBallShotEvent e)
@@ -54,12 +54,12 @@ public class PlayerUI : MonoBehaviour, IHealthUI
         textBall.text = $"{count}";
     }
 
-    private void HandleTakeDamage(HealthChangedEvent e)
+    private void HandleHealthChange(HealthChangedEvent e)
     {
-        OnTakeDamage(e.Current, e.Max);
+        UpdateHealth(e.Current, e.Max);
     }
 
-    public void OnTakeDamage(int currentHealth, int maxHealth)
+    public void UpdateHealth(int currentHealth, int maxHealth)
     {
         textHealth.text = $"{currentHealth}";
         barHealth.fillAmount = (float)currentHealth / maxHealth;

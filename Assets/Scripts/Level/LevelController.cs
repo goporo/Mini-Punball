@@ -13,6 +13,9 @@ public class LevelController : MonoBehaviour
 
 
     private int currentLevel = 1;
+    private int currentWave = 1;
+    public int CurrentLevel => currentLevel;
+    public int CurrentWave => currentWave;
 
     void Awake()
     {
@@ -27,13 +30,12 @@ public class LevelController : MonoBehaviour
 
     private IEnumerator RunLevel()
     {
-        int wave = 1;
         while (true)
         {
-            Debug.Log($"▶️ Starting wave {wave}");
-            yield return waveController.RunWave(currentLevel, wave, levelData);
+            Debug.Log($"▶️ Starting wave {currentWave}");
+            yield return waveController.RunWave(currentLevel, currentWave, levelData);
             // Optionally: Wait for all enemies dead, pickups collected, etc.
-            wave++;
+            currentWave++;
         }
     }
 

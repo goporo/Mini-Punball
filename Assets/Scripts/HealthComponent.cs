@@ -51,6 +51,21 @@ public class HealthComponent : MonoBehaviour, IDamageable
     return currentHealth <= 0;
   }
 
+  public void Heal(int amount)
+  {
+    if (isDead) return;
+
+    currentHealth += amount;
+    if (currentHealth > maxHealth)
+    {
+      currentHealth = maxHealth;
+    }
+    OnHealthChanged?.Invoke(new HealthChangedEvent(currentHealth, maxHealth));
+
+    string healthText = "+" + amount.ToString();
+    CombatResolver.Instance.SpawnDamagePopup(transform.position + Vector3.up * 1.0f, healthText, DamageType.Heal);
+  }
+
   private void HandleDeath()
   {
     if (isDead) return;

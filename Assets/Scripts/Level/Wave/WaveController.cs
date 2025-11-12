@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(PickupManager))]
 public class WaveController : MonoBehaviour
 {
   public enum WaveState
@@ -25,18 +24,14 @@ public class WaveController : MonoBehaviour
   [SerializeField] private BoardManager boardManager;
   [SerializeField] private PlayerManager playerManager;
   [SerializeField] private WaveListSO waveList;
-  private PickupManager pickupManager;
 
   private WaveState _currentState = WaveState.Idle;
   private int currentLevelNumber;
   private int currentWaveNumber;
+
   private LevelSO levelData;
   public WaveState CurrentState => _currentState;
 
-  private void Awake()
-  {
-    pickupManager = GetComponent<PickupManager>();
-  }
 
   public IEnumerator RunWave(int levelNumber, int waveNumber, LevelSO levelData)
   {
@@ -130,7 +125,7 @@ public class WaveController : MonoBehaviour
 
   private IEnumerator CollectPickupPhase()
   {
-    yield return pickupManager.ProcessAllPickups();
+    yield return GameContext.Instance.PickupManager.ProcessAllCollects();
     // TODO: Add VFX waiting here if needed
     // yield return WaitForVFX("PickupVFX");
   }

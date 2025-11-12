@@ -4,26 +4,54 @@ using UnityEngine;
 
 public class PickupManager : MonoBehaviour
 {
-  private Queue<IPickupable> pendingPickups = new();
+  [SerializeField] LevelMultiplierSO levelMultiplierSO;
+  [SerializeField] List<Collectible> availableCollectibles = new();
+  private Queue<Collectible> pendingCollects = new();
+  private Queue<CollectibleType> pendingCollectTypes = new();
+
   private bool isWaitingForSkillSelection = false;
 
   private void OnEnable()
   {
-    EventBus.Subscribe<PickupCollectedEvent>(OnPickupCollected);
+    EventBus.Subscribe<OnCollectibleSpawnEvent>(HandleCollectibleSpawn);
     EventBus.Subscribe<SkillSelectedEvent>(OnSkillSelected);
     EventBus.Subscribe<PickupBoxEvent>(OnPickupBoxEvent);
+    EventBus.Subscribe<EnemyDeathEvent>(HandleEnemyDeath);
   }
 
   private void OnDisable()
   {
-    EventBus.Unsubscribe<PickupCollectedEvent>(OnPickupCollected);
+    EventBus.Unsubscribe<OnCollectibleSpawnEvent>(HandleCollectibleSpawn);
     EventBus.Unsubscribe<SkillSelectedEvent>(OnSkillSelected);
     EventBus.Unsubscribe<PickupBoxEvent>(OnPickupBoxEvent);
+    EventBus.Unsubscribe<EnemyDeathEvent>(HandleEnemyDeath);
   }
 
-  private void OnPickupCollected(PickupCollectedEvent e)
+  private Collectible GetRandomCollectible()
   {
-    pendingPickups.Enqueue(e.Pickup);
+    if (availableCollectibles.Count == 0) return null;
+    int index = Random.Range(0, availableCollectibles.Count);
+    return availableCollectibles[index];
+  }
+
+  private void HandleEnemyDeath(EnemyDeathEvent e)
+  {
+    float dropChance = 0.5f;
+    float roll = Random.Range(0f, 1f);
+    if (roll <= dropChance)
+    {
+      Collectible collectible = GetRandomCollectible();
+      if (collectible != null)
+      {
+        Vector3 spawnPosition = e.Enemy.transform.position;
+        Instantiate(collectible, spawnPosition, Quaternion.identity, transform);
+      }
+    }
+  }
+
+  private void HandleCollectibleSpawn(OnCollectibleSpawnEvent e)
+  {
+    pendingCollects.Enqueue(e.collectible);
   }
 
   private void OnSkillSelected(SkillSelectedEvent e)
@@ -36,45 +64,65 @@ public class PickupManager : MonoBehaviour
     isWaitingForSkillSelection = true;
   }
 
-  public IEnumerator ProcessAllPickups()
+  public IEnumerator ProcessAllCollects()
   {
-    // Phase 1: Process all PickupBox pickups first, one by one
-    Queue<IPickupable> others = new();
-    while (pendingPickups.Count > 0)
+    yield return PullAllCollects();
+    pendingCollects.Clear();
+
+    Queue<CollectibleType> boxes = new();
+    while (pendingCollectTypes.Count > 0)
     {
-      var pickup = pendingPickups.Dequeue();
-      if (pickup is PickupBox)
+      var type = pendingCollectTypes.Dequeue();
+      if (type == CollectibleType.Box)
       {
-        EventBus.Publish(new PickupBoxEvent());
-        yield return new WaitUntil(() => !isWaitingForSkillSelection);
-        yield return new WaitForSeconds(0.5f); // Small delay after skill selection
+        boxes.Enqueue(type);
       }
       else
       {
-        others.Enqueue(pickup);
+        switch (type)
+        {
+          case CollectibleType.Ball:
+            EventBus.Publish(new PickupBallEvent());
+            break;
+          case CollectibleType.Health:
+            int healAmount = levelMultiplierSO.GetWaveHealAmount(GameContext.Instance.LevelController.CurrentLevel);
+            EventBus.Publish(new PickupHealthEvent(healAmount));
+            break;
+          case CollectibleType.Coin:
+            // Handle coin pickup if needed
+            break;
+        }
       }
       yield return null;
     }
 
-    // Phase 2: Process all other pickups at the same time
-    while (others.Count > 0)
+    while (boxes.Count > 0)
     {
-      var pickup = others.Dequeue();
-      if (pickup is PickupBall)
-      {
-        EventBus.Publish(new PickupBallEvent());
-      }
+      boxes.Dequeue();
+      EventBus.Publish(new PickupBoxEvent());
+      yield return new WaitUntil(() => !isWaitingForSkillSelection);
+      yield return new WaitForSeconds(0.5f);
     }
   }
-
-  private void PullAllPickups()
+  private IEnumerator PullAllCollects()
   {
-    while (pendingPickups.Count > 0)
+    int count = pendingCollects.Count;
+    if (count == 0) yield break;
+
+    int finished = 0;
+    foreach (var collectible in pendingCollects)
     {
-      var pickup = pendingPickups.Dequeue();
-      pickup.OnPickup();
+      StartCoroutine(AnimateAndCount(collectible, () => finished++));
     }
+
+    yield return new WaitUntil(() => finished == count);
   }
 
-  public int PendingPickupCount => pendingPickups.Count;
+  private IEnumerator AnimateAndCount(Collectible collectible, System.Action onFinish)
+  {
+    yield return collectible.AnimateToPlayer();
+    pendingCollectTypes.Enqueue(collectible.Type);
+    onFinish?.Invoke();
+  }
+
 }

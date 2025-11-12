@@ -35,10 +35,16 @@ public struct PickupBoxEvent : IGameEvent
 {
 }
 
-public struct PickupCollectedEvent : IGameEvent
+public struct PickupHealthEvent : IGameEvent
 {
-  public IPickupable Pickup;
-  public PickupCollectedEvent(IPickupable pickup) => Pickup = pickup;
+  public int Amount;
+  public PickupHealthEvent(int amount) => Amount = amount;
+}
+
+public struct OnCollectibleSpawnEvent : IGameEvent
+{
+  public Collectible collectible;
+  public OnCollectibleSpawnEvent(Collectible collectible) => this.collectible = collectible;
 }
 
 [DontLogEvent]
@@ -82,6 +88,7 @@ public struct SkillSelectionCompleteEvent : IGameEvent
 
 public struct EnemyDeathEvent : IGameEvent
 {
+  public Enemy Enemy => Context.Enemy;
   public BallHitContext Context;
   public EnemyDeathEvent(BallHitContext context) => Context = context;
 }

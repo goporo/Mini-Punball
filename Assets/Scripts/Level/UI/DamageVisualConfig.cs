@@ -20,6 +20,8 @@ public class DamageVisualConfig
         return Color.black;
       case DamageType.Explosion:
         return Color.black;
+      case DamageType.Heal:
+        return Color.green;
       default:
         return Color.white;
     }

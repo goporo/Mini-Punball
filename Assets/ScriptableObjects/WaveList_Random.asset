@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ba3d1f26e88f4f43995b89d2bd8ecff, type: 3}
   m_Name: WaveList_Random
   m_EditorClassIdentifier: 
-  ballPickup: {fileID: 446743786122653391, guid: 5875f48659473c64db42a953ef55bff8, type: 3}
-  boxPickup: {fileID: 6400439348731463532, guid: 26b7de88aaf283a4995a08fb7d5c63fb, type: 3}
+  pickupBall: {fileID: 111445190575194343, guid: 5875f48659473c64db42a953ef55bff8, type: 3}
+  pickupBox: {fileID: 3613420726961150096, guid: 26b7de88aaf283a4995a08fb7d5c63fb, type: 3}
   baseEnemy: {fileID: 5409952272315634615, guid: 0a0f930037c1bad43a0a8ecd377ab812, type: 3}
   levelMultiplier: {fileID: 11400000, guid: 08888e3119ef3fe479069664b236d97d, type: 2}
   totalWaves: 20

@@ -4,7 +4,7 @@ public class Projectile : RegisterableEffect
 {
   private PlayerRunStats target;
   private System.Action onHit;
-  private float speed = 15f;
+  private float speed = 20f;
 
   private void Awake()
   {

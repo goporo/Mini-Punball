@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ball_Laser_V
   m_EditorClassIdentifier: 
   BallType: 6
-  BaseDamage: 0
+  BaseDamage: -1
   DamageType: 4
   Description: 
   BallPrefab: {fileID: 6602140071421409616, guid: d3f6d22e9c20b684eb1e564866401330, type: 3}

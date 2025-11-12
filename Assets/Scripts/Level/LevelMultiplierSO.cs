@@ -6,6 +6,7 @@ public class LevelMultiplierSO : ScriptableObject
 {
     public WaveMultiplier[] waveMultipliers;
     public LevelMultiplier[] levelMultipliers;
+    private int baseHeal = 20;
 
     public float GetWaveHpMultiplier(int levelNumber, int waveNumber)
     {
@@ -17,6 +18,11 @@ public class LevelMultiplierSO : ScriptableObject
     public float GetWaveAttackMultiplier(int levelNumber)
     {
         return levelMultipliers.FirstOrDefault(l => l.levelNumber == levelNumber)?.attackMultiplier ?? 1f;
+    }
+
+    public int GetWaveHealAmount(int levelNumber)
+    {
+        return (int)(baseHeal * GetWaveAttackMultiplier(levelNumber));
     }
 
 }

@@ -47,6 +47,7 @@ public class ResolveEffectHitContext : IEffectContext
 public enum DamageType
 {
   Normal,
+  Heal,
   Fire,
   Ice,
   Lightning,

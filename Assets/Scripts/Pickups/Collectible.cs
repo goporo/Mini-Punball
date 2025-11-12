@@ -2,18 +2,21 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class Collectible : MonoBehaviour, IPickupable
+public class Collectible : MonoBehaviour
 {
+  public CollectibleType Type;
+  private float animationDuration = 0.25f;
+
   private void Start()
   {
-    // auto clockwise rotation animation Y axis use dotween
     IdleAnimation();
     SpawnAnimation();
+    EventBus.Publish(new OnCollectibleSpawnEvent(this));
+
   }
 
   private void SpawnAnimation()
   {
-    // Save start position as ground
     Vector3 startPos = transform.position;
     float upHeight = 1.5f;
     float bounceHeight = 0.5f;
@@ -34,28 +37,36 @@ public class Collectible : MonoBehaviour, IPickupable
     seq.Append(transform.DOMove(startPos, durationBounce).SetEase(Ease.InQuad));
     seq.Play();
   }
-  public void OnPickup()
-  {
-    Debug.Log($"Picked up {gameObject.name}");
-    StartCoroutine(AnimateToPlayerAndCollect());
-  }
 
-  private IEnumerator AnimateToPlayerAndCollect()
-  {
-    Vector3 playerPosition = new Vector3(3f, 0f, -5f);
-    float animationDuration = 0.5f;
-    Tween moveTween = AnimationUtility.PlayMove(transform, playerPosition, animationDuration, Ease.InQuad);
-    yield return moveTween.WaitForCompletion();
-    EventBus.Publish(new PickupCollectedEvent(this));
-    Destroy(gameObject);
-
-  }
-
-  void IdleAnimation()
+  private void IdleAnimation()
   {
     float duration = 3f;
     transform.DORotate(new Vector3(0, 360, 0), duration, RotateMode.FastBeyond360)
       .SetLoops(-1, LoopType.Restart)
       .SetEase(Ease.Linear);
   }
+
+  public IEnumerator AnimateToPlayer()
+  {
+    DOTween.Kill(transform);
+    Vector3 playerPosition = GameContext.Instance.Player.transform.position;
+    Tween moveTween = AnimationUtility.PlayMove(transform, playerPosition, animationDuration, Ease.InQuad);
+    yield return moveTween.WaitForCompletion();
+    Destroy(gameObject);
+  }
+  private void KillTweens()
+  {
+    DOTween.Kill(transform);
+    DOTween.Kill(gameObject);
+  }
+
+
+}
+
+public enum CollectibleType
+{
+  Ball,
+  Box,
+  Health,
+  Coin
 }

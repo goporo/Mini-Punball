@@ -73,8 +73,8 @@ GameObject:
   - component: {fileID: 6973694038774110719}
   - component: {fileID: 1957190307907695903}
   - component: {fileID: 8681191844517399341}
-  - component: {fileID: 446743786122653391}
   - component: {fileID: -5446464371208088912}
+  - component: {fileID: 111445190575194343}
   m_Layer: 0
   m_Name: Pickup Ball
   m_TagString: Pickup
@@ -169,22 +169,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &446743786122653391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6655424852632887561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d38532a12e5f444cad6edb75ac253b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 6655424852632887561}
-  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
-  EnemySkillBehavior: {fileID: 11400000, guid: d049e9082834fc94582afad3a9cdf6e3, type: 2}
-  collectiblePrefab: {fileID: 9026529445473134637, guid: ef11c5156c3b46149bc016d12d94b8b5, type: 3}
 --- !u!54 &-5446464371208088912
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -212,6 +196,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &111445190575194343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6655424852632887561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15bba8db975016d4ab5d9711e31fbf1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6655424852632887561}
+  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
+  EnemySkillBehavior: {fileID: 11400000, guid: d049e9082834fc94582afad3a9cdf6e3, type: 2}
+  collectiblePrefab: {fileID: 9026529445473134637, guid: ef11c5156c3b46149bc016d12d94b8b5, type: 3}
 --- !u!1 &8355366658076977092
 GameObject:
   m_ObjectHideFlags: 0

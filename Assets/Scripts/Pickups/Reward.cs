@@ -16,14 +16,6 @@ public class Reward : BoardObject, IPickupable, IAttacker, IDamageable
     rewardCollider = GetComponent<Collider>();
   }
 
-  public void OnPickup()
-  {
-    if (isCollected) return;
-    isCollected = true;
-    DeactivateCollider();
-    var collectible = Instantiate(collectiblePrefab, transform.position, Quaternion.identity);
-    HandleOnDeath();
-  }
 
   public bool TakeDamage(DamageContext context)
   {
@@ -36,15 +28,16 @@ public class Reward : BoardObject, IPickupable, IAttacker, IDamageable
     rewardCollider.enabled = false;
   }
 
-  public IEnumerator AnimateToPlayerAndCollect()
+
+  public void OnPickup()
   {
-    Vector3 playerPosition = new Vector3(3f, 0f, -5f);
-    float animationDuration = 0.5f;
-    Tween moveTween = AnimationUtility.PlayMove(transform, playerPosition, animationDuration, Ease.InQuad);
-    yield return moveTween.WaitForCompletion();
-    EventBus.Publish(new PickupCollectedEvent(this));
+    if (isCollected) return;
+    isCollected = true;
+    DeactivateCollider();
+    Instantiate(collectiblePrefab, transform.position, Quaternion.identity, transform.parent);
     HandleOnDeath();
   }
+
 
   public IEnumerator DoAttack(BoardState board)
   {

@@ -28,10 +28,10 @@ public class EnemyUI : MonoBehaviour, IHealthUI
 
     private void HandleTakeDamage(HealthChangedEvent e)
     {
-        OnTakeDamage(e.Current, e.Max);
+        UpdateHealth(e.Current, e.Max);
     }
 
-    public void OnTakeDamage(int currentHealth, int maxHealth)
+    public void UpdateHealth(int currentHealth, int maxHealth)
     {
         healthText.text = GameUtils.FormatHealthText(currentHealth);
         healthBar.fillAmount = (float)currentHealth / maxHealth;
