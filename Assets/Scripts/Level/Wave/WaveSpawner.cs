@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
@@ -20,32 +21,60 @@ public class WaveSpawner : MonoBehaviour
     var finished = 0;
 
     var spawnedEnemies = new List<Enemy>();
-    foreach (var row in waveContent.waveRows)
+    if (waveContent.IsAfterBoss)
     {
-      foreach (var boardObject in row.boardObjects)
+      var availableEnemies = waveContent.AvailableEnemies.ToList();
+      var pickedEnemies = availableEnemies.Count > 2
+        ? availableEnemies.OrderBy(_ => UnityEngine.Random.value).Take(2).ToList()
+        : availableEnemies;
+
+      foreach (Enemy enemy in pickedEnemies)
       {
-        var cell = boardState.GetRandomEmptyCell(row.index);
+        var cell = boardState.GetRandomEmptyCell();
         if (cell == null) continue;
 
         var (x, y) = cell.Value;
+        var obj = Instantiate(enemy.prefab, transform);
 
-        var obj = Instantiate(boardObject.prefab, transform);
-
-        // todo refactor use interface
-        if (obj.TryGetComponent<Enemy>(out var enemy))
+        if (obj.TryGetComponent<Enemy>(out var spawnedEnemy))
         {
-          boardState.PlaceObject(enemy, new Vector2Int(x, y));
-          enemy.Init(waveContent.HPMultiplier, waveContent.AttackMultiplier, boardState);
-          spawnedEnemies.Add(enemy);
+          boardState.PlaceObject(spawnedEnemy, new Vector2Int(x, y));
+          spawnedEnemy.Init(waveContent.HPMultiplier, waveContent.AttackMultiplier, boardState);
+          spawnedEnemies.Add(spawnedEnemy);
         }
-        else if (obj.TryGetComponent<Reward>(out var reward))
-        {
-          boardState.PlaceObject(reward, new Vector2Int(x, y));
-        }
-
       }
     }
+    else
+    {
+      foreach (var row in waveContent.waveRows)
+      {
+        foreach (var boardObject in row.boardObjects)
+        {
+          var size = boardObject.Size;
+          var cell = boardState.GetRowEmptyCell(row.index, size);
+          if (cell == null) continue;
 
+          var (x, y) = cell.Value;
+
+          var obj = Instantiate(boardObject.prefab, transform);
+
+          // todo refactor use interface
+          if (obj.TryGetComponent<Enemy>(out var enemy))
+          {
+            boardState.PlaceObject(enemy, new Vector2Int(x, y));
+            enemy.Init(waveContent.HPMultiplier, waveContent.AttackMultiplier, boardState);
+            spawnedEnemies.Add(enemy);
+          }
+          else if (obj.TryGetComponent<Reward>(out var reward))
+          {
+            boardState.PlaceObject(reward, new Vector2Int(x, y));
+          }
+
+        }
+      }
+
+
+    }
 
     foreach (var enemy in spawnedEnemies)
     {

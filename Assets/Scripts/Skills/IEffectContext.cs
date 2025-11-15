@@ -8,7 +8,7 @@ public interface IEffectContext
 
 public class EffectContext : IEffectContext
 {
-  public PlayerRunStats Player => GameContext.Instance.Player;
+  public PlayerRunStats Player => LevelContext.Instance.Player;
   public Enemy Enemy { get; }
   public EffectContext(Enemy enemy)
   {
@@ -18,7 +18,7 @@ public class EffectContext : IEffectContext
 
 public class BallHitContext : IEffectContext
 {
-  public PlayerRunStats Player => GameContext.Instance.Player;
+  public PlayerRunStats Player => LevelContext.Instance.Player;
   public Enemy Enemy { get; }
   public int Damage;
   public BallBase Ball;
@@ -35,7 +35,7 @@ public class BallHitContext : IEffectContext
 
 public struct EnemyDeathContext
 {
-  public GameContext GameContext => GameContext.Instance;
+  public LevelContext GameContext => LevelContext.Instance;
   public Enemy Enemy { get; }
   public Vector3 Position { get; }
   public EnemyDeathContext(Enemy enemy, Vector3 position)

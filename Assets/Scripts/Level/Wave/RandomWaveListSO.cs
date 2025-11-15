@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 [CreateAssetMenu(fileName = "RandomWaveListSO", menuName = "MiniPunBall/RandomWaveListSO", order = 0)]
 public class RandomWaveListSO : WaveListSO
 {
@@ -8,12 +10,6 @@ public class RandomWaveListSO : WaveListSO
     [SerializeField] private BoardObject pickupBox;
     [SerializeField] private Enemy baseEnemy;
     [SerializeField] LevelMultiplierSO levelMultiplier;
-    [SerializeField] int totalWaves = 20;
-
-
-
-    [SerializeField] private List<int> bossWaveIndices = new() { 20 }; // e.g., {20, 40} for 40-wave level
-
 
     // Helper: choose an enemy from `enemies` using dynamic ratios based on array length
     // Ratios: 2 enemies -> 8:2, 3 enemies -> 6:2:2, 4 enemies -> 4:2:2:2
@@ -38,7 +34,7 @@ public class RandomWaveListSO : WaveListSO
         for (int i = 0; i < Mathf.Min(count, weights.Length); i++)
             total += weights[i];
 
-        int r = Random.Range(0, total);
+        int r = UnityEngine.Random.Range(0, total);
         int acc = 0;
         for (int i = 0; i < Mathf.Min(count, weights.Length); i++)
         {
@@ -50,7 +46,7 @@ public class RandomWaveListSO : WaveListSO
         return enemies[count - 1];
     }
 
-    public override WaveContent GenerateWave(int level, int wave, Enemy[] levelEnemies)
+    public override WaveContent GenerateWave(int level, int wave, Enemy[] levelEnemies, BossList[] bossLists, int totalWaves)
     {
         var content = new WaveContent
         {
@@ -61,16 +57,31 @@ public class RandomWaveListSO : WaveListSO
 
         if (wave > totalWaves)
         {
+            content.WaveNumber = totalWaves + 1; // stop after totalWaves
             content.waveRows = new WaveRow[0];
+            content.IsAfterBoss = true;
+            content.AvailableEnemies = levelEnemies;
             return content;
         }
 
         // Before boss wave: empty wave
-        foreach (var bossIndex in bossWaveIndices)
+        foreach (var boss in bossLists)
         {
+            int bossIndex = boss.spawnWave;
             if (wave == bossIndex - 1)
             {
                 content.waveRows = new WaveRow[0];
+                return content;
+            }
+            else if (wave == bossIndex)
+            {
+                // Boss wave: single boss enemy in row 5,6
+                var bossRow = new WaveRow
+                {
+                    index = 5, // boss 2x2 and origin at bottom-left, so row 5
+                    boardObjects = new List<BoardObject> { boss.bossEnemy }
+                };
+                content.waveRows = new WaveRow[] { bossRow };
                 return content;
             }
         }
@@ -146,22 +157,6 @@ public class RandomWaveListSO : WaveListSO
             rows.Add(row);
         }
 
-        // Enemy-only row
-        void AddEnemyRow(int rowIndex, int count = -1)
-        {
-            var row = new WaveRow();
-            row.index = rowIndex;
-            int enemyCount = count > 0 ? count : Random.Range(1, 6);
-
-
-            // Fill remaining slots
-            for (int i = 0; i < enemyCount; i++)
-            {
-                var enemy = GetEnemyByRatio(enemies);
-                row.boardObjects.Add(enemy);
-            }
-            rows.Add(row);
-        }
 
         if (wave == 1)
         {
@@ -185,9 +180,9 @@ public class RandomWaveListSO : WaveListSO
                 AddFullRow(6);
             }
             // Row 5: 2 enemies only
-            AddEnemyRow(5, 2);
+            AddEnemyRow(rows, enemies, 5, 2);
             // Row 4: 2 enemies only
-            AddEnemyRow(4, 2);
+            AddEnemyRow(rows, enemies, 4, 2);
         }
         else
         {
@@ -199,6 +194,27 @@ public class RandomWaveListSO : WaveListSO
         return content;
     }
 
+    // Enemy-only row
+    void AddEnemyRow(List<WaveRow> rows, Enemy[] enemies, int rowIndex, int count = -1)
+    {
+        var row = new WaveRow();
+        row.index = rowIndex;
+        int enemyCount = count > 0 ? count : Random.Range(1, 6);
+
+
+        // Fill remaining slots
+        for (int i = 0; i < enemyCount; i++)
+        {
+            var enemy = GetEnemyByRatio(enemies);
+            row.boardObjects.Add(enemy);
+        }
+        rows.Add(row);
+    }
+    void AddEnemiesAfterBoss(int count)
+    {
+
+    }
+
 
 
 }
@@ -207,9 +223,11 @@ public class RandomWaveListSO : WaveListSO
 public class WaveContent
 {
     public WaveRow[] waveRows;
+    public Enemy[] AvailableEnemies;
     public LevelMultiplierSO levelMultiplier;
     public int LevelNumber;
     public int WaveNumber;
+    public bool IsAfterBoss = false;
     public float HPMultiplier => levelMultiplier != null ? levelMultiplier.GetWaveHpMultiplier(LevelNumber, WaveNumber) : 1f;
     public float AttackMultiplier => levelMultiplier != null ? levelMultiplier.GetWaveAttackMultiplier(LevelNumber) : 1f;
 }

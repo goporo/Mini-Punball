@@ -98,11 +98,13 @@ public struct OnWaveStartEvent : IGameEvent
   public int LevelNumber;
   public int WaveNumber;
   public Enemy[] AvailableEnemies;
+  public string WaveText;
 
-  public OnWaveStartEvent(int levelNumber, int waveNumber, Enemy[] availableEnemies = null)
+  public OnWaveStartEvent(int levelNumber, int waveNumber, string waveText, Enemy[] availableEnemies = null)
   {
     LevelNumber = levelNumber;
     WaveNumber = waveNumber;
+    WaveText = waveText;
     AvailableEnemies = availableEnemies;
   }
 }
@@ -138,4 +140,35 @@ public struct OnHitEvent : IGameEvent
     this.killed = killed;
     this.damageType = damageType;
   }
+}
+
+public struct BallStuckEvent : IGameEvent
+{
+  public int ElapsedSeconds;
+  public BallStuckEvent(int elapsedSeconds) => ElapsedSeconds = elapsedSeconds;
+}
+
+public struct OnBossWaveApproachingEvent : IGameEvent
+{
+}
+
+public struct OnBossWaveStartEvent : IGameEvent
+{
+  public Enemy BossEnemy;
+  public OnBossWaveStartEvent(Enemy bossEnemy) => BossEnemy = bossEnemy;
+}
+
+public struct LevelCompleteEvent : IGameEvent
+{
+  public LevelSO LevelData;
+  public LevelResult Result;
+  public LevelCompleteEvent(LevelSO levelData, LevelResult result)
+  {
+    LevelData = levelData;
+    Result = result;
+  }
+}
+
+public struct OnPlayerDiedEvent : IGameEvent
+{
 }

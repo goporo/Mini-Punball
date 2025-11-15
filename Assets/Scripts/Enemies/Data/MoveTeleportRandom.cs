@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 
@@ -7,14 +8,25 @@ public class MoveTeleportRandom : MoveBehavior
 {
   public override Vector2Int GetTargetCell(BoardObject boardObject)
   {
-    // var freeCells = board.GetAllFreeCells();
-    // return freeCells[Random.Range(0, freeCells.Count)];
-    return Vector2Int.zero;
+    var freeCell = LevelContext.Instance.BoardState.GetRandomEmptyCell();
+    if (freeCell != null)
+    {
+      return new Vector2Int(freeCell.Value.x, freeCell.Value.y);
+    }
+    return boardObject.CurrentCell;
   }
   public override IEnumerator AnimateMove(BoardObject boardObject, BoardState board)
   {
-    // simple teleport VFX
-    boardObject.transform.position = board.GetWorldPosition(boardObject.CurrentCell.x, boardObject.CurrentCell.y);
-    yield return new WaitForSeconds(0.1f);
+    // Warp VFX: shrink, move, grow
+    // Shrink to disappear
+    var shrinkTween = boardObject.transform.DOScale(Vector3.zero, 0.15f).SetEase(Ease.InBack);
+    yield return shrinkTween.WaitForCompletion();
+
+    // Move to new location (with offset if needed)
+    boardObject.transform.position = boardObject.GetAlignedWorldPosition(board);
+
+    // Grow to appear
+    var growTween = boardObject.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.OutBack);
+    yield return growTween.WaitForCompletion();
   }
 }

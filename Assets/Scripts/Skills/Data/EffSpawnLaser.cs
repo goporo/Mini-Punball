@@ -17,17 +17,17 @@ public class EffSpawnLaser : EffectSO<EffectContext>
     {
       startPoint = new Vector3(ctx.Enemy.Position.x - 10f, 1f, ctx.Enemy.Position.z);
       endPoint = new Vector3(ctx.Enemy.Position.x + 10f, 1f, ctx.Enemy.Position.z);
-      targets = GameContext.Instance.BoardState.GetRowObjects(ctx.Enemy.CurrentCell);
+      targets = LevelContext.Instance.BoardState.GetRowObjects(ctx.Enemy.CurrentCell);
     }
     else // Vertical
     {
       startPoint = new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z - 10f);
       endPoint = new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z + 10f);
-      targets = GameContext.Instance.BoardState.GetColumnObjects(ctx.Enemy.CurrentCell);
+      targets = LevelContext.Instance.BoardState.GetColumnObjects(ctx.Enemy.CurrentCell);
     }
 
     // Spawn laser VFX from centralized VFXManager pool (generic)
-    GameContext.Instance.VFXManager.SpawnVFX<LaserVFX, LaserVFXParams>(
+    LevelContext.Instance.VFXManager.SpawnVFX<LaserVFX, LaserVFXParams>(
       new LaserVFXParams
       {
         StartPoint = startPoint,

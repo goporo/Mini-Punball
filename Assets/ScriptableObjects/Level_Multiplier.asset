@@ -52,6 +52,8 @@ MonoBehaviour:
   - waveNumber: 19
     hpMultiplier: 0
   - waveNumber: 20
+    hpMultiplier: 30
+  - waveNumber: 21
     hpMultiplier: 37.5
   levelMultipliers:
   - levelNumber: 1

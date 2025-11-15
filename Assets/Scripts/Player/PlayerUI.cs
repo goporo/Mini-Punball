@@ -12,6 +12,7 @@ public class PlayerUI : MonoBehaviour, IHealthUI
     [SerializeField] private HealthComponent healthComponent;
 
 
+
     void OnEnable()
     {
         EventBus.Subscribe<BallCountChangedEvent>(OnBallCountChanged);
@@ -64,6 +65,8 @@ public class PlayerUI : MonoBehaviour, IHealthUI
         textHealth.text = $"{currentHealth}";
         barHealth.fillAmount = (float)currentHealth / maxHealth;
     }
+
+
 
 
 

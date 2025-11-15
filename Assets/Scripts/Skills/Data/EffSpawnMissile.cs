@@ -8,7 +8,7 @@ public class EffSpawnMissile : EffectSO<EffectContext>
   public GameObject missilePrefab;
   public override void Execute(EffectContext ctx)
   {
-    var targets = GameContext.Instance.BoardState.GetLowestHealthEnemies(count, ctx.Enemy);
+    var targets = LevelContext.Instance.BoardState.GetLowestHealthEnemies(count, ctx.Enemy);
 
     for (int i = 0; i < targets.Count; i++)
     {
@@ -17,7 +17,7 @@ public class EffSpawnMissile : EffectSO<EffectContext>
       if (target != null)
       {
         var damage = ctx.Player.Stats.Attack * multiplier;
-        GameContext.Instance.VFXManager.SpawnVFX<MissileVFX, MissileVFXParams>(
+        LevelContext.Instance.VFXManager.SpawnVFX<MissileVFX, MissileVFXParams>(
           new MissileVFXParams
           {
             Position = ctx.Enemy.Position,

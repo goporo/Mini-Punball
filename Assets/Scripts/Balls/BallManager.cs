@@ -1,11 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
+    private Coroutine ballStuckRoutine;
     [SerializeField] private BallDatabaseSO ballDatabaseSO;
 
     public List<BallBase> playerBalls = new(); // Balls player owns in order
@@ -45,6 +45,7 @@ public class BallManager : MonoBehaviour
         EventBus.Subscribe<BallFiredEvent>(OnBallFired);
         EventBus.Subscribe<BallReturnedEvent>(OnBallReturned);
         EventBus.Subscribe<PickupBallEvent>(HandlePickupBall);
+        EventBus.Subscribe<AllBallShotEvent>(OnAllBallShot);
     }
 
     private void OnDisable()
@@ -52,6 +53,7 @@ public class BallManager : MonoBehaviour
         EventBus.Unsubscribe<BallFiredEvent>(OnBallFired);
         EventBus.Unsubscribe<BallReturnedEvent>(OnBallReturned);
         EventBus.Unsubscribe<PickupBallEvent>(HandlePickupBall);
+        EventBus.Unsubscribe<AllBallShotEvent>(OnAllBallShot);
     }
 
     private void HandlePickupBall(PickupBallEvent e)
@@ -61,7 +63,7 @@ public class BallManager : MonoBehaviour
 
     public void AddBall(BallType? type = null)
     {
-        BallType ballType = type ?? characterSO.BallConfig.BallType;
+        BallType ballType = type ?? characterSO.BaseBallConfig.BallType;
         var ballConfig = ballDatabaseSO.GetConfig(ballType);
         var ballObj = Instantiate(ballConfig.BallPrefab, transform);
         var ballBase = ballObj.GetComponent<BallBase>();
@@ -98,8 +100,18 @@ public class BallManager : MonoBehaviour
 
         if (activeBalls.Count == 0)
         {
-            EventBus.Publish(new AllBallReturnedEvent(new List<BallBase>(returnedBalls)));
-            ResetForNextWave();
+            HandleAllBallReturned();
+        }
+    }
+
+    private void HandleAllBallReturned()
+    {
+        EventBus.Publish(new AllBallReturnedEvent(new List<BallBase>(returnedBalls)));
+        ResetForNextWave();
+        if (ballStuckRoutine != null)
+        {
+            StopCoroutine(ballStuckRoutine);
+            ballStuckRoutine = null;
         }
     }
 
@@ -130,5 +142,33 @@ public class BallManager : MonoBehaviour
         ballPhysics?.ResetState();
         return ballBase;
     }
+
+    public void ForceBallsReturn()
+    {
+        foreach (var ball in activeBalls.ToList())
+        {
+            ball.Physics.ForceReturn();
+        }
+    }
+
+
+    private void OnAllBallShot(AllBallShotEvent e)
+    {
+        if (activeBalls.Count > 0)
+        {
+            ballStuckRoutine = StartCoroutine(BallStuckCoroutine());
+        }
+    }
+
+    private IEnumerator BallStuckCoroutine()
+    {
+        const int limitTime = 20;
+        yield return new WaitForSeconds(limitTime);
+        if (activeBalls.Count > 0)
+        {
+            EventBus.Publish(new BallStuckEvent(limitTime));
+        }
+    }
+
 
 }

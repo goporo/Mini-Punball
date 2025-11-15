@@ -39,7 +39,8 @@ public class PlayerController : MonoBehaviour
 
   void HandleAllBallsReturned(AllBallReturnedEvent e)
   {
-    MoveCharacter(e.ReturnedBalls[0].transform.position);
+    if (e.ReturnedBalls.Count > 0)
+      MoveCharacter(e.ReturnedBalls[0].transform.position);
   }
 
   public void MoveCharacter(Vector3 pos)
@@ -50,9 +51,7 @@ public class PlayerController : MonoBehaviour
 
   public void HandleDeath()
   {
-    // Handle player death logic here
-    Debug.Log("Player has died.");
+    EventBus.Publish(new OnPlayerDiedEvent());
   }
-
 
 }

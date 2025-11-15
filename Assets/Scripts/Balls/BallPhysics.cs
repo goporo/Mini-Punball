@@ -138,4 +138,17 @@ public class BallPhysics : MonoBehaviour
         EventBus.Publish(new BallReturnedEvent(ball));
     }
 
+    public void ForceReturn()
+    {
+        if (isReturnable)
+        {
+            var player = LevelContext.Instance.Player;
+            Vector3 returnDirection = (player.transform.position - transform.position).normalized;
+            SetDirection(returnDirection);
+
+            HandleBallReturned(ballBase);
+        }
+
+    }
+
 }

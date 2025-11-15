@@ -49,17 +49,12 @@ public class Collectible : MonoBehaviour
   public IEnumerator AnimateToPlayer()
   {
     DOTween.Kill(transform);
-    Vector3 playerPosition = GameContext.Instance.Player.transform.position;
+    Vector3 playerPosition = LevelContext.Instance.Player.transform.position;
     Tween moveTween = AnimationUtility.PlayMove(transform, playerPosition, animationDuration, Ease.InQuad);
     yield return moveTween.WaitForCompletion();
+    yield return null;
     Destroy(gameObject);
   }
-  private void KillTweens()
-  {
-    DOTween.Kill(transform);
-    DOTween.Kill(gameObject);
-  }
-
 
 }
 

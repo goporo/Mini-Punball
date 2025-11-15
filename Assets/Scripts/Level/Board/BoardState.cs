@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Unity.VisualScripting;
 
 public class BoardState : MonoBehaviour
 {
   [SerializeField] private int width = 6;
   [SerializeField] private int height = 8;
   [SerializeField] private float cellSize = 1f;
+  public float CellSize => cellSize;
   [SerializeField] private Vector3 origin = Vector3.zero;
   [SerializeField] private bool showBoardGrid = true;
 
   private BoardObject[,] grid;
 
-  // Simple event for debug updates
   public static System.Action OnBoardChanged;
 
   private void Awake()
@@ -23,12 +22,12 @@ public class BoardState : MonoBehaviour
 
   public List<BoardObject> GetAllBoardObjects()
   {
-    var objects = new List<BoardObject>();
+    var objects = new HashSet<BoardObject>();
     for (int x = 0; x < width; x++)
       for (int y = 0; y < height; y++)
         if (grid[x, y] != null)
           objects.Add(grid[x, y]);
-    return objects;
+    return objects.ToList();
   }
 
   public List<Enemy> GetAllEnemies()
@@ -45,31 +44,22 @@ public class BoardState : MonoBehaviour
     return enemies[Random.Range(0, enemies.Count)];
   }
 
-  public Enemy GetLowestHealthEnemy(Enemy exclude = null)
-  {
-    var enemies = exclude == null
-        ? GetAllEnemies()
-        : GetAllEnemies().Where(e => e != exclude).ToList();
-
-    if (enemies.Count == 0 && exclude != null)
-      return exclude;
-
-    if (enemies.Count == 0) return null;
-    return enemies.OrderBy(e => e.HealthComponent.CurrentHealth).First();
-  }
-
   public List<Enemy> GetLowestHealthEnemies(int count, Enemy exclude = null)
   {
     var enemies = exclude == null
-        ? GetAllEnemies()
-        : GetAllEnemies().Where(e => e != exclude).ToList();
+      ? GetAllEnemies()
+      : GetAllEnemies().Where(e => e != exclude).ToList();
 
     var sorted = enemies
-        .OrderBy(e => e.HealthComponent.CurrentHealth)
-        .ToList();
+      .OrderBy(e => e.HealthComponent.CurrentHealth)
+      .ToList();
 
     if (sorted.Count == 0)
+    {
+      if (exclude != null)
+        return Enumerable.Repeat(exclude, count).ToList();
       return new List<Enemy>();
+    }
 
     // Fill up with the first enemy if not enough
     while (sorted.Count < count)
@@ -101,31 +91,32 @@ public class BoardState : MonoBehaviour
 
   public bool IsEmpty(int x, int y)
   {
+    if (!IsInside(new Vector2Int(x, y))) return false;
     return grid[x, y] == null;
   }
 
 
   public List<BoardObject> GetSurroundingObjects(Vector2Int center, int radius)
   {
-    List<BoardObject> objects = new List<BoardObject>();
+    var objects = new HashSet<BoardObject>();
     for (int dx = -radius; dx <= radius; dx++)
     {
       for (int dy = -radius; dy <= radius; dy++)
       {
         if (dx == 0 && dy == 0) continue; // Skip center
-        Vector2Int pos = new Vector2Int(center.x + dx, center.y + dy);
+        Vector2Int pos = new(center.x + dx, center.y + dy);
         if (IsInside(pos) && grid[pos.x, pos.y] != null)
         {
           objects.Add(grid[pos.x, pos.y]);
         }
       }
     }
-    return objects;
+    return objects.ToList();
   }
 
   public List<BoardObject> GetRowObjects(Vector2Int original)
   {
-    List<BoardObject> rowObjects = new List<BoardObject>();
+    var rowObjects = new HashSet<BoardObject>();
     for (int x = 0; x < width; x++)
     {
       if (grid[x, original.y] != null)
@@ -133,12 +124,12 @@ public class BoardState : MonoBehaviour
         rowObjects.Add(grid[x, original.y]);
       }
     }
-    return rowObjects;
+    return rowObjects.ToList();
   }
 
   public List<BoardObject> GetColumnObjects(Vector2Int original)
   {
-    List<BoardObject> columnObjects = new List<BoardObject>();
+    var columnObjects = new HashSet<BoardObject>();
     for (int y = 0; y < height; y++)
     {
       if (grid[original.x, y] != null)
@@ -146,70 +137,163 @@ public class BoardState : MonoBehaviour
         columnObjects.Add(grid[original.x, y]);
       }
     }
-    return columnObjects;
+    return columnObjects.ToList();
   }
 
 
   public bool PlaceObject(BoardObject boardObject, Vector2Int cell)
   {
-    if (!IsEmpty(cell.x, cell.y))
-      return false;
-    grid[cell.x, cell.y] = boardObject;
     boardObject.SetCell(cell);
+    // Check if all occupied cells are empty
+    foreach (var occupiedCell in boardObject.OccupiedCells)
+    {
+      if (!IsInside(occupiedCell) || (grid[occupiedCell.x, occupiedCell.y] != null))
+        return false;
+    }
+    // Place object in all occupied cells
+    foreach (var occupiedCell in boardObject.OccupiedCells)
+    {
+      grid[occupiedCell.x, occupiedCell.y] = boardObject;
+    }
+    boardObject.transform.position = boardObject.GetAlignedWorldPosition(this);
 
-    var pos = GetWorldPosition(cell.x, cell.y);
-    boardObject.transform.position = pos;
-
-    // Notify debugger
     OnBoardChanged?.Invoke();
 
     return true;
   }
 
-  private int TotalObjects()
-  {
-    int count = 0;
-    for (int x = 0; x < width; x++)
-      for (int y = 0; y < height; y++)
-        if (grid[x, y] != null) count++;
-    return count;
-  }
-
   public void ClearCell(Vector2Int cell)
   {
-    grid[cell.x, cell.y] = null;
+    var obj = grid[cell.x, cell.y];
+    if (obj == null) return;
+
+    // Clear all cells occupied by this object
+    foreach (var occupiedCell in obj.OccupiedCells)
+    {
+      if (IsInside(occupiedCell))
+        grid[occupiedCell.x, occupiedCell.y] = null;
+    }
 
     // Notify debugger
     OnBoardChanged?.Invoke();
   }
 
-  public (int x, int y)? GetRandomEmptyCell(int row)
+  public void ClearCells(IEnumerable<Vector2Int> cells)
+  {
+    foreach (var cell in cells)
+    {
+      ClearCell(cell);
+    }
+  }
+
+  public (int x, int y)? GetRowEmptyCell(int row, Vector2Int requireSize)
   {
     var emptyCells = new List<(int, int)>();
-    for (int x = 0; x < width; x++)
+    for (int x = 0; x <= width - requireSize.x; x++)
     {
-      if (IsEmpty(x, row)) emptyCells.Add((x, row));
+      bool allEmpty = true;
+      for (int dx = 0; dx < requireSize.x; dx++)
+      {
+        for (int dy = 0; dy < requireSize.y; dy++)
+        {
+          int checkX = x + dx;
+          int checkY = row + dy;
+          if (!IsInside(new Vector2Int(checkX, checkY)) || !IsEmpty(checkX, checkY))
+          {
+            allEmpty = false;
+            break;
+          }
+        }
+        if (!allEmpty) break;
+      }
+      if (allEmpty)
+        emptyCells.Add((x, row));
     }
 
     if (emptyCells.Count == 0) return null;
     return emptyCells[Random.Range(0, emptyCells.Count)];
   }
 
+  public (int x, int y)? GetRandomEmptyCell()
+  {
+    int[] validRows = { 1, 2, 3, 4, 5, 6 };
+    var emptyCells = new List<(int, int)>();
+    foreach (int row in validRows)
+    {
+      for (int x = 0; x < width; x++)
+      {
+        if (IsEmpty(x, row)) emptyCells.Add((x, row));
+      }
+    }
+
+    if (emptyCells.Count == 0) return null;
+    return emptyCells[Random.Range(0, emptyCells.Count)];
+  }
+
+  public (int x, int y)? GetRandom2x2EmptyCell(int[] validRows = null)
+  {
+    if (validRows == null || !validRows.Any())
+    {
+      validRows = new int[] { 1, 2, 3, 4, 5 };
+    }
+    var emptyCells = new List<(int, int)>();
+    foreach (int row in validRows)
+    {
+      for (int x = 0; x < width - 1; x++) // -1 to ensure 2x2 fits
+      {
+        // Check all 4 cells in the 2x2 block
+        if (IsEmpty(x, row) && IsEmpty(x + 1, row) && IsEmpty(x, row + 1) && IsEmpty(x + 1, row + 1))
+        {
+          emptyCells.Add((x, row)); // bottom-left origin
+        }
+      }
+    }
+    if (emptyCells.Count == 0) return null;
+    return emptyCells[Random.Range(0, emptyCells.Count)];
+  }
+
   public bool TryMove(BoardObject boardObject, Vector2Int target)
   {
-    if (!IsInside(target) || IsOccupied(target)) return false;
+    // Calculate all cells the object would occupy at the target position
+    var targetCells = new List<Vector2Int>();
+    for (int x = 0; x < boardObject.Size.x; x++)
+    {
+      for (int y = 0; y < boardObject.Size.y; y++)
+      {
+        var cell = target + new Vector2Int(x, y);
+        if (!IsInside(cell))
+          return false;
+        targetCells.Add(cell);
+      }
+    }
 
-    grid[boardObject.CurrentCell.x, boardObject.CurrentCell.y] = null;
-    grid[target.x, target.y] = boardObject;
+    // Check if all target cells are empty (or occupied by the same object)
+    foreach (var cell in targetCells)
+    {
+      if (grid[cell.x, cell.y] != null && grid[cell.x, cell.y] != boardObject)
+        return false;
+    }
+
+    // Clear old cells
+    foreach (var cell in boardObject.OccupiedCells)
+    {
+      grid[cell.x, cell.y] = null;
+    }
+
+    // Set new position
     boardObject.SetCell(target);
 
-    // Notify debugger
+    // Occupy new cells
+    foreach (var cell in boardObject.OccupiedCells)
+    {
+      grid[cell.x, cell.y] = boardObject;
+    }
+
     OnBoardChanged?.Invoke();
 
     return true;
   }
 
-  public bool IsOccupied(Vector2Int pos) => grid[pos.x, pos.y] != null;
 
   public bool IsInside(Vector2Int pos) => pos.x >= 0 && pos.y >= 0 && pos.x < grid.GetLength(0) && pos.y < grid.GetLength(1);
 

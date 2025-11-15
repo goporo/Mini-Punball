@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class SkillRuntime : IDisposable
 {
   public PlayerSkillSO skill;
-  public PlayerRunStats player => GameContext.Instance.Player;
+  public PlayerRunStats player => LevelContext.Instance.Player;
   public List<IDisposable> subscriptions = new();
   public int stackCount = 1; // Track skill stacks
 

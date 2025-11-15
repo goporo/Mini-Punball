@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Enemy_Pea
   m_EditorClassIdentifier: 
   Name: Pea Shooter
-  Variant: 0
+  Type: 0
   Specie: 0
+  Icon: {fileID: 21300000, guid: 3b7ca1824ccc1ee4b8bcc809f0646fe2, type: 3}
   Description: Shoot a pea attack
   baseHealth: 320
   baseAttack: 20
-  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
   deathEffect: {fileID: 11400000, guid: 6971be3ce9013054eaef743527898c5f, type: 2}
   enemySkillBehavior: {fileID: 11400000, guid: ee249d54af7a8fe46aa1c03f0e520754, type: 2}

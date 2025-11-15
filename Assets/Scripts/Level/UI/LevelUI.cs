@@ -10,9 +10,12 @@ public class LevelUI : MonoBehaviour
     [SerializeField] private GameObject panelNewMonsterInfo;
     [SerializeField] private TMP_Text textNewMonsterInfoName;
     [SerializeField] private TMP_Text textNewMonsterInfoDescription;
+    [SerializeField] private Image enemyIcon;
     [SerializeField] private GameObject panelNewSkillInfo;
     [SerializeField] private TMP_Text textNewSkillName;
     [SerializeField] private TMP_Text textNewSkillDescription;
+    [SerializeField] private PanelLevelComplete panelLevelComplete;
+
 
     private float panelDisplayDuration = 3f;
 
@@ -26,16 +29,24 @@ public class LevelUI : MonoBehaviour
     {
         EventBus.Subscribe<OnWaveStartEvent>(HandleWaveChange);
         EventBus.Subscribe<OnSkillPickedEvent>(HandleSkillPicked);
+        EventBus.Subscribe<LevelCompleteEvent>(HandleLevelComplete);
     }
     void OnDisable()
     {
         EventBus.Unsubscribe<OnWaveStartEvent>(HandleWaveChange);
         EventBus.Unsubscribe<OnSkillPickedEvent>(HandleSkillPicked);
+        EventBus.Unsubscribe<LevelCompleteEvent>(HandleLevelComplete);
+    }
+
+    private void HandleLevelComplete(LevelCompleteEvent e)
+    {
+        panelLevelComplete.Setup(e.Result);
+
     }
 
     private void HandleWaveChange(OnWaveStartEvent e)
     {
-        textWaveNumber.text = $"{e.WaveNumber}";
+        textWaveNumber.text = e.WaveText;
 
         int monsterIndex = -1;
         if (e.WaveNumber == 1)
@@ -49,6 +60,7 @@ public class LevelUI : MonoBehaviour
         {
             textNewMonsterInfoName.text = e.AvailableEnemies[monsterIndex].Data.Name;
             textNewMonsterInfoDescription.text = e.AvailableEnemies[monsterIndex].Data.Description;
+            enemyIcon.sprite = e.AvailableEnemies[monsterIndex].Data.Icon;
             panelNewMonsterInfo.SetActive(true);
             StartCoroutine(HideNewMonsterInfoAfterDelay(panelDisplayDuration));
         }

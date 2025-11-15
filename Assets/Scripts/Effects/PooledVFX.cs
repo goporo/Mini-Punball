@@ -24,7 +24,7 @@ public abstract class PooledVFX : MonoBehaviour
   public virtual void OnSpawn()
   {
     isActive = true;
-    GameContext.Instance.VFXManager.RegisterEffect();
+    LevelContext.Instance.VFXManager.RegisterEffect();
   }
 
   /// <summary>
@@ -34,7 +34,7 @@ public abstract class PooledVFX : MonoBehaviour
   public virtual void OnDespawn()
   {
     isActive = false;
-    GameContext.Instance.VFXManager.UnregisterEffect();
+    LevelContext.Instance.VFXManager.UnregisterEffect();
   }
 
   /// <summary>

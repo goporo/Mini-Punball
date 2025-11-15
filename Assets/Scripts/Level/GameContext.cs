@@ -1,11 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.VFX;
 
 
-public class GameContext : Singleton<GameContext>
+public class LevelContext : Singleton<LevelContext>
 {
-
   public PlayerRunStats Player { get; private set; }
   public LevelController LevelController { get; private set; }
   public SkillManager SkillManager { get; private set; }
@@ -27,6 +25,24 @@ public class GameContext : Singleton<GameContext>
     BoardState = FindObjectOfType<BoardState>();
     VFXManager = FindObjectOfType<VFXManager>();
     UIPool = FindObjectOfType<UIPool>();
+  }
+
+  public void CleanUp()
+  {
+    ForceStopAllCoroutines();
+    DG.Tweening.DOTween.KillAll();
+  }
+
+  private void ForceStopAllCoroutines()
+  {
+    LevelController?.StopAllCoroutines();
+    SkillManager?.StopAllCoroutines();
+    ComboManager?.StopAllCoroutines();
+    PickupManager?.StopAllCoroutines();
+    BoardState?.StopAllCoroutines();
+    VFXManager?.StopAllCoroutines();
+    UIPool?.StopAllCoroutines();
+    // Add more as needed
   }
 }
 

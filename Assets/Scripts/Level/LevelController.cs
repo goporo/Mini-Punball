@@ -16,11 +16,38 @@ public class LevelController : MonoBehaviour
     private int currentWave = 1;
     public int CurrentLevel => currentLevel;
     public int CurrentWave => currentWave;
+    private bool isLevelComplete = false;
 
     void Awake()
     {
         waveController = GetComponent<WaveController>();
         boardManager.InitBoard(levelData);
+    }
+
+    void OnEnable()
+    {
+        EventBus.Subscribe<OnHitEvent>(HandleOnEnemyHit);
+        EventBus.Subscribe<OnPlayerDiedEvent>(HandleOnPlayerDied);
+    }
+
+    void OnDisable()
+    {
+        EventBus.Unsubscribe<OnHitEvent>(HandleOnEnemyHit);
+        EventBus.Unsubscribe<OnPlayerDiedEvent>(HandleOnPlayerDied);
+    }
+
+    private void HandleOnPlayerDied(OnPlayerDiedEvent e)
+    {
+        // Optionally handle player death (e.g., stop level, show UI, etc.)
+        Debug.Log("💀 Player died! Level failed.");
+        StopAllCoroutines();
+        OnLevelComplete(LevelResult.Lose);
+    }
+
+    private void HandleOnEnemyHit(OnHitEvent e)
+    {
+        if (e.killed && e.enemy.Data.Variant == EnemyVariant.Boss)
+            OnLevelComplete(LevelResult.Win);
     }
 
     private void Start()
@@ -30,7 +57,7 @@ public class LevelController : MonoBehaviour
 
     private IEnumerator RunLevel()
     {
-        while (true)
+        while (true && !isLevelComplete)
         {
             Debug.Log($"▶️ Starting wave {currentWave}");
             yield return waveController.RunWave(currentLevel, currentWave, levelData);
@@ -39,9 +66,17 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    private void OnLevelComplete()
+    private void OnLevelComplete(LevelResult result)
     {
-        Debug.Log("🏁 Level complete!");
+        isLevelComplete = true;
+        LevelContext.Instance.CleanUp();
+        StartCoroutine(WaitAndCompleteLevel(result));
+    }
+
+    private IEnumerator WaitAndCompleteLevel(LevelResult result)
+    {
+        yield return new WaitForSeconds(1f);
+        EventBus.Publish(new LevelCompleteEvent(levelData, result));
         // Show summary, unlock next level, etc.
     }
 
@@ -49,7 +84,7 @@ public class LevelController : MonoBehaviour
     {
         if (Time.timeScale == 1f)
         {
-            Time.timeScale = 3f;
+            Time.timeScale = 5f;
             return;
         }
         Time.timeScale = 1f;

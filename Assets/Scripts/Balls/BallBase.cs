@@ -11,14 +11,18 @@ public class BallBase : MonoBehaviour
 
     private PlayerRunStats playerRunStats;
     private Vector3 initialDirection;
+    public BallPhysics Physics { get; private set; }
 
+    void Awake()
+    {
+        Physics = GetComponent<BallPhysics>();
+    }
 
     public void Init(PlayerRunStats playerRunStats, Vector3 initialDirection)
     {
         this.playerRunStats = playerRunStats;
         this.initialDirection = initialDirection;
-        var ballPhysics = GetComponent<BallPhysics>();
-        ballPhysics?.Init(playerRunStats, config, initialDirection);
+        Physics.Init(playerRunStats, config, initialDirection);
     }
 
 

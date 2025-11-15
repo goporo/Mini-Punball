@@ -9,6 +9,14 @@ public enum EnemyVariant
 public enum EnemySpecie
 {
     Skeleton,
+    PeaShooter,
+    Slime,
+    Bomber,
+    Shielder,
+    Spider,
+    Summoner,
+    Poisoner,
+    Healer
 
 }
 
@@ -21,6 +29,7 @@ public class EnemySO : ScriptableObject, IBoardData
     public string Name;
     public EnemyVariant Variant;
     public EnemySpecie Specie;
+    public Sprite Icon;
 
     [TextArea] public string Description;
 
@@ -29,7 +38,6 @@ public class EnemySO : ScriptableObject, IBoardData
     public int baseAttack = 10;
 
     [Header("Behaviors")]
-    public MoveBehavior moveBehavior;
     public DeathEffect deathEffect;
     public EnemySkillBehavior enemySkillBehavior;
 

@@ -8,7 +8,7 @@ public class ESkillRanged : EnemySkillBehavior
   [SerializeField] private GameObject projectilePrefab;
   public override IEnumerator UseSkill(Enemy enemy, BoardState board)
   {
-    var player = GameContext.Instance.Player;
+    var player = LevelContext.Instance.Player;
     var projectile = Instantiate(projectilePrefab, enemy.Position - Vector3.forward * 0.5f, Quaternion.identity).GetComponent<Projectile>();
     projectile.SetTarget(player, () =>
     {

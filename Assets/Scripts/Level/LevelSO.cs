@@ -1,14 +1,24 @@
+using System;
 using UnityEngine;
 
+
+[Serializable]
+public struct BossList
+{
+    public int spawnWave;
+    public Enemy bossEnemy;
+}
 [CreateAssetMenu(fileName = "LevelSO", menuName = "MiniPunBall/LevelSO", order = 0)]
 public class LevelSO : ScriptableObject
 {
     public int LevelNumber;
     public GameObject boardPrefab;
     public Enemy[] availableEnemies; // e.g., goblin, orc, archer
-    [HideInInspector] public int spawnLine = 1; // z-axis position where enemies spawn
 
-    public int totalWaves = 20;
+    [SerializeField] private BossList[] bossLists;
+    [SerializeField] private int totalWaves;
+    public BossList[] BossLists => bossLists;
+    public int TotalWaves => totalWaves;
     public WaveListSO waveListSO;
 
     private void OnValidate()

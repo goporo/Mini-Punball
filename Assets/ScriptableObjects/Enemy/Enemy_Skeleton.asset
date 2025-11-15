@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Enemy_Skeleton
   m_EditorClassIdentifier: 
   Name: Skeleton
-  Variant: 0
+  Type: 0
   Specie: 0
+  Icon: {fileID: 21300000, guid: da00effae492ced47ae74f8ca12fea0a, type: 3}
   Description: Like a little pawn in chess
   baseHealth: 400
   baseAttack: 100
-  moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
   deathEffect: {fileID: 11400000, guid: 6971be3ce9013054eaef743527898c5f, type: 2}
   enemySkillBehavior: {fileID: 11400000, guid: 9eeee0b1a238a7e4f9ada32901825aad, type: 2}

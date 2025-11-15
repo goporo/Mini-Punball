@@ -70,6 +70,7 @@ public class PickupManager : MonoBehaviour
     pendingCollects.Clear();
 
     Queue<CollectibleType> boxes = new();
+
     while (pendingCollectTypes.Count > 0)
     {
       var type = pendingCollectTypes.Dequeue();
@@ -85,7 +86,7 @@ public class PickupManager : MonoBehaviour
             EventBus.Publish(new PickupBallEvent());
             break;
           case CollectibleType.Health:
-            int healAmount = levelMultiplierSO.GetWaveHealAmount(GameContext.Instance.LevelController.CurrentLevel);
+            int healAmount = levelMultiplierSO.GetWaveHealAmount(LevelContext.Instance.LevelController.CurrentLevel);
             EventBus.Publish(new PickupHealthEvent(healAmount));
             break;
           case CollectibleType.Coin:

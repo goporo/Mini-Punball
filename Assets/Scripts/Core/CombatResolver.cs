@@ -8,7 +8,7 @@ public struct HitResult
 
 public class ResolveBallHitContext : IEffectContext
 {
-  public PlayerRunStats Player => GameContext.Instance.Player;
+  public PlayerRunStats Player => LevelContext.Instance.Player;
   public Enemy Enemy;
   public int BallDamage;
   public EffectSO<EffectContext> OnHitEffect;
@@ -29,7 +29,7 @@ public class ResolveBallHitContext : IEffectContext
 
 public class ResolveEffectHitContext : IEffectContext
 {
-  public PlayerRunStats Player => GameContext.Instance.Player;
+  public PlayerRunStats Player => LevelContext.Instance.Player;
   public Enemy Enemy;
   public int Damage;
   public IStatusEffect StatusEffect;
@@ -61,7 +61,7 @@ public class CombatResolver : Singleton<CombatResolver>
   public HitResult ResolveBallHit(ResolveBallHitContext ctx)
   {
     // 1) compute damage (from player stats, ball stats, skills, etc.)
-    int damage = ComputeDamage(ctx.Player.Stats.Attack, ctx.BallDamage);
+    int damage = ComputeDamage(ctx.Player.Stats.Attack, ctx.BallDamage, ctx.HitboxType, ctx.Enemy);
     var dmgCtx = new DamageContext
     {
       amount = damage,
@@ -81,11 +81,11 @@ public class CombatResolver : Singleton<CombatResolver>
     // 3.1) apply StatusEffect from hitbox (if any)
 
     // 4) update global combo (if you count each contact)
-    GameContext.Instance.ComboManager.Increment(1);
+    LevelContext.Instance.ComboManager.Increment(1);
 
     // 5) publish ONE rich event for reactions (skills, UI, sounds)
     var evt = new OnHitEvent(
-        GameContext.Instance.Player,
+        LevelContext.Instance.Player,
         ctx.Enemy,
         damage,
         killed,
@@ -117,7 +117,7 @@ public class CombatResolver : Singleton<CombatResolver>
 
     // 5) publish ONE rich event for reactions (skills, UI, sounds)
     var evt = new OnHitEvent(
-        GameContext.Instance.Player,
+        LevelContext.Instance.Player,
         ctx.Enemy,
         damage,
         killed,
@@ -150,7 +150,7 @@ public class CombatResolver : Singleton<CombatResolver>
   {
     if (dmgCtx.amount <= 0) return;
 
-    var player = GameContext.Instance.Player;
+    var player = LevelContext.Instance.Player;
     var damageText = "-" + GameUtils.FormatHealthText(dmgCtx.amount);
     SpawnDamagePopup(player.Position, damageText, dmgCtx.damageType);
 
@@ -160,7 +160,7 @@ public class CombatResolver : Singleton<CombatResolver>
 
   public void SpawnDamagePopup(Vector3 pos, string dmgTxt, DamageType dmgType)
   {
-    var pool = GameContext.Instance.UIPool;
+    var pool = LevelContext.Instance.UIPool;
     var popup = pool.GetDamagePopup();
     popup.transform.SetParent(pool.transform, false);
 
@@ -170,9 +170,26 @@ public class CombatResolver : Singleton<CombatResolver>
     popup.GetComponent<DamagePopup>().Setup(pos, damageText, color, pool);
   }
 
-  private int ComputeDamage(int playerAttack, int baseDamage)
+  private int ComputeDamage(int playerAttack, int baseDamage, HitboxType hitboxType, Enemy enemy)
   {
-    var baseDmg = Mathf.RoundToInt(playerAttack * baseDamage);
-    return baseDmg;
+    var totalDmg = Mathf.RoundToInt(playerAttack * baseDamage);
+    switch (hitboxType)
+    {
+      case HitboxType.Front:
+        if (enemy.Data.Specie == EnemySpecie.Shielder)
+        {
+          totalDmg = 0;
+        }
+        break;
+      case HitboxType.Side:
+        // no modifier
+        break;
+      case HitboxType.Back:
+        break;
+      default:
+        break;
+    }
+
+    return totalDmg;
   }
 }

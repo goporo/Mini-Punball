@@ -167,6 +167,10 @@ PrefabInstance:
       propertyPath: MoveBehavior
       value: 
       objectReference: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
+    - target: {fileID: 2205894756330936954, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
+      propertyPath: moveBehavior
+      value: 
+      objectReference: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
     - target: {fileID: 2630661152810303810, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -206,6 +210,10 @@ PrefabInstance:
     - target: {fileID: 2630661152810303810, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3371847740223901055, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2774296609305557522, guid: 4e7db5da3cb45bd458306a509473b55c, type: 3}

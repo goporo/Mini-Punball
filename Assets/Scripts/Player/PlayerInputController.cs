@@ -66,7 +66,7 @@ public class PlayerInputController : MonoBehaviour
   void Start()
   {
     int ballCount = GlobalContext.Instance.CharacterSO.BaseBallsCount;
-    BallType ballType = GlobalContext.Instance.CharacterSO.BallConfig.BallType;
+    BallType ballType = GlobalContext.Instance.CharacterSO.BaseBallConfig.BallType;
     List<BallType> ballList = Enumerable.Repeat(ballType, ballCount).ToList();
     ballManager.Init(ballList);
   }

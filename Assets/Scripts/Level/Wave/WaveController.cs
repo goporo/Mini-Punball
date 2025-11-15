@@ -28,6 +28,7 @@ public class WaveController : MonoBehaviour
   private WaveState _currentState = WaveState.Idle;
   private int currentLevelNumber;
   private int currentWaveNumber;
+  private int totalWaves;
 
   private LevelSO levelData;
   public WaveState CurrentState => _currentState;
@@ -38,6 +39,16 @@ public class WaveController : MonoBehaviour
     currentLevelNumber = levelNumber;
     currentWaveNumber = waveNumber;
     this.levelData = levelData;
+    this.totalWaves = levelData.TotalWaves;
+    if (waveNumber == totalWaves - 1)
+    {
+      Debug.Log("[WaveController] Boss wave approaching!");
+      EventBus.Publish(new OnBossWaveApproachingEvent());
+    }
+    else if (waveNumber == totalWaves)
+    {
+      EventBus.Publish(new OnBossWaveStartEvent(levelData.BossLists[levelNumber - 1].bossEnemy));
+    }
 
 
     yield return ExecuteStateMachine();
@@ -106,8 +117,10 @@ public class WaveController : MonoBehaviour
   private IEnumerator SpawnEnemiesPhase(int levelNumber, int waveNumber)
   {
     Enemy[] availableEnemies = levelData.availableEnemies;
-    EventBus.Publish(new OnWaveStartEvent(levelNumber, waveNumber, availableEnemies));
-    yield return waveSpawner.SpawnWave(waveList.GenerateWave(levelNumber, waveNumber, availableEnemies));
+    BossList[] bossLists = levelData.BossLists;
+    string waveText = waveNumber >= totalWaves ? "Boss" : $"{waveNumber}";
+    EventBus.Publish(new OnWaveStartEvent(levelNumber, waveNumber, waveText, availableEnemies));
+    yield return waveSpawner.SpawnWave(waveList.GenerateWave(levelNumber, waveNumber, availableEnemies, bossLists, totalWaves));
   }
 
   private IEnumerator ApplyEnemyStatusPhase()
@@ -125,7 +138,7 @@ public class WaveController : MonoBehaviour
 
   private IEnumerator CollectPickupPhase()
   {
-    yield return GameContext.Instance.PickupManager.ProcessAllCollects();
+    yield return LevelContext.Instance.PickupManager.ProcessAllCollects();
     // TODO: Add VFX waiting here if needed
     // yield return WaitForVFX("PickupVFX");
   }
@@ -145,7 +158,7 @@ public class WaveController : MonoBehaviour
   private IEnumerator WaitAllEffectsFinished()
   {
     Debug.Log("Waiting for all effects to finish...");
-    yield return new WaitUntil(() => GameContext.Instance.VFXManager.AllEffectsFinished());
+    yield return new WaitUntil(() => LevelContext.Instance.VFXManager.AllEffectsFinished());
     yield return waitABit;
 
   }

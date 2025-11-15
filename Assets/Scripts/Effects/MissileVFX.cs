@@ -30,19 +30,27 @@ public class MissileVFX : BaseVFX<MissileVFXParams>
 
     Vector3 start = transform.position;
     Vector3 end = target.Position;
-    Vector3 mid = (start + end) / 2 + Vector3.up * Random.Range(1.5f, 2.5f)
-                  + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+    Vector3 mid;
+    if (start == end)
+    {
+      mid = start + Vector3.up * Random.Range(2f, 3f);
+    }
+    else
+    {
+      mid = (start + end) / 2 + Vector3.up * Random.Range(1.5f, 2.5f)
+            + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+    }
     Vector3[] path = { start, mid, end };
-    float duration = Vector3.Distance(start, end) / speed;
+    float duration = Mathf.Max(Vector3.Distance(start, end), 1f) / speed;
 
     moveTween = transform.DOPath(path, duration, PathType.CatmullRom)
-      .SetEase(Ease.Linear)
-      .OnComplete(() =>
-      {
-        if (target != null)
-          onHit?.Invoke();
-        RequestDone();
-      });
+        .SetEase(Ease.Linear)
+        .OnComplete(() =>
+        {
+          if (target != null)
+            onHit?.Invoke();
+          RequestDone();
+        });
   }
 
   private void Update()
