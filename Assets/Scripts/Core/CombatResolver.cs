@@ -1,74 +1,31 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-
-public struct HitResult
-{
-  public int finalDamage;
-  public bool killed;
-}
-
-public class ResolveBallHitContext : IEffectContext
-{
-  public PlayerRunStats Player => LevelContext.Instance.Player;
-  public Enemy Enemy;
-  public int BallDamage;
-  public EffectSO<EffectContext> OnHitEffect;
-  public IStatusEffect StatusEffect;
-  public DamageType DamageType;
-  public HitboxType HitboxType;
-
-  public ResolveBallHitContext(Enemy enemy, int ballDamage, EffectSO<EffectContext> onHitEffect, DamageType damageType)
-  {
-    Enemy = enemy;
-    BallDamage = ballDamage;
-    OnHitEffect = onHitEffect;
-    DamageType = damageType;
-  }
-  // Add more fields as needed
-}
-
-
-public class ResolveEffectHitContext : IEffectContext
-{
-  public PlayerRunStats Player => LevelContext.Instance.Player;
-  public Enemy Enemy;
-  public int Damage;
-  public IStatusEffect StatusEffect;
-  public DamageType DamageType;
-
-  public ResolveEffectHitContext(Enemy enemy, int baseDamage, IStatusEffect statusEffect, DamageType damageType)
-  {
-    Enemy = enemy;
-    Damage = baseDamage;
-    StatusEffect = statusEffect;
-    DamageType = damageType;
-  }
-}
-
-public enum DamageType
-{
-  Normal,
-  Heal,
-  Fire,
-  Ice,
-  Lightning,
-  Laser,
-  Missile,
-  Explosion
-}
 
 public class CombatResolver : Singleton<CombatResolver>
 {
-  public HitResult ResolveBallHit(ResolveBallHitContext ctx)
-  {
-    // 1) compute damage (from player stats, ball stats, skills, etc.)
-    int damage = ComputeDamage(ctx.Player.Stats.Attack, ctx.BallDamage, ctx.HitboxType, ctx.Enemy);
-    var dmgCtx = new DamageContext
+  private readonly List<IDamageModifier> BallModifiers = new()
     {
-      amount = damage,
+      new BaseDamageModifier(),
+      new HitDistanceModifier(),
+      new HitDirectionModifier(),
+    };
+  private readonly List<IDamageModifier> EffectModifiers = new()
+    {
+      new BaseDamageModifier(),
     };
 
+  private readonly List<IDamageModifier> FixedModifiers = new()
+  {
+  };
+
+  public HitResult ResolveHit(DamageContext ctx)
+  {
+    // 1) compute damage (from player stats, ball stats, skills, etc.)
+    int damage = ComputeDamage(ctx);
+
     // 2) apply to health (keep health logic minimal & local)
-    bool killed = ApplyDamage(ctx.Enemy, dmgCtx);
+    bool killed = ApplyDamage(ctx);
 
     // 3) apply OnHitEffect from ball
     if (ctx.OnHitEffect)
@@ -94,71 +51,39 @@ public class CombatResolver : Singleton<CombatResolver>
         );
     EventBus.Publish(evt);
 
-    // if (killed)
-    //   EventBus.Publish(new EnemyDeathEvent(ctx.enemy, ctx.hitPoint));
-
     return new HitResult { finalDamage = damage, killed = killed };
   }
 
 
-  public HitResult ResolveEffectHit(ResolveEffectHitContext ctx)
+  private bool ApplyDamage(DamageContext ctx)
   {
-    // 1) compute damage (from player stats, ball stats, skills, etc.)
-    int damage = ctx.Damage;
-    var dmgCtx = new DamageContext
-    {
-      amount = damage,
-      damageType = ctx.DamageType
-    };
-
-    // 2) apply to health (keep health logic minimal & local)
-    bool killed = ApplyDamage(ctx.Enemy, dmgCtx);
-
-
-    // 5) publish ONE rich event for reactions (skills, UI, sounds)
-    var evt = new OnHitEvent(
-        LevelContext.Instance.Player,
-        ctx.Enemy,
-        damage,
-        killed,
-        ctx.DamageType
-
-        );
-    EventBus.Publish(evt);
-
-    return new HitResult { finalDamage = damage, killed = killed };
-
-  }
-
-  private bool ApplyDamage(Enemy enemy, DamageContext dmgCtx)
-  {
-    if (dmgCtx.amount < 0) return false;
-    else if (dmgCtx.amount == 0)
+    if (ctx.FinalDamage < 0) return false;
+    else if (ctx.FinalDamage == 0)
     {
       return false;
     }
     else
     {
-      var damageText = "-" + GameUtils.FormatHealthText(dmgCtx.amount);
-      SpawnDamagePopup(enemy.Position, damageText, dmgCtx.damageType);
+      var damageText = "-" + GameUtils.FormatHealthText(ctx.FinalDamage);
+      SpawnDamagePopup(ctx.Enemy.Position, damageText, ctx.DamageType);
     }
-    var killed = enemy.HealthComponent.TakeDamage(dmgCtx);
+    var killed = ctx.Enemy.HealthComponent.TakeDamage(ctx);
     return killed;
   }
 
-  public void PlayerTakeDamage(DamageContext dmgCtx)
+  public void PlayerTakeDamage(PlayerDamageContext ctx)
   {
-    if (dmgCtx.amount <= 0) return;
+    if (ctx.FinalDamage <= 0) return;
 
     var player = LevelContext.Instance.Player;
-    var damageText = "-" + GameUtils.FormatHealthText(dmgCtx.amount);
-    SpawnDamagePopup(player.Position, damageText, dmgCtx.damageType);
+    var damageText = "-" + GameUtils.FormatHealthText(ctx.FinalDamage);
+    SpawnDamagePopup(player.Position, damageText);
 
-    player.HealthComponent.TakeDamage(dmgCtx);
+    player.HealthComponent.PlayerTakeDamage(ctx);
   }
 
 
-  public void SpawnDamagePopup(Vector3 pos, string dmgTxt, DamageType dmgType)
+  public void SpawnDamagePopup(Vector3 pos, string dmgTxt, DamageType dmgType = DamageType.Normal)
   {
     var pool = LevelContext.Instance.UIPool;
     var popup = pool.GetDamagePopup();
@@ -170,26 +95,24 @@ public class CombatResolver : Singleton<CombatResolver>
     popup.GetComponent<DamagePopup>().Setup(pos, damageText, color, pool);
   }
 
-  private int ComputeDamage(int playerAttack, int baseDamage, HitboxType hitboxType, Enemy enemy)
+  private int ComputeDamage(DamageContext ctx)
   {
-    var totalDmg = Mathf.RoundToInt(playerAttack * baseDamage);
-    switch (hitboxType)
-    {
-      case HitboxType.Front:
-        if (enemy.Data.Specie == EnemySpecie.Shielder)
+    List<IDamageModifier> list =
+        ctx.SourceType switch
         {
-          totalDmg = 0;
-        }
-        break;
-      case HitboxType.Side:
-        // no modifier
-        break;
-      case HitboxType.Back:
-        break;
-      default:
-        break;
+          DamageSourceType.Ball => BallModifiers,
+          DamageSourceType.Effect => EffectModifiers,
+          DamageSourceType.Fixed => FixedModifiers,
+          _ => throw new NotImplementedException()
+        };
+
+    foreach (var m in list)
+    {
+      m.Apply(ctx);
+      if (ctx.IsBlocked) break;
     }
 
-    return totalDmg;
+    return ctx.FinalDamage;
   }
+
 }

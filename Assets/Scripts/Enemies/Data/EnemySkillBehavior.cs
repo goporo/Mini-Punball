@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class EnemySkillBehavior : ScriptableObject
 {
   public abstract IEnumerator UseSkill(Enemy enemy, BoardState board);
-  public virtual IEnumerator AttackAndDie(BoardObject boardObject, DamageContext damageContext)
+  public virtual IEnumerator AttackAndDie(BoardObject boardObject, PlayerDamageContext ctx)
   {
     // Simple jump forward and shake animation
     Transform t = boardObject.transform;
@@ -18,9 +18,9 @@ public abstract class EnemySkillBehavior : ScriptableObject
 
     yield return seq.WaitForCompletion();
 
-    if (damageContext.amount > 0)
+    if (ctx.FinalDamage > 0)
     {
-      CombatResolver.Instance.PlayerTakeDamage(new DamageContext { amount = damageContext.amount, damageType = damageContext.damageType });
+      CombatResolver.Instance.PlayerTakeDamage(ctx);
 
     }
 

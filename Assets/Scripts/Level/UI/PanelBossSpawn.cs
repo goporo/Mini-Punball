@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class PanelBossSpawn : CanvasGroupUIBase
+public class PanelBossSpawn : CGBase
 {
   [SerializeField] private TMP_Text textBossName;
   [SerializeField] private TMP_Text textBossDescription;
@@ -49,6 +49,7 @@ public class PanelBossSpawn : CanvasGroupUIBase
 
     rt.anchoredPosition = hiddenPos;
     Show();
+    cg.blocksRaycasts = false;
     rt.DOAnchorPos(shownPos, 0.4f).SetEase(Ease.OutBack);
 
     yield return new WaitForSeconds(waitTime);

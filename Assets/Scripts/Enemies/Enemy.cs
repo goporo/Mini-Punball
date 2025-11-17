@@ -23,16 +23,16 @@ public class Enemy : BoardObject, IAttacker
     {
         yield return AnimateSpawn(this, board);
     }
-    private int waveHealth;
-    private int waveAttack;
+    private int baseHealth;
+    private int baseAttack;
 
     public void Init(float hpMultiplier, float attackMultiplier, BoardState board)
     {
-        waveHealth = Mathf.CeilToInt(data.baseHealth * hpMultiplier);
-        waveAttack = Mathf.CeilToInt(data.baseAttack * attackMultiplier);
-        enemyUI?.Init(waveHealth);
-        healthComponent.Init(waveHealth);
-        Stats = new WaveStats(waveHealth, waveAttack);
+        baseHealth = Mathf.CeilToInt(data.baseHealth * hpMultiplier);
+        baseAttack = Mathf.CeilToInt(data.baseAttack * attackMultiplier);
+        enemyUI?.Init(baseHealth);
+        healthComponent.Init(baseHealth);
+        Stats = new WaveStats(baseHealth, baseAttack);
         this.board = board;
     }
 
@@ -56,7 +56,7 @@ public class Enemy : BoardObject, IAttacker
     {
         if (CurrentCell.y == 0)
         {
-            yield return EnemySkillBehavior.AttackAndDie(this, new DamageContext { amount = waveAttack });
+            yield return EnemySkillBehavior.AttackAndDie(this, new PlayerDamageContext { FinalDamage = baseAttack });
         }
         else
         {

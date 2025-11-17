@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class CanvasGroupUIBase : MonoBehaviour
+public class PopupBase : MonoBehaviour
 {
   protected CanvasGroup cg;
 

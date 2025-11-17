@@ -39,8 +39,7 @@ public class PlayerUI : MonoBehaviour, IHealthUI
 
     public void Init(int maxHealth)
     {
-        textHealth.text = $"{maxHealth}";
-        barHealth.fillAmount = 1f;
+        UpdateHealth(maxHealth, maxHealth);
         textBall.text = GlobalContext.Instance.CharacterSO.BaseBallsCount.ToString();
     }
 
@@ -62,7 +61,7 @@ public class PlayerUI : MonoBehaviour, IHealthUI
 
     public void UpdateHealth(int currentHealth, int maxHealth)
     {
-        textHealth.text = $"{currentHealth}";
+        textHealth.text = GameUtils.FormatHealthText(currentHealth);
         barHealth.fillAmount = (float)currentHealth / maxHealth;
     }
 

@@ -26,13 +26,17 @@ public class ExplodeDeath : DeathEffect
       if (obj.TryGetComponent<Enemy>(out var target))
       {
         var amount = Mathf.RoundToInt(enemy.Stats.Health * damageByHealthRatio);
-        CombatResolver.Instance.ResolveEffectHit(
-          new ResolveEffectHitContext(target, amount, null, DamageType.Explosion)
+        var ctx = DamageContext.CreateFixedDamage(
+            target,
+            amount,
+            DamageType.Explosion
         );
+        CombatResolver.Instance.ResolveHit(ctx);
       }
       else if (obj.TryGetComponent<IDamageable>(out var damageable))
       {
-        damageable.TakeDamage(new DamageContext { });
+        var dmgCtx = DamageContext.CreateObstacleDamage();
+        damageable.TakeDamage(dmgCtx);
       }
     }
   }

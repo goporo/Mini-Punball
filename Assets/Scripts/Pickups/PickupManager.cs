@@ -64,6 +64,17 @@ public class PickupManager : MonoBehaviour
     isWaitingForSkillSelection = true;
   }
 
+  public IEnumerator ForceClearAllCollects()
+  {
+    foreach (var item in pendingCollects)
+    {
+      item.ForceDestroy();
+    }
+    pendingCollects.Clear();
+    pendingCollectTypes.Clear();
+    yield return null;
+  }
+
   public IEnumerator ProcessAllCollects()
   {
     yield return PullAllCollects();

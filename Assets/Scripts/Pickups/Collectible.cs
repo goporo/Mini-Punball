@@ -56,6 +56,12 @@ public class Collectible : MonoBehaviour
     Destroy(gameObject);
   }
 
+  public void ForceDestroy()
+  {
+    DOTween.Kill(transform);
+    Destroy(gameObject);
+  }
+
 }
 
 public enum CollectibleType

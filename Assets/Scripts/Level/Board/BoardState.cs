@@ -294,6 +294,17 @@ public class BoardState : MonoBehaviour
     return true;
   }
 
+  public void ForceClearBoard()
+  {
+    GetAllBoardObjects().ToList().ForEach(obj =>
+    {
+      obj.HandleOnSacrifice();
+      ClearCells(obj.OccupiedCells);
+    });
+
+    OnBoardChanged?.Invoke();
+  }
+
 
   public bool IsInside(Vector2Int pos) => pos.x >= 0 && pos.y >= 0 && pos.x < grid.GetLength(0) && pos.y < grid.GetLength(1);
 

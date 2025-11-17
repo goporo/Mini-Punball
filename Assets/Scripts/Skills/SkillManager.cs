@@ -4,7 +4,7 @@ using UnityEngine;
 public class SkillManager : MonoBehaviour
 {
   public GameObject skillSelectionUI;
-  private List<SkillRuntime> activeSkills = new();
+  public List<SkillRuntime> activeSkills = new();
 
 
   private void Awake()
@@ -104,7 +104,10 @@ public class SkillManager : MonoBehaviour
     activeSkills.Clear();
   }
 
-
+  void OnDestroy()
+  {
+    ClearSkills();
+  }
 
   private void OnPickupBoxEvent(PickupBoxEvent e)
   {

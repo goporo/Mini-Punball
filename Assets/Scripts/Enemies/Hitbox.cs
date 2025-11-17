@@ -3,13 +3,12 @@ using UnityEngine;
 public class Hitbox : MonoBehaviour
 {
   public Enemy Enemy;
-  public float damageMultiplier = 1f;
   [SerializeField] private HitboxType hitBoxType;
+  public HitboxType Type => hitBoxType;
 
-  public void OnHit(ResolveBallHitContext ctx)
+  public void OnHit(DamageContext ctx)
   {
-    ctx.HitboxType = hitBoxType;
-    CombatResolver.Instance.ResolveBallHit(ctx);
+    CombatResolver.Instance.ResolveHit(ctx);
   }
 }
 

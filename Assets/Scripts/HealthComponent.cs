@@ -40,7 +40,22 @@ public class HealthComponent : MonoBehaviour, IDamageable
   {
     if (isDead) return true;
 
-    currentHealth -= context.amount;
+    currentHealth -= context.FinalDamage;
+    if (!isBeingDestroyed) AnimationUtility.PlayBounce(targetMesh != null ? targetMesh : transform);
+    if (currentHealth <= 0)
+    {
+      currentHealth = 0;
+      HandleDeath();
+    }
+    OnHealthChanged?.Invoke(new HealthChangedEvent(currentHealth, maxHealth));
+    return currentHealth <= 0;
+  }
+
+  public bool PlayerTakeDamage(PlayerDamageContext context)
+  {
+    if (isDead) return true;
+
+    currentHealth -= context.FinalDamage;
     if (!isBeingDestroyed) AnimationUtility.PlayBounce(targetMesh != null ? targetMesh : transform);
     if (currentHealth <= 0)
     {

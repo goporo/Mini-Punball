@@ -2,7 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class PanelBossComing : CanvasGroupUIBase
+public class PanelBossComing : CGBase
 {
 
   protected override void Awake()

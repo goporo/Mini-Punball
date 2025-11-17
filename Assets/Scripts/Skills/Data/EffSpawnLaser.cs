@@ -39,20 +39,24 @@ public class EffSpawnLaser : EffectSO<EffectContext>
     ApplyDamageToSelectedTargets(ctx, targets);
   }
 
-  private void ApplyDamageToSelectedTargets(EffectContext ctx, List<BoardObject> targets)
+  private void ApplyDamageToSelectedTargets(EffectContext effCtx, List<BoardObject> targets)
   {
     foreach (var obj in targets)
     {
       if (obj == null) continue;
       if (obj.TryGetComponent<Enemy>(out var target))
       {
-        CombatResolver.Instance.ResolveEffectHit(
-          new ResolveEffectHitContext(target, ctx.Player.Stats.Attack * multiplier, null, DamageType.Laser)
+        var dmgCtx = DamageContext.CreateEffectDamage(
+            target,
+            multiplier,
+            DamageType.Laser
         );
+        CombatResolver.Instance.ResolveHit(dmgCtx);
       }
       else if (obj.TryGetComponent<IDamageable>(out var damageable))
       {
-        damageable.TakeDamage(new DamageContext { });
+        var dmgCtx = DamageContext.CreateObstacleDamage();
+        damageable.TakeDamage(dmgCtx);
       }
     }
   }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BtnReturnBall : CanvasGroupUIBase
+public class BtnReturnBall : PopupBase
 {
   protected override void Awake()
   {

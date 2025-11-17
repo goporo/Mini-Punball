@@ -12,7 +12,7 @@ public class ESkillRanged : EnemySkillBehavior
     var projectile = Instantiate(projectilePrefab, enemy.Position - Vector3.forward * 0.5f, Quaternion.identity).GetComponent<Projectile>();
     projectile.SetTarget(player, () =>
     {
-      CombatResolver.Instance.PlayerTakeDamage(new DamageContext { amount = enemy.Stats.Attack, damageType = DamageType.Normal });
+      CombatResolver.Instance.PlayerTakeDamage(new PlayerDamageContext { FinalDamage = enemy.Stats.Attack });
     });
     yield break;
   }

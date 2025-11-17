@@ -10,7 +10,7 @@ public class ESkillNone : EnemySkillBehavior
     yield break;
   }
 
-  public override IEnumerator AttackAndDie(BoardObject boardObject, DamageContext damageContext)
+  public override IEnumerator AttackAndDie(BoardObject boardObject, PlayerDamageContext damageContext)
   {
     boardObject.HandleOnSacrifice();
     yield break;

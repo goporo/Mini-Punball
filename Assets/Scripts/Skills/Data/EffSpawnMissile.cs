@@ -16,15 +16,18 @@ public class EffSpawnMissile : EffectSO<EffectContext>
       var target = targets[i];
       if (target != null)
       {
-        var damage = ctx.Player.Stats.Attack * multiplier;
+        var damage = multiplier;
+        var dmgCtx = DamageContext.CreateEffectDamage(
+          target,
+          damage,
+          DamageType.Missile
+        );
         LevelContext.Instance.VFXManager.SpawnVFX<MissileVFX, MissileVFXParams>(
           new MissileVFXParams
           {
             Position = ctx.Enemy.Position,
             Target = target,
-            Callback = () => CombatResolver.Instance.ResolveEffectHit(
-              new ResolveEffectHitContext(target, damage, null, DamageType.Missile)
-            )
+            Callback = () => CombatResolver.Instance.ResolveHit(dmgCtx)
           }
     );
       }

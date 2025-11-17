@@ -27,15 +27,3 @@ public class BallBase : MonoBehaviour
 
 
 }
-
-public struct DamageContext
-{
-    public int amount;
-    public DamageType damageType;
-
-    public DamageContext(int amount, DamageType damageType)
-    {
-        this.amount = amount;
-        this.damageType = damageType;
-    }
-}

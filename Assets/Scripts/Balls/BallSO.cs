@@ -22,5 +22,8 @@ public enum BallType
     Lightning,
     Missile,
     HLaser,
-    VLaser
+    VLaser,
+    Combat,
+    Sniper,
+    Stab
 }

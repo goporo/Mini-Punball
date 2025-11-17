@@ -69,12 +69,12 @@ public class LevelController : MonoBehaviour
     private void OnLevelComplete(LevelResult result)
     {
         isLevelComplete = true;
-        LevelContext.Instance.CleanUp();
         StartCoroutine(WaitAndCompleteLevel(result));
     }
 
     private IEnumerator WaitAndCompleteLevel(LevelResult result)
     {
+        yield return LevelContext.Instance.CoroutineCleanUp();
         yield return new WaitForSeconds(1f);
         EventBus.Publish(new LevelCompleteEvent(levelData, result));
         // Show summary, unlock next level, etc.

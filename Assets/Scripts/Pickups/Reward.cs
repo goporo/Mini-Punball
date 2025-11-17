@@ -43,7 +43,7 @@ public class Reward : BoardObject, IPickupable, IAttacker, IDamageable
   {
     if (CurrentCell.y == 0)
     {
-      yield return EnemySkillBehavior.AttackAndDie(this, new DamageContext { amount = 0 });
+      yield return EnemySkillBehavior.AttackAndDie(this, new PlayerDamageContext { });
     }
   }
 }
