@@ -7,15 +7,9 @@ using UnityEngine.UI;
 public class LevelUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text textWaveNumber;
-    [SerializeField] private GameObject panelNewMonsterInfo;
-    [SerializeField] private TMP_Text textNewMonsterInfoName;
-    [SerializeField] private TMP_Text textNewMonsterInfoDescription;
-    [SerializeField] private Image enemyIcon;
-    [SerializeField] private GameObject panelNewSkillInfo;
-    [SerializeField] private TMP_Text textNewSkillName;
-    [SerializeField] private TMP_Text textNewSkillDescription;
+    [SerializeField] private PanelMonsterInfo panelNewMonsterInfo;
+    [SerializeField] private PanelNewSkillInfo panelNewSkillInfo;
     [SerializeField] private PanelLevelComplete panelLevelComplete;
-
 
     private float panelDisplayDuration = 3f;
 
@@ -41,7 +35,6 @@ public class LevelUI : MonoBehaviour
     private void HandleLevelComplete(LevelCompleteEvent e)
     {
         panelLevelComplete.Setup(e.Result);
-
     }
 
     private void HandleWaveChange(OnWaveStartEvent e)
@@ -58,39 +51,17 @@ public class LevelUI : MonoBehaviour
 
         if (monsterIndex >= 0 && monsterIndex < e.AvailableEnemies.Length)
         {
-            textNewMonsterInfoName.text = e.AvailableEnemies[monsterIndex].Data.Name;
-            textNewMonsterInfoDescription.text = e.AvailableEnemies[monsterIndex].Data.Description;
-            enemyIcon.sprite = e.AvailableEnemies[monsterIndex].Data.Icon;
-            panelNewMonsterInfo.SetActive(true);
-            StartCoroutine(HideNewMonsterInfoAfterDelay(panelDisplayDuration));
+            var enemyData = e.AvailableEnemies[monsterIndex].Data;
+            panelNewMonsterInfo.Setup(enemyData.Name, enemyData.Description, enemyData.Icon);
+            panelNewMonsterInfo.ShowFor(panelDisplayDuration);
         }
     }
 
     private void HandleSkillPicked(OnSkillPickedEvent e)
     {
-        // Optionally handle skill picked UI updates here
-        textNewSkillName.text = e.SkillData.skillName;
-        textNewSkillDescription.text = e.SkillData.description;
-        panelNewSkillInfo.SetActive(true);
-        StartCoroutine(HideNewSkillInfoAfterDelay(panelDisplayDuration));
-
+        panelNewSkillInfo.Setup(e.SkillData.skillName, e.SkillData.description);
+        panelNewSkillInfo.ShowFor(panelDisplayDuration);
     }
 
-    private IEnumerator HideNewSkillInfoAfterDelay(float delay)
-    {
-
-        yield return new WaitForSeconds(delay);
-        panelNewSkillInfo.SetActive(false);
-
-    }
-
-    private IEnumerator HideNewMonsterInfoAfterDelay(float delay)
-    {
-
-        yield return new WaitForSeconds(delay);
-        panelNewMonsterInfo.SetActive(false);
-    }
-
-
-
+    // Panels now manage their own hide timing
 }

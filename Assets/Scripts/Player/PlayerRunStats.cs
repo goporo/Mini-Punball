@@ -1,38 +1,49 @@
-using System;
 using UnityEngine;
 
 public class PlayerRunStats : MonoBehaviour
 {
-  public PlayerStats Stats => playerStats;
-  private PlayerStats baseStats;
-  private PlayerStats playerStats;
+  private PlayerStats baseStats;       // from character SO
+  private PlayerStats permanentStats;  // permanent per-run modifiers
+  private PlayerStats roundStats;      // changes every round
+  private PlayerStats playerStats;     // final computed stats
 
   public int CurrentAttack => playerStats.Attack;
   public int CurrentHealth => playerStats.Health;
+
   public BallManager Balls;
   public HealthComponent HealthComponent;
-  public Vector3 Position => transform.position + Vector3.up * 1.0f;
+  public Vector3 Position => transform.position + Vector3.up;
 
-
-  public class PlayerStats
+  [System.Serializable]
+  public struct PlayerStats
   {
-    public int Health { get; set; }
-    public int Attack { get; set; }
+    public int Health;
+    public int Attack;
 
     public PlayerStats(int health, int attack)
     {
       Health = health;
       Attack = attack;
     }
+
+    public static PlayerStats operator +(PlayerStats a, PlayerStats b) =>
+        new PlayerStats(a.Health + b.Health, a.Attack + b.Attack);
+
+    public static PlayerStats operator *(PlayerStats a, float m) =>
+        new PlayerStats(Mathf.RoundToInt(a.Health * m), Mathf.RoundToInt(a.Attack * m));
   }
 
   void Awake()
   {
     baseStats = new PlayerStats(
-      GlobalContext.Instance.CharacterSO.BaseHealth,
-      GlobalContext.Instance.CharacterSO.BaseAttack);
+        GlobalContext.Instance.CharacterSO.BaseHealth,
+        GlobalContext.Instance.CharacterSO.BaseAttack);
 
-    playerStats = baseStats;
+    permanentStats = new PlayerStats(0, 0);
+    roundStats = new PlayerStats(0, 0);
+
+    Recalculate();
+    HealthComponent.Init(playerStats.Health);
   }
 
   void OnEnable()
@@ -49,22 +60,35 @@ public class PlayerRunStats : MonoBehaviour
   {
     ApplyHeal(e.Amount);
   }
+
   public void ApplyHeal(int amount)
   {
     HealthComponent.Heal(amount);
   }
+
+  // ————————— BUFFS —————————
+
   public void ApplyAttackBuff(float multiplier)
   {
-    playerStats.Attack = (int)(baseStats.Attack * multiplier);
+    permanentStats.Attack = Mathf.RoundToInt(baseStats.Attack * (multiplier - 1));
+    Recalculate();
   }
 
   public void ApplyHealthBuff(float multiplier)
   {
-    playerStats.Health = (int)(baseStats.Health * multiplier);
-    HealthComponent.Init(playerStats.Health);
+    permanentStats.Health = Mathf.RoundToInt(baseStats.Health * (multiplier - 1));
+    Recalculate();
+    HealthComponent.SetMaxHealth(playerStats.Health);
   }
 
+  public void ApplyRoundBuff(PlayerStats roundBuff)
+  {
+    roundStats = roundBuff;
+    Recalculate();
+  }
 
-
+  private void Recalculate()
+  {
+    playerStats = baseStats + permanentStats + roundStats;
+  }
 }
-

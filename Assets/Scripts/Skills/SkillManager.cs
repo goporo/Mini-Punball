@@ -38,7 +38,7 @@ public class SkillManager : MonoBehaviour
 
     if (existingSkill != null)
     {
-      if (skill.isStackable && existingSkill.stackCount < skill.maxStacks)
+      if (existingSkill.stackCount < skill.maxStacks)
       {
         existingSkill.stackCount++;
         Debug.Log($"[SkillManager] Stacked skill: {skill.skillName} (x{existingSkill.stackCount})");

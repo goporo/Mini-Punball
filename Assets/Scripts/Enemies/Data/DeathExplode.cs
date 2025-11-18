@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Enemy/DeathEffect/Explode")]
@@ -9,11 +8,10 @@ public class ExplodeDeath : DeathEffect
 
   public override void OnDeath(Enemy enemy, BoardState board)
   {
-    Debug.Log($"{enemy.name} exploded!");
     var targets = board.GetSurroundingObjects(enemy.CurrentCell, radius);
 
     // Spawn explosion VFX from centralized VFXManager pool (generic)
-    LevelContext.Instance.VFXManager.SpawnVFX<ExplodeVFX, BasicVFXParams>(
+    LevelContext.Instance.VFXManager.SpawnVFX<VFXExplode, BasicVFXParams>(
       new BasicVFXParams
       {
         Position = enemy.Position,

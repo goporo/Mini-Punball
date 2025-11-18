@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Base class for all VFX types, implements IBaseVFX for pooling and spawn logic.
+/// Base class for all VFX types, implements IVFXBase for pooling and spawn logic.
 /// </summary>
 /// <typeparam name="TParams">The spawn parameter type for this VFX</typeparam>
-public abstract class BaseVFX<TParams> : PooledVFX, IBaseVFX<TParams> where TParams : IVFXSpawnParams
+public abstract class VFXBase<TParams> : PooledVFX, IVFXBase<TParams> where TParams : IVFXSpawnParams
 {
   [Header("VFX Particle Systems")]
   [SerializeField] protected ParticleSystem[] particleSystems;

@@ -13,8 +13,11 @@ public class SkillSelectionUI : MonoBehaviour
   public Transform skillCardContainer;
   public Button buttonResetSkills;
 
+  private SkillManager skillManager;
+
   private void Awake()
   {
+    skillManager = FindObjectOfType<SkillManager>();
   }
 
   void OnEnable()
@@ -22,7 +25,6 @@ public class SkillSelectionUI : MonoBehaviour
     LoadSkills();
     buttonResetSkills.onClick.AddListener(OnResetSkills);
     popupInfo.SetActive(false);
-
   }
 
   void OnDisable()
@@ -39,9 +41,44 @@ public class SkillSelectionUI : MonoBehaviour
 
   private void LoadSkills()
   {
-    List<PlayerSkillSO> randomSkills = skills.GetRandomSkills(3, null);
-    foreach (PlayerSkillSO skill in randomSkills)
+    int count = 3;
+    // Build a dictionary of current stack counts from SkillManager
+    Dictionary<string, int> skillStacks = new Dictionary<string, int>();
+    if (skillManager != null)
     {
+      foreach (var runtime in skillManager.activeSkills)
+      {
+        skillStacks[runtime.skill.SkillID] = runtime.stackCount;
+      }
+    }
+
+    List<PlayerSkillSO> availableSkills = new List<PlayerSkillSO>();
+    foreach (var skill in skills.GetAllSkills())
+    {
+      int currentStack = skillStacks.ContainsKey(skill.SkillID) ? skillStacks[skill.SkillID] : 0;
+      if (currentStack < skill.maxStacks)
+        availableSkills.Add(skill);
+      else
+      {
+        if (currentStack == 0)
+          availableSkills.Add(skill);
+      }
+    }
+
+    // Shuffle and pick up to 'count' unique skills
+    int n = availableSkills.Count;
+    for (int i = 0; i < n; i++)
+    {
+      int swapIdx = UnityEngine.Random.Range(i, n);
+      var temp = availableSkills[i];
+      availableSkills[i] = availableSkills[swapIdx];
+      availableSkills[swapIdx] = temp;
+    }
+
+    int pickCount = Mathf.Min(count, availableSkills.Count);
+    for (int i = 0; i < pickCount; i++)
+    {
+      PlayerSkillSO skill = availableSkills[i];
       GameObject skillCardObj = Instantiate(skillCardPrefab, skillCardContainer);
       SkillCard skillCard = skillCardObj.GetComponent<SkillCard>();
       skillCard.Init(skill);
@@ -64,7 +101,7 @@ public class SkillSelectionUI : MonoBehaviour
     }
   }
 
-  public void OnSkillSelect(int skillId)
+  public void OnSkillSelect(string skillId)
   {
     PlayerSkillSO playerSkillSO = skills.GetSkillByID(skillId);
     if (playerSkillSO != null)
@@ -81,7 +118,7 @@ public class SkillSelectionUI : MonoBehaviour
       Debug.LogWarning($"SkillUI: Skill with ID {skillId} not found.");
     }
   }
-  public void OnClickSkillInfo(int skillId)
+  public void OnClickSkillInfo(string skillId)
   {
     PlayerSkillSO playerSkillSO = skills.GetSkillByID(skillId);
     if (playerSkillSO != null)

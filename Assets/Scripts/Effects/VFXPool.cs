@@ -7,7 +7,7 @@ using UnityEngine;
 /// <typeparam name="T">Type of pooled VFX component</typeparam>
 /// <typeparam name="TParams">Type of spawn parameters</typeparam>
 public class VFXPool<T, TParams> : IVFXPool
-  where T : BaseVFX<TParams>
+  where T : VFXBase<TParams>
   where TParams : IVFXSpawnParams
 {
   public System.Type VFXType => typeof(T);

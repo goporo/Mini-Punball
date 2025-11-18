@@ -10,9 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: PlayerSkill_4
+  m_Name: Skill_Buff_HP
   m_EditorClassIdentifier: 
   skillID: 4
   skillName: HP UP
   description: Increase player HP by 20%
   icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
+  conditions: []
+  effects:
+  - {fileID: 11400000, guid: 6fdf3431404ff7c4cbe9dfadfdd95404, type: 2}
+  isStackable: 0
+  maxStacks: 1

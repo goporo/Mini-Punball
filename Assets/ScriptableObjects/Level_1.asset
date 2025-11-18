@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: 5675986024820118595, guid: 7172b579b4406cf4592f909216020aeb, type: 3}
   - {fileID: 7839028478513046216, guid: bda9aa2f7704b714880808c1fde48285, type: 3}
   bossLists:
-  - spawnWave: 5
+  - spawnWave: 20
     bossEnemy: {fileID: 1133554305418997989, guid: 669d013ee9c79b44c9b5d08244e89bc4, type: 3}
-  totalWaves: 5
+  totalWaves: 20
   waveListSO: {fileID: 11400000, guid: 9f0ccf9151ea6bc4b862aef6d2ab6c1b, type: 2}

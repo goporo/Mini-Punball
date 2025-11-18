@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ExplodeVFX : BaseVFX<BasicVFXParams>
+public class VFXExplode : VFXBase<BasicVFXParams>
 {
   public override void OnSpawn(BasicVFXParams spawnParams)
   {

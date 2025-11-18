@@ -27,7 +27,7 @@ public class EffSpawnLaser : EffectSO<EffectContext>
     }
 
     // Spawn laser VFX from centralized VFXManager pool (generic)
-    LevelContext.Instance.VFXManager.SpawnVFX<LaserVFX, LaserVFXParams>(
+    LevelContext.Instance.VFXManager.SpawnVFX<VFXLaser, LaserVFXParams>(
       new LaserVFXParams
       {
         StartPoint = startPoint,

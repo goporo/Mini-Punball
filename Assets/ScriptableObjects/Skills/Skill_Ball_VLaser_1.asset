@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: PlayerSkill_5
+  m_Name: Skill_Ball_VLaser_1
   m_EditorClassIdentifier: 
-  skillID: 5
-  skillName: DEATH MISSILE
-  description: Fire missile on enemy death
+  skillID: 6
+  skillName: V-LASER BALL
+  description: Add one vertical laser ball
   icon: {fileID: 0}
   rarity: 0
   triggers:
-  - {fileID: 11400000, guid: 46f4c25c440a61d498ec88d6af558730, type: 2}
+  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
   conditions: []
   effects:
-  - {fileID: 11400000, guid: 9f3362395f8873d48aef47c5638b3efe, type: 2}
+  - {fileID: 11400000, guid: 554f2749972f98441978f49ba0ef8dc5, type: 2}
   isStackable: 0
   maxStacks: 1

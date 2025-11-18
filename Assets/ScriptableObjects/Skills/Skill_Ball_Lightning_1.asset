@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: PlayerSkill_3
+  m_Name: Skill_Ball_Lightning_1
   m_EditorClassIdentifier: 
-  skillID: 3
-  skillName: H-LASER BALL
-  description: Add one horizontal laser ball
+  skillID: 1
+  skillName: LIGHTNING BALL
+  description: Add one lightning ball
   icon: {fileID: 0}
   rarity: 0
-  triggers:
-  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
+  triggers: []
   conditions: []
-  effects:
-  - {fileID: 11400000, guid: 47be701102359be4fa7a4767f2ab533f, type: 2}
+  effects: []
   isStackable: 0
   maxStacks: 1

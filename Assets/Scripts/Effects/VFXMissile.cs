@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class MissileVFX : BaseVFX<MissileVFXParams>
+public class VFXMissile : VFXBase<MissileVFXParams>
 {
   private readonly float speed = 5f;
   private Enemy target;

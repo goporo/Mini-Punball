@@ -47,7 +47,7 @@ public class VFXManager : MonoBehaviour
 
   /// <summary>
   /// Register a VFX prefab - FULLY GENERIC using reflection
-  /// Automatically detects any BaseVFX<TParams> component and creates the correct pool
+  /// Automatically detects any VFXBase<TParams> component and creates the correct pool
   /// No manual registration needed - just add the prefab!
   /// </summary>
   private void RegisterVFXPrefab(GameObject prefab)
@@ -61,9 +61,9 @@ public class VFXManager : MonoBehaviour
 
       var baseType = componentType.BaseType;
       if (baseType != null && baseType.IsGenericType &&
-          baseType.GetGenericTypeDefinition() == typeof(BaseVFX<>))
+          baseType.GetGenericTypeDefinition() == typeof(VFXBase<>))
       {
-        // Extract the TParams type from BaseVFX<TParams>
+        // Extract the TParams type from VFXBase<TParams>
         var paramsType = baseType.GetGenericArguments()[0];
 
         // Create VFXPool<T, TParams> using reflection
@@ -76,7 +76,7 @@ public class VFXManager : MonoBehaviour
       }
     }
 
-    Debug.LogWarning($"Prefab {prefab.name} does not have a BaseVFX<TParams> component!");
+    Debug.LogWarning($"Prefab {prefab.name} does not have a VFXBase<TParams> component!");
   }
 
   #region Effect Registration
@@ -116,7 +116,7 @@ public class VFXManager : MonoBehaviour
   /// Spawn a VFX with strongly-typed parameters
   /// </summary>
   public T SpawnVFX<T, TParams>(TParams spawnParams)
-    where T : BaseVFX<TParams>
+    where T : VFXBase<TParams>
     where TParams : IVFXSpawnParams
   {
     if (vfxPools.TryGetValue(typeof(T), out var pool))

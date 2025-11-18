@@ -2607,6 +2607,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e178bba3275ad854b81cf2bba28932d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleText: {fileID: 356429496}
+  descText: {fileID: 1304650360}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +2921,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f26884bb13f4f47885369ab1c0df3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleText: {fileID: 1471347760}
+  descText: {fileID: 1749605786}
+  iconImage: {fileID: 13715797}
 --- !u!1 &788595823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,13 +3090,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textWaveNumber: {fileID: 1362174799}
-  panelNewMonsterInfo: {fileID: 786164996}
-  textNewMonsterInfoName: {fileID: 1471347760}
-  textNewMonsterInfoDescription: {fileID: 1749605786}
-  enemyIcon: {fileID: 13715797}
-  panelNewSkillInfo: {fileID: 661522350}
-  textNewSkillName: {fileID: 356429496}
-  textNewSkillDescription: {fileID: 1304650360}
+  panelNewMonsterInfo: {fileID: 786165002}
+  panelNewSkillInfo: {fileID: 661522354}
   panelLevelComplete: {fileID: 2065180649}
 --- !u!114 &815222755
 MonoBehaviour:
@@ -4011,6 +4011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSelectionUI: {fileID: 1544436060}
+  activeSkills: []
 --- !u!114 &1136744252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5364,7 +5365,6 @@ GameObject:
   - component: {fileID: 1575194890}
   - component: {fileID: 1575194891}
   - component: {fileID: 1575194892}
-  - component: {fileID: 1575194893}
   - component: {fileID: 1575194894}
   m_Layer: 0
   m_Name: Board Manager
@@ -5416,18 +5416,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4904ccf35486ad4bbfce5d12171ac71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1575194893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575194889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f8922edeb5ddb54c87cf5552ff511b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1575194894

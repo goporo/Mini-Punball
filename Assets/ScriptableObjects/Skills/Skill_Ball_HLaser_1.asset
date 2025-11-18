@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: PlayerSkill_2
+  m_Name: Skill_Ball_HLaser_1
   m_EditorClassIdentifier: 
-  skillID: 2
-  skillName: MISSILE BALL
-  description: Add one missile ball
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  skillID: 3
+  skillName: H-LASER BALL
+  description: Add one horizontal laser ball
+  icon: {fileID: 0}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
   conditions: []
   effects:
-  - {fileID: 11400000, guid: 14aa8562fad95a041b2233a132101f2a, type: 2}
-  isStackable: 1
-  maxStacks: 3
+  - {fileID: 11400000, guid: 47be701102359be4fa7a4767f2ab533f, type: 2}
+  isStackable: 0
+  maxStacks: 1

@@ -65,17 +65,17 @@ public class VFXPoolTests
 }
 
 // Dummy classes for test compilation; replace with your actual types
-public class LaserVFX : BaseVFX<LaserVFXParams> { }
+public class LaserVFX : VFXBase<LaserVFXParams> { }
 
-public class BaseVFX<TParams> : PooledVFX, IBaseVFX<TParams> where TParams : IVFXSpawnParams
+public class VFXBase<TParams> : PooledVFX, IVFXBase<TParams> where TParams : IVFXSpawnParams
 {
 }
 public class LaserVFXParams : IVFXSpawnParams { }
 public interface IVFXSpawnParams { }
 public abstract class PooledVFX : MonoBehaviour { }
-public interface IBaseVFX<T> { }
+public interface IVFXBase<T> { }
 
-public class VFXPool<T, TParams> where T : BaseVFX<TParams> where TParams : IVFXSpawnParams
+public class VFXPool<T, TParams> where T : VFXBase<TParams> where TParams : IVFXSpawnParams
 {
   public VFXPool(GameObject prefab, Transform parent, int initialSize) { }
   public T GetTyped() { return null; }

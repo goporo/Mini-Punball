@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkillDatabaseSO : ScriptableObject
 {
   public PlayerSkillSO[] skills;
-  public PlayerSkillSO GetSkillByID(int id)
+  public PlayerSkillSO GetSkillByID(string id)
   {
     foreach (var skill in skills)
     {
@@ -18,9 +18,14 @@ public class SkillDatabaseSO : ScriptableObject
     return null;
   }
 
-  public List<PlayerSkillSO> GetRandomSkills(int count, List<int> excludeIDs = null)
+  public List<PlayerSkillSO> GetAllSkills()
   {
-    excludeIDs ??= new List<int>();
+    return new List<PlayerSkillSO>(skills);
+  }
+
+  public List<PlayerSkillSO> GetRandomSkills(int count, List<string> excludeIDs = null)
+  {
+    excludeIDs ??= new List<string>();
     List<PlayerSkillSO> availableSkills = new List<PlayerSkillSO>();
     foreach (var skill in skills)
     {

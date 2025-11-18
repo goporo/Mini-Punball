@@ -22,7 +22,7 @@ public class EffSpawnMissile : EffectSO<EffectContext>
           damage,
           DamageType.Missile
         );
-        LevelContext.Instance.VFXManager.SpawnVFX<MissileVFX, MissileVFXParams>(
+        LevelContext.Instance.VFXManager.SpawnVFX<VFXMissile, MissileVFXParams>(
           new MissileVFXParams
           {
             Position = ctx.Enemy.Position,

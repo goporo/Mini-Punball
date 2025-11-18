@@ -144,13 +144,13 @@ public class BoardState : MonoBehaviour
   public bool PlaceObject(BoardObject boardObject, Vector2Int cell)
   {
     boardObject.SetCell(cell);
-    // Check if all occupied cells are empty
+
     foreach (var occupiedCell in boardObject.OccupiedCells)
     {
       if (!IsInside(occupiedCell) || (grid[occupiedCell.x, occupiedCell.y] != null))
         return false;
     }
-    // Place object in all occupied cells
+
     foreach (var occupiedCell in boardObject.OccupiedCells)
     {
       grid[occupiedCell.x, occupiedCell.y] = boardObject;
@@ -167,14 +167,12 @@ public class BoardState : MonoBehaviour
     var obj = grid[cell.x, cell.y];
     if (obj == null) return;
 
-    // Clear all cells occupied by this object
     foreach (var occupiedCell in obj.OccupiedCells)
     {
       if (IsInside(occupiedCell))
         grid[occupiedCell.x, occupiedCell.y] = null;
     }
 
-    // Notify debugger
     OnBoardChanged?.Invoke();
   }
 

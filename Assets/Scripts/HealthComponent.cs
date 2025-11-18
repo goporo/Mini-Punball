@@ -27,6 +27,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
   private bool isDead = false;
 
   public int CurrentHealth => currentHealth;
+  public int MaxHealth => maxHealth;
 
   public void Init(int maxHealth)
   {
@@ -34,6 +35,19 @@ public class HealthComponent : MonoBehaviour, IDamageable
     currentHealth = maxHealth;
     isDead = false;
     isBeingDestroyed = false;
+    OnHealthChanged?.Invoke(new HealthChangedEvent(currentHealth, maxHealth));
+  }
+
+  public void SetMaxHealth(int maxHealth)
+  {
+    int diff = maxHealth - this.maxHealth;
+    currentHealth += diff;
+    this.maxHealth = maxHealth;
+    if (currentHealth > maxHealth)
+    {
+      currentHealth = maxHealth;
+    }
+    OnHealthChanged?.Invoke(new HealthChangedEvent(currentHealth, maxHealth));
   }
 
   public bool TakeDamage(DamageContext context)

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Generic interface for strongly-typed VFX
 /// </summary>
-public interface IBaseVFX<TParams> where TParams : IVFXSpawnParams
+public interface IVFXBase<TParams> where TParams : IVFXSpawnParams
 {
   void OnSpawn(TParams spawnParams);
 }

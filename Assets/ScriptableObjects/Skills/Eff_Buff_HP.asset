@@ -9,16 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: PlayerSkill_1
+  m_Script: {fileID: 11500000, guid: 4841b8bae3b55e64fbf8e61ec63922fc, type: 3}
+  m_Name: Eff_Buff_HP
   m_EditorClassIdentifier: 
-  skillID: 1
-  skillName: LIGHTNING BALL
-  description: Add one lightning ball
-  icon: {fileID: 0}
-  rarity: 0
-  triggers: []
-  conditions: []
-  effects: []
-  isStackable: 0
-  maxStacks: 1

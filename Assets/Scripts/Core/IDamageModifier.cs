@@ -21,7 +21,6 @@ public class DamageContext
   private DamageContext() { } // Prevent "new" from outside
 
   // ---- FACTORY HELPERS ----
-
   public static DamageContext CreateBallDamage(
       Enemy enemy,
       int baseDamage,

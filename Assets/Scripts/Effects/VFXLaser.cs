@@ -4,7 +4,7 @@ using UnityEngine;
 /// Pooled laser VFX effect
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
-public class LaserVFX : BaseVFX<LaserVFXParams>
+public class VFXLaser : VFXBase<LaserVFXParams>
 {
   [Header("Laser Settings")]
   private float laserLifetime = 0.2f;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BallType: 5
   BaseDamage: -1
-  DamageType: 4
+  DamageType: 5
   Description: 
   BallPrefab: {fileID: 6602140071421409616, guid: 4f74e31c45320b240b46a1e94f374ef6, type: 3}
   OnHitEffect: {fileID: 11400000, guid: e7005475087f132428561903dcba7972, type: 2}

@@ -1,16 +1,16 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SkillCard : MonoBehaviour
 {
-  private int skillID;
+  private string skillID;
   public TMP_Text skillName;
   public Image icon;
   public Button buttonCard;
   public Button buttonInfo;
-  public event System.Action<int> OnSkillInfoClicked;
-  public event System.Action<int> OnSkillSelected;
+  public event System.Action<string> OnSkillInfoClicked;
+  public event System.Action<string> OnSkillSelected;
 
   void OnEnable()
   {
