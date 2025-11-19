@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Lightning_1
   m_EditorClassIdentifier: 
-  skillID: 1
+  skillId: c90fc61f-c50d-41f6-a1b2-f359f85e5592
   skillName: LIGHTNING BALL
   description: Add one lightning ball
   icon: {fileID: 0}
   rarity: 0
-  triggers: []
+  triggers:
+  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
   conditions: []
-  effects: []
-  isStackable: 0
-  maxStacks: 1
+  effects:
+  - {fileID: 11400000, guid: 20e35c42079940c49b73abc9fa79c788, type: 2}
+  maxStacks: 2

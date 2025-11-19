@@ -31,6 +31,18 @@ public struct LaserVFXParams : IVFXSpawnParams
   }
 }
 
+public struct LightningVFXParams : IVFXSpawnParams
+{
+  public Vector3 StartPoint { get; set; }
+  public Vector3 EndPoint { get; set; }
+
+  public LightningVFXParams(Vector3 startPoint, Vector3 endPoint)
+  {
+    StartPoint = startPoint;
+    EndPoint = endPoint;
+  }
+}
+
 public struct MissileVFXParams : IVFXSpawnParams
 {
   public Vector3 Position { get; set; }

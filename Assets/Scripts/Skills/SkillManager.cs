@@ -33,7 +33,7 @@ public class SkillManager : MonoBehaviour
       return;
     }
 
-    // Check if skill already exists and is stackable
+    // Check if skill already exists
     var existingSkill = activeSkills.Find(s => s.skill.SkillID == skill.SkillID);
 
     if (existingSkill != null)
@@ -41,12 +41,10 @@ public class SkillManager : MonoBehaviour
       if (existingSkill.stackCount < skill.maxStacks)
       {
         existingSkill.stackCount++;
-        Debug.Log($"[SkillManager] Stacked skill: {skill.skillName} (x{existingSkill.stackCount})");
-        return;
       }
       else
       {
-        Debug.Log($"[SkillManager] Skill already at max stacks or not stackable: {skill.skillName}");
+        Debug.LogWarning($"[SkillManager] Skill already at max stacks or not stackable: {skill.skillName}");
         return;
       }
     }

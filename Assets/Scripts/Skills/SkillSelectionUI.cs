@@ -13,12 +13,7 @@ public class SkillSelectionUI : MonoBehaviour
   public Transform skillCardContainer;
   public Button buttonResetSkills;
 
-  private SkillManager skillManager;
-
-  private void Awake()
-  {
-    skillManager = FindObjectOfType<SkillManager>();
-  }
+  private SkillManager skillManager => LevelContext.Instance.SkillManager;
 
   void OnEnable()
   {
@@ -42,27 +37,18 @@ public class SkillSelectionUI : MonoBehaviour
   private void LoadSkills()
   {
     int count = 3;
-    // Build a dictionary of current stack counts from SkillManager
-    Dictionary<string, int> skillStacks = new Dictionary<string, int>();
-    if (skillManager != null)
-    {
-      foreach (var runtime in skillManager.activeSkills)
-      {
-        skillStacks[runtime.skill.SkillID] = runtime.stackCount;
-      }
-    }
-
     List<PlayerSkillSO> availableSkills = new List<PlayerSkillSO>();
     foreach (var skill in skills.GetAllSkills())
     {
-      int currentStack = skillStacks.ContainsKey(skill.SkillID) ? skillStacks[skill.SkillID] : 0;
+      int currentStack = 0;
+      if (skillManager != null)
+      {
+        var runtime = skillManager.activeSkills.Find(s => s.skill.SkillID == skill.SkillID);
+        if (runtime != null)
+          currentStack = runtime.stackCount;
+      }
       if (currentStack < skill.maxStacks)
         availableSkills.Add(skill);
-      else
-      {
-        if (currentStack == 0)
-          availableSkills.Add(skill);
-      }
     }
 
     // Shuffle and pick up to 'count' unique skills
@@ -106,7 +92,6 @@ public class SkillSelectionUI : MonoBehaviour
     PlayerSkillSO playerSkillSO = skills.GetSkillByID(skillId);
     if (playerSkillSO != null)
     {
-      Debug.Log($"Skill selected: {playerSkillSO.skillName}");
       var ctx = new EffectContext(null);
       EventBus.Publish(new SkillSelectedEvent(ctx, playerSkillSO));
       // Close the UI and notify that selection is complete

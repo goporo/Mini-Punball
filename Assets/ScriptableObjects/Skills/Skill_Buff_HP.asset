@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_HP
   m_EditorClassIdentifier: 
-  skillID: 4
+  skillId: ceb572f9-bf39-492c-bdff-af4f7619b949
   skillName: HP UP
   description: Increase player HP by 20%
   icon: {fileID: 0}
@@ -22,5 +22,4 @@ MonoBehaviour:
   conditions: []
   effects:
   - {fileID: 11400000, guid: 6fdf3431404ff7c4cbe9dfadfdd95404, type: 2}
-  isStackable: 0
   maxStacks: 1

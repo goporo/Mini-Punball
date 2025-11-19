@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
+  m_Name: Ball_Lightning
+  m_EditorClassIdentifier: 
+  BallType: 3
+  BaseDamage: 2
+  DamageType: 4
+  Description: 
+  BallPrefab: {fileID: 4761098442608947560, guid: abe839d0889bc97479e283d47b83c996, type: 3}
+  OnHitEffect: {fileID: 11400000, guid: 588f8eca9d30ddb43b2f197c533c1573, type: 2}

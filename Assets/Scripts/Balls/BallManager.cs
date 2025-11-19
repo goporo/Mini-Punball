@@ -162,7 +162,7 @@ public class BallManager : MonoBehaviour
 
     private IEnumerator BallStuckCoroutine()
     {
-        const int limitTime = 20;
+        const int limitTime = 15;
         yield return new WaitForSeconds(limitTime);
         if (activeBalls.Count > 0)
         {

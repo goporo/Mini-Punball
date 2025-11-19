@@ -35,13 +35,29 @@ public class BoardState : MonoBehaviour
     return GetAllBoardObjects().OfType<Enemy>().ToList();
   }
 
-  public Enemy GetRandomEnemy(Enemy exclude = null)
+  public List<Enemy> GetRandomEnemies(int count, Enemy exclude = null)
   {
     var enemies = exclude == null
         ? GetAllEnemies()
         : GetAllEnemies().Where(e => e != exclude).ToList();
-    if (enemies.Count == 0) return null;
-    return enemies[Random.Range(0, enemies.Count)];
+
+    if (enemies.Count == 0)
+    {
+      return new List<Enemy>();
+    }
+
+    // Clamp count to available enemies
+    count = Mathf.Min(count, enemies.Count);
+
+    var selected = new List<Enemy>();
+    for (int i = 0; i < count; i++)
+    {
+      int randomIndex = Random.Range(0, enemies.Count);
+      selected.Add(enemies[randomIndex]);
+      enemies.RemoveAt(randomIndex);
+    }
+
+    return selected;
   }
 
   public List<Enemy> GetLowestHealthEnemies(int count, Enemy exclude = null)

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: Skill_Ball_Missile_1
+  m_Name: Skill_Eff_Death_Lightning
   m_EditorClassIdentifier: 
-  skillId: 899cd724-c926-4e10-acc6-1f31c0f9f5fb
-  skillName: MISSILE BALL
-  description: Add one missile ball
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  skillId: 74441636-f8f7-486c-90e2-843836e0742e
+  skillName: DEATH LIGHTNING
+  description: Cast lightning on enemy death
+  icon: {fileID: 0}
   rarity: 0
   triggers:
-  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
+  - {fileID: 11400000, guid: 46f4c25c440a61d498ec88d6af558730, type: 2}
   conditions: []
   effects:
-  - {fileID: 11400000, guid: 14aa8562fad95a041b2233a132101f2a, type: 2}
-  maxStacks: 3
+  - {fileID: 11400000, guid: 977c7fe35963d8d4a8c9f1a86a9ba1d0, type: 2}
+  maxStacks: 1
