@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnLaser", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnLaser")]
 public class EffSpawnLaser : EffectSO<EffectContext>
 {
   public int multiplier = 1;

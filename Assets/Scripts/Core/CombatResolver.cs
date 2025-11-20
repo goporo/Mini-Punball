@@ -36,6 +36,8 @@ public class CombatResolver : Singleton<CombatResolver>
     }
 
     // 3.1) apply StatusEffect from hitbox (if any)
+    if (!killed && ctx.StatusEffect != null)
+      ctx.StatusEffect.ApplyTo(ctx.Enemy);
 
     // 4) update global combo (if you count each contact)
     LevelContext.Instance.ComboManager.Increment(1);

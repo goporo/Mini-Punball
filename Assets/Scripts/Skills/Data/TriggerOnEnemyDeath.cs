@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerOnEnemyDeath", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerOnEnemyDeath")]
 public class TriggerOnEnemyDeath : TriggerSO<EffectContext>
 {
   public override IDisposable Subscribe(SkillRuntime runtime, Action<EffectContext> fire)

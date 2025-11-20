@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Linq;
 
-[CreateAssetMenu(fileName = "LevelMultiplierSO", menuName = "MiniPunBall/LevelMultiplierSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/LevelMultiplierSO")]
 public class LevelMultiplierSO : ScriptableObject
 {
     public WaveMultiplier[] waveMultipliers;

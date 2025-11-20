@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerOnVoidHit", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerOnVoidHit")]
 public class TriggerOnVoidHit : TriggerSO<EffectContext>
 {
   public override IDisposable Subscribe(SkillRuntime runtime, Action<EffectContext> fire)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnMissile", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnMissile")]
 public class EffSpawnMissile : EffectSO<EffectContext>
 {
   [SerializeField] private int count = 1;

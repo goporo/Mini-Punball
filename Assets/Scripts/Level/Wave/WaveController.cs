@@ -126,8 +126,7 @@ public class WaveController : MonoBehaviour
   private IEnumerator ApplyEnemyStatusPhase()
   {
     yield return waitABit;
-    // TODO: Add VFX waiting here if needed
-    // yield return WaitForVFX("StatusEffectVFX");
+    yield return boardManager.ApplyEnemyStatusPhase();
   }
 
   private IEnumerator PlayerShootPhase()

@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using System;
-using DG.Tweening;
 
 [RequireComponent(typeof(HealthComponent))]
 public class Enemy : BoardObject, IAttacker
@@ -16,7 +14,8 @@ public class Enemy : BoardObject, IAttacker
     private EnemySkillBehavior EnemySkillBehavior => data.enemySkillBehavior;
     private DeathEffect DeathEffect => data.deathEffect;
     private BoardState board;
-
+    public StatusController StatusController { get; private set; } = null;
+    public EnemyStatusVisuals EnemyStatusVisuals { get; private set; } = null;
 
 
     public IEnumerator AnimateSpawn(BoardState board)
@@ -39,6 +38,8 @@ public class Enemy : BoardObject, IAttacker
     private void Awake()
     {
         healthComponent = GetComponent<HealthComponent>();
+        StatusController = new StatusController(this);
+        EnemyStatusVisuals = GetComponentInChildren<EnemyStatusVisuals>();
     }
 
     void OnEnable()
@@ -51,9 +52,16 @@ public class Enemy : BoardObject, IAttacker
         healthComponent.OnDied -= HandleOnDeath;
     }
 
+    public void ApplyStatusEffect(IStatusEffect effect)
+    {
+        StatusController.AddEffect(effect);
+    }
+
 
     public IEnumerator DoAttack(BoardState board)
     {
+        if (!CanAct) yield break;
+
         if (CurrentCell.y == 0)
         {
             yield return EnemySkillBehavior.AttackAndDie(this, new PlayerDamageContext { FinalDamage = baseAttack });

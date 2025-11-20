@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffAddBall", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffAddBall")]
 public class EffAddBall : EffectSO
 {
   public BallType BallType;

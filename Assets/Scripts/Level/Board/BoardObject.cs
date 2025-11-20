@@ -16,6 +16,7 @@ public abstract class BoardObject : MonoBehaviour
 
   public MoveBehavior moveBehavior;
   public Vector3 Position => transform.position + Vector3.up * 1.0f;
+  public bool CanAct { get; set; } = true;
 
   public Vector3 GetAlignedWorldPosition(BoardState board)
   {
@@ -42,6 +43,7 @@ public abstract class BoardObject : MonoBehaviour
 
   public IEnumerator DoMove(BoardState board)
   {
+    if (!CanAct) yield break;
     var target = moveBehavior.GetTargetCell(this);
 
     if (board.TryMove(this, target))
@@ -60,12 +62,6 @@ public abstract class BoardObject : MonoBehaviour
     Tween scaleTween = AnimationUtility.PlayScale(boardObject.transform, Vector3.one, 0.25f, Ease.OutBack);
     if (scaleTween != null)
       yield return scaleTween.WaitForCompletion();
-  }
-
-  public IEnumerator MoveAndDie(BoardState board)
-  {
-    yield return moveBehavior.AnimateMove(this, board);
-    HandleOnDeath();
   }
 
   public virtual void HandleOnDeath()

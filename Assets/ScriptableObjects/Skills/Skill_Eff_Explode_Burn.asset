@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
+  m_Name: Skill_Eff_Explode_Burn
+  m_EditorClassIdentifier: 
+  skillId: d0d7b615-15aa-4b28-b3bb-6f6c23179bf6
+  skillName: Explode Burn
+  description: Bombs explosion now apply burn to target
+  icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 11400000, guid: 22404fd434fd3eb4280cc81b44976886, type: 2}
+  conditions: []
+  effects:
+  - {fileID: 11400000, guid: 43f9f90fa44a0044b96121dc0379990b, type: 2}
+  maxStacks: 1

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
   m_Name: Ball_Ice
   m_EditorClassIdentifier: 
-  BallType: 5
-  BaseDamage: 2
-  DamageType: 5
+  BallType: 2
+  BaseDamage: 1
+  DamageType: 3
   Description: 
-  BallPrefab: {fileID: 6602140071421409616, guid: 4f74e31c45320b240b46a1e94f374ef6, type: 3}
-  OnHitEffect: {fileID: 11400000, guid: e7005475087f132428561903dcba7972, type: 2}
+  BallPrefab: {fileID: 6602140071421409616, guid: d5ed50d943309e249947835480888d29, type: 3}
+  OnHitEffect: {fileID: 11400000, guid: 26a33b39afd23cc42ace347b20b92bff, type: 2}
+  StatusEffect: {fileID: 11400000, guid: 11d206cd24f650344bafbb7fb4a3d837, type: 2}
   PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}

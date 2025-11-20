@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e90eedf8364a1c418cf9d2e087b2ff0, type: 3}
-  m_Name: Trigger_On_Skill_Gain
+  m_Script: {fileID: 11500000, guid: c0ce8251a4f99fb47ae606765f40bc68, type: 3}
+  m_Name: Trigger_Explode
   m_EditorClassIdentifier: 
-  Type: 2

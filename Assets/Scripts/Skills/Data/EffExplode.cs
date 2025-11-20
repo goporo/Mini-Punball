@@ -1,6 +1,7 @@
+using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffExplode", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffExplode")]
 public class EffExplode : EffectSO<EffectContext>
 {
   [SerializeField] private int multiplier = 6;
@@ -9,6 +10,8 @@ public class EffExplode : EffectSO<EffectContext>
   public override void Execute(EffectContext ctx)
   {
     var targets = LevelContext.Instance.BoardState.GetSurroundingObjects(ctx.Enemy.CurrentCell, radius);
+    var enemies = targets.OfType<Enemy>().ToList();
+    EventBus.Publish(new OnBombExplodeEvent(new AOEContext(enemies)));
 
     LevelContext.Instance.VFXManager.SpawnVFX<VFXExplode, BasicVFXParams>(
       new BasicVFXParams

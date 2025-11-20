@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(fileName = "RandomWaveListSO", menuName = "MiniPunBall/RandomWaveListSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/RandomWaveListSO")]
 public class RandomWaveListSO : WaveListSO
 {
     [SerializeField] private BoardObject pickupBall;

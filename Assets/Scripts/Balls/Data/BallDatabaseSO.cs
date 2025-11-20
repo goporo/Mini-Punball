@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BallDatabaseSO", menuName = "MiniPunBall/Ball/BallDatabaseSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Ball/BallDatabaseSO")]
 public class BallDatabaseSO : ScriptableObject
 {
     public List<BallSO> balls;

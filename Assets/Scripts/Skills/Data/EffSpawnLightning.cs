@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnLightning", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnLightning")]
 public class EffSpawnLightning : EffectSO<EffectContext>
 {
   [SerializeField] private int multiplier = 2;

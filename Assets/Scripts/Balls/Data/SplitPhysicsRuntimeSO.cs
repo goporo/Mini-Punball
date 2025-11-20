@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SplitPhysicsRuntimeSO", menuName = "MiniPunBall/Ball/SplitPhysicsRuntimeSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Ball/SplitPhysicsRuntimeSO")]
 public class SplitPhysicsRuntimeSO : BallPhysicsSO
 {
   public override IBallPhysicsBehavior CreateBehaviorInstance()

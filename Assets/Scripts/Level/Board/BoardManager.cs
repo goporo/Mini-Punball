@@ -34,6 +34,17 @@ public class BoardManager : MonoBehaviour
 
   }
 
+  public IEnumerator ApplyEnemyStatusPhase()
+  {
+    var enemies = board.GetAllEnemies().ToList();
+    foreach (var enemy in enemies)
+    {
+      enemy.StatusController.OnRoundStart();
+      // wait a tiny moment if you want animations
+      yield return null;
+    }
+  }
+
   public IEnumerator StartAttack()
   {
     var finished = 0;

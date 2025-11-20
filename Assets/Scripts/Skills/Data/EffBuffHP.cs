@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffBuffHP", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffBuffHP")]
 public class EffBuffHP : EffectSO
 {
   private readonly float buffMultiplier = 1.2f;

@@ -15,6 +15,7 @@ public class DamageContext
   public HitboxType Hitbox;
   public Enemy Enemy;
   public EffectSO<EffectContext> OnHitEffect;
+  public StatusEffectSO StatusEffect;
   public int FinalDamage;
   public bool IsBlocked;
 
@@ -27,6 +28,7 @@ public class DamageContext
       HitboxType hitbox,
       BallType ballType,
       EffectSO<EffectContext> onHitEffect = null,
+      StatusEffectSO statusEffect = null,
       DamageType damageType = DamageType.Normal
       )
   {
@@ -38,6 +40,7 @@ public class DamageContext
       Hitbox = hitbox,
       ballType = ballType,
       OnHitEffect = onHitEffect,
+      StatusEffect = statusEffect,
       DamageType = damageType,
     };
   }
@@ -45,7 +48,8 @@ public class DamageContext
   public static DamageContext CreateEffectDamage(
       Enemy enemy,
       int baseDamage,
-      DamageType damageType = DamageType.Normal
+      DamageType damageType = DamageType.Normal,
+      StatusEffectSO statusEffect = null
       )
   {
     return new DamageContext
@@ -54,6 +58,7 @@ public class DamageContext
       Enemy = enemy,
       BaseDamage = baseDamage,
       DamageType = damageType,
+      StatusEffect = statusEffect,
     };
   }
 

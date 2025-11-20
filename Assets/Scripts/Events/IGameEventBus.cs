@@ -98,6 +98,12 @@ public struct OnVoidHitEvent : IGameEvent
   public OnVoidHitEvent(EffectContext context) => Context = context;
 }
 
+public struct OnBombExplodeEvent : IGameEvent
+{
+  public AOEContext Context;
+  public OnBombExplodeEvent(AOEContext context) => Context = context;
+}
+
 public struct OnWaveStartEvent : IGameEvent
 {
   public int LevelNumber;

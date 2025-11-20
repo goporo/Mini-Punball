@@ -7,8 +7,6 @@ public class BallBase : MonoBehaviour
 {
     [SerializeField] private BallSO config;
     public BallSO Stats => config;
-    public IStatusEffect StatusEffect => config.StatusEffect;
-
     private PlayerRunStats playerRunStats;
     private Vector3 initialDirection;
     public BallPhysics Physics { get; private set; }

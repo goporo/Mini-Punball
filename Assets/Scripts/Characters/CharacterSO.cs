@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CharacterSO", menuName = "MiniPunBall/CharacterSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/CharacterSO")]
 public class CharacterSO : ScriptableObject
 {
     public int BaseHealth;

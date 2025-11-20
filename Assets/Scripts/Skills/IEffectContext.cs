@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IEffectContext
@@ -13,6 +14,16 @@ public class EffectContext : IEffectContext
   public EffectContext(Enemy enemy)
   {
     Enemy = enemy;
+  }
+}
+
+public class AOEContext : IEffectContext
+{
+  public PlayerRunStats Player => LevelContext.Instance.Player;
+  public List<Enemy> Targets;
+  public AOEContext(List<Enemy> targets)
+  {
+    Targets = targets;
   }
 }
 

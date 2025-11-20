@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BouncePhysicsSO", menuName = "MiniPunBall/Ball/BouncePhysicsSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Ball/BouncePhysicsSO")]
 public class BouncePhysicsSO : BallPhysicsSO
 {
   public override IBallPhysicsBehavior CreateBehaviorInstance()

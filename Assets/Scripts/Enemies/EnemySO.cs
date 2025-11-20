@@ -20,7 +20,7 @@ public enum EnemySpecie
 
 }
 
-[CreateAssetMenu(fileName = "EnemySO", menuName = "MiniPunBall/Board/EnemySO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Board/EnemySO")]
 public class EnemySO : ScriptableObject, IBoardData
 {
     public string Id => name;

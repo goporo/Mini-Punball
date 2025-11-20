@@ -8,7 +8,7 @@ public struct BossList
     public int spawnWave;
     public Enemy bossEnemy;
 }
-[CreateAssetMenu(fileName = "LevelSO", menuName = "MiniPunBall/LevelSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/LevelSO")]
 public class LevelSO : ScriptableObject
 {
     public int LevelNumber;

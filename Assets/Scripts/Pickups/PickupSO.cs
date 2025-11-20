@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "PickupSO", menuName = "MiniPunBall/Board/PickupSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Board/PickupSO")]
 public class PickupSO : ScriptableObject, IBoardData
 {
     public string Id => name;

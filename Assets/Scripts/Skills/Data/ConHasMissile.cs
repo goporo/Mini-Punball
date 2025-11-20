@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/ConHasMissile", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/ConHasMissile")]
 public class ConHasMissile : ConditionSO
 {
   public override bool Evaluate(IEffectContext ctx)

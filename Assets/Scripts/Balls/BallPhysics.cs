@@ -139,6 +139,7 @@ public class BallPhysics : MonoBehaviour
                 hitbox.Type,
                 ballBase.Stats.BallType,
                 ballBase.Stats.OnHitEffect,
+                ballBase.Stats.StatusEffect,
                 ballBase.Stats.DamageType
             );
 

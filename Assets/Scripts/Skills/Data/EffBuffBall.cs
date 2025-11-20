@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffBuffBall", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Skill/EffBuffBall")]
 public class EffBuffBall : EffectSO
 {
   [SerializeField] BallBuffTarget target;

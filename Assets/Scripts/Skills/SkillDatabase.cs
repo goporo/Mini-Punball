@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SkillDatabaseSO", menuName = "MiniPunBall/SkillDatabaseSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/SkillDatabaseSO")]
 public class SkillDatabaseSO : ScriptableObject
 {
   public PlayerSkillSO[] skills;

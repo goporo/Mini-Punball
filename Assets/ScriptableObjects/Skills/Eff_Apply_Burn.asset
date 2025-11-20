@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c61bdf4b469c1b44a9249a4358c15421, type: 3}
-  m_Name: Trigger_On_Enemy_Death
+  m_Script: {fileID: 11500000, guid: 0d2fb87c58d249a43aa6d1016bedbd56, type: 3}
+  m_Name: Eff_Apply_Burn
   m_EditorClassIdentifier: 
-  Type: 1
+  statusEffect: {fileID: 11400000, guid: a5b665dabfa775647b873f6485cadb79, type: 2}

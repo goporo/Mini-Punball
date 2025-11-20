@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "ObstacleSO", menuName = "MiniPunBall/Board/ObstacleSO", order = 0)]
+[CreateAssetMenu(menuName = "MiniPunBall/Board/ObstacleSO")]
 public class ObstacleSO : ScriptableObject, IBoardData
 {
     public string Id => name;
