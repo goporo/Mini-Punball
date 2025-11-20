@@ -40,6 +40,7 @@ public class BallManager : MonoBehaviour
 
     private CharacterSO characterSO;
     private List<BallBuff> activeBallBuffs = new();
+    private List<BallBase> ephemeralBalls = new();
 
     public void Init(List<BallType> balls)
     {
@@ -82,27 +83,35 @@ public class BallManager : MonoBehaviour
 
     public float GetBallAttack(BallBase ball)
     {
+        float baseAttack = ball.Stats.BaseDamage;
         int ballIndex = playerBalls.IndexOf(ball);
         if (ballIndex == -1)
         {
-            Debug.LogWarning("Ball not found in playerBalls list, using base damage");
-            return ball.Stats.BaseDamage;
+            if (ephemeralBalls.Contains(ball))
+            {
+                return baseAttack * CalculateBuffMultiplier(ball, -1);
+            }
+            Debug.LogWarning("Ball not found in playerBalls or ephemeralBalls list, using base damage");
+            return baseAttack;
         }
+        return baseAttack * CalculateBuffMultiplier(ball, ballIndex);
+    }
 
-        float baseAttack = ball.Stats.BaseDamage;
+    private float CalculateBuffMultiplier(BallBase ball, int ballIndex)
+    {
         float multiplier = 1f;
         foreach (var buff in activeBallBuffs)
         {
             if (buff.Target == BallBuffTarget.All ||
-                (buff.Target == BallBuffTarget.First && ballIndex == 0) ||
-                (buff.Target == BallBuffTarget.Last && ballIndex == playerBalls.Count - 1) ||
-                (buff.Target == BallBuffTarget.Normal && ball.Stats.BallType == BallType.Normal) ||
-                (buff.Target == BallBuffTarget.Special && ball.Stats.BallType != BallType.Normal))
+            (buff.Target == BallBuffTarget.First && ballIndex == 0) ||
+            (buff.Target == BallBuffTarget.Last && ballIndex == playerBalls.Count - 1) ||
+            (buff.Target == BallBuffTarget.Normal && ball.Stats.BallType == BallType.Normal) ||
+            (buff.Target == BallBuffTarget.Special && ball.Stats.BallType != BallType.Normal))
             {
                 multiplier *= buff.AttackMultiplier;
             }
         }
-        return baseAttack * multiplier;
+        return multiplier;
     }
 
     private void HandlePickupBall(PickupBallEvent e)
@@ -128,6 +137,25 @@ public class BallManager : MonoBehaviour
             playerBalls.Add(ballBase);
         }
         EventBus.Publish(new BallCountChangedEvent(playerBalls.Count));
+    }
+
+    public void SpawnEphemeralBall(BallType type, int count, Vector3 position, Vector3 direction, Quaternion? rotation = null)
+    {
+        var ballConfig = ballDatabaseSO.GetConfig(type);
+        for (int i = 0; i < count; i++)
+        {
+            var ballObj = Instantiate(ballConfig.BallPrefab, transform);
+            var ballBase = ballObj.GetComponent<BallBase>();
+            ballBase.transform.position = position;
+
+
+            // Fire the ball immediately
+            ballBase.transform.SetPositionAndRotation(position, rotation ?? Quaternion.identity);
+            ballBase.Init(LevelContext.Instance.Player, direction);
+
+            ephemeralBalls.Add(ballBase);
+            activeBalls.Add(ballBase);
+        }
     }
 
     public bool HasBall(BallType type)
@@ -156,7 +184,11 @@ public class BallManager : MonoBehaviour
 
         ball.gameObject.SetActive(false);
 
-        if (activeBalls.Count == 0)
+        // Check if all balls (including ephemeral) have returned
+        int totalBallsShot = ballsShot + ephemeralBalls.Count;
+        int totalReturned = returnedBalls.Count;
+
+        if (activeBalls.Count == 0 && totalReturned >= totalBallsShot)
         {
             HandleAllBallReturned();
         }
@@ -176,11 +208,25 @@ public class BallManager : MonoBehaviour
     private void ResetForNextWave()
     {
         ballsShot = 0;
+
         foreach (var ball in returnedBalls)
         {
             if (ball != null)
+            {
                 ball.gameObject.SetActive(false);
+            }
         }
+
+        // Destroy ephemeral balls
+        foreach (var ball in ephemeralBalls)
+        {
+            if (ball != null)
+            {
+                Destroy(ball.gameObject);
+            }
+        }
+        ephemeralBalls.Clear();
+
         activeBalls.Clear();
         returnedBalls.Clear();
     }

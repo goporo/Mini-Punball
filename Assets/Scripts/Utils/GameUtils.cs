@@ -24,4 +24,5 @@ public class GameUtils
     else
       return $"{value:0}{suffixes[suffixIndex]}";
   }
+
 }

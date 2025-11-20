@@ -25,7 +25,7 @@ public class DamageVisualConfig
       case DamageType.Void:
         return Color.black;
       case DamageType.Split:
-        return Color.cyan;
+        return Color.yellow;
       case DamageType.Drill:
         return Color.magenta;
       default:

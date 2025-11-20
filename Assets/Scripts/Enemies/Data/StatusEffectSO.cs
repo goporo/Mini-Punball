@@ -12,6 +12,7 @@ public abstract class StatusEffectSO : ScriptableObject
   public void ApplyTo(Enemy enemy)
   {
     var runtime = CreateRuntimeInstance();
-    enemy.StatusController.AddEffect(runtime);  // this handles Apply()
+    if (runtime != null)
+      enemy.StatusController.AddEffect(runtime);
   }
 }

@@ -18,4 +18,5 @@ MonoBehaviour:
   Description: 
   BallPrefab: {fileID: 4761098442608947560, guid: abe839d0889bc97479e283d47b83c996, type: 3}
   OnHitEffect: {fileID: 11400000, guid: 588f8eca9d30ddb43b2f197c533c1573, type: 2}
+  StatusEffect: {fileID: 11400000, guid: 6e47369776481d044bccd54c5958e221, type: 2}
   PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}

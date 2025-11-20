@@ -1,13 +1,13 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "MiniPunBall/Ball/DestructPhysicsSO")]
-public class DestructPhysicsSO : BallPhysicsSO
+[CreateAssetMenu(menuName = "MiniPunBall/Ball/PhysicsDestruct")]
+public class PhysicsDestruct : BallPhysicsSO
 {
   public override IBallPhysicsBehavior CreateBehaviorInstance()
-      => new DestructPhysicsRuntime();
+      => new PhysicsDestructRuntime();
 }
 
-public class DestructPhysicsRuntime : IBallPhysicsBehavior
+public class PhysicsDestructRuntime : IBallPhysicsBehavior
 {
   private BallPhysics physics;
   private BallBase ball;

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
-  m_Name: Ball_Missile
+  m_Name: Ball_Split_Mini
   m_EditorClassIdentifier: 
-  BallType: 4
-  BaseDamage: 3
-  DamageType: 6
+  BallType: 12
+  BaseDamage: 1
+  DamageType: 9
   Description: 
-  BallPrefab: {fileID: 6045920011965249609, guid: 6ee8f542604ddf64ea4ab79ceb879264, type: 3}
-  OnHitEffect: {fileID: 11400000, guid: 0e18f7537f1b477459599a4230201928, type: 2}
+  BallPrefab: {fileID: 6045920011965249609, guid: 5037e87115282694c986768aafac441d, type: 3}
+  OnHitEffect: {fileID: 11400000, guid: 26a33b39afd23cc42ace347b20b92bff, type: 2}
   StatusEffect: {fileID: 11400000, guid: 6e47369776481d044bccd54c5958e221, type: 2}
   PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}

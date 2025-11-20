@@ -37,7 +37,6 @@ public class PlayerInputController : MonoBehaviour
     playerRunStats = GetComponent<PlayerRunStats>();
     ballManager = GetComponentInChildren<BallManager>();
 
-    // Setup line renderer
     lineRenderer.positionCount = 0;
     lineRenderer.startWidth = 0.05f;
     lineRenderer.endWidth = 0.05f;
@@ -45,7 +44,6 @@ public class PlayerInputController : MonoBehaviour
     lineRenderer.startColor = Color.white;
     lineRenderer.endColor = Color.white;
 
-    // Setup visualization materials
     if (_whiteMat == null)
     {
       Shader shader = Shader.Find("Unlit/Color");
@@ -101,7 +99,6 @@ public class PlayerInputController : MonoBehaviour
   {
     if (Input.GetMouseButtonDown(0))
     {
-      // Only prevent dragging if clicking on screen-space UI
       if (IsPointerOverUI())
       {
         isDragging = false;
@@ -114,7 +111,6 @@ public class PlayerInputController : MonoBehaviour
     {
       lineRenderer.positionCount = 0;
       contactPoints.Clear();
-      // Keep isDragging state - don't reset it
       return;
     }
 
@@ -130,9 +126,6 @@ public class PlayerInputController : MonoBehaviour
     }
   }
 
-  /// <summary>
-  /// Check if the pointer is over any SCREEN-SPACE UI element (excludes world-space UI)
-  /// </summary>
   private bool IsPointerOverUI()
   {
     if (EventSystem.current == null)
@@ -146,7 +139,6 @@ public class PlayerInputController : MonoBehaviour
     List<RaycastResult> results = new List<RaycastResult>();
     EventSystem.current.RaycastAll(pointerData, results);
 
-    // Check if any of the hit UI elements are screen-space
     foreach (RaycastResult result in results)
     {
       if (result.gameObject != null)
@@ -154,7 +146,6 @@ public class PlayerInputController : MonoBehaviour
         Canvas canvas = result.gameObject.GetComponentInParent<Canvas>();
         if (canvas != null)
         {
-          // Only block input if it's screen-space UI (Overlay or Camera with screen-space)
           if (canvas.renderMode == RenderMode.ScreenSpaceOverlay ||
               canvas.renderMode == RenderMode.ScreenSpaceCamera)
           {
@@ -189,6 +180,7 @@ public class PlayerInputController : MonoBehaviour
 
     return false;
   }
+
   void UpdateAimLine()
   {
     Plane xzPlane = new(Vector3.up, shootOrigin.position);
@@ -197,6 +189,14 @@ public class PlayerInputController : MonoBehaviour
     if (xzPlane.Raycast(mouseRay, out float distance))
     {
       Vector3 hitPoint = mouseRay.GetPoint(distance);
+
+      // Cancel and clear aim line if below cancel line
+      if (hitPoint.z < aimConfig.CancelLineZ)
+      {
+        lineRenderer.positionCount = 0;
+        contactPoints.Clear();
+        return;
+      }
 
       // Don't clamp the mouse point - let the aim line follow freely
       Vector3 from = shootOrigin.position;
@@ -207,106 +207,143 @@ public class PlayerInputController : MonoBehaviour
     }
   }
 
-  void DrawReflectionPath(Vector3 startPos, Vector3 direction)
+  void DrawReflectionPath(Vector3 startPos, Vector3 rawDir)
   {
+    // ---------- 1. PREPARE DATA ----------
     Vector3 ballSize = GetBallSize();
-
     float minCollisionDistance = 0.01f;
-
-
-    List<Vector3> points = new() { startPos };
-    contactPoints.Clear();
-    Vector3 currentPos = startPos;
-    Vector3 currentDir = direction;
     float yLevel = startPos.y;
 
+    // Compute angle clamp boundaries
+    Vector3 leftDir = aimConfig.LeftMostPoint - startPos;
+    Vector3 rightDir = aimConfig.RightMostPoint - startPos;
+
+    leftDir.y = 0; leftDir.Normalize();
+    rightDir.y = 0; rightDir.Normalize();
+
+    // Clamp user direction into angle cone
+    rawDir.y = 0;
+    Vector3 shootDir = ClampToCone(rawDir.normalized, leftDir, rightDir);
+
+    // Storage for final display points
+    List<Vector3> points = new() { startPos };
+    contactPoints.Clear();
+
+    Vector3 currentPos = startPos;
+    Vector3 currentDir = shootDir;
+
+
+    // ---------- 2. BOUNCE LOOP ----------
     for (int i = 0; i < maxBounces; i++)
     {
-      if (Physics.BoxCast(currentPos, ballSize * 1.0f, currentDir, out RaycastHit hit, Quaternion.identity, maxDistance, bounceMask))
+      if (Physics.BoxCast(
+          currentPos,
+          ballSize,
+          currentDir,
+          out RaycastHit hit,
+          Quaternion.identity,
+          maxDistance,
+          bounceMask))
       {
-        float safeDistance = Mathf.Max(0, hit.distance - minCollisionDistance);
-        Vector3 hitPoint = currentPos + currentDir * safeDistance;
-        hitPoint.y = yLevel;
+        // Ensure no overlap with collider
+        float safeDist = Mathf.Max(hit.distance - minCollisionDistance, 0f);
 
-        // Clamp both line point and contact point if below baseline
-        Vector3 displayPoint = hitPoint;
-        if (hitPoint.z < aimConfig.baseLineZ)
-        {
-          displayPoint.z = aimConfig.baseLineZ;
-        }
+        // Compute hit point
+        Vector3 hitPoint = currentPos + currentDir * safeDist;
+        hitPoint.y = yLevel; // keep flat on XZ
 
-        points.Add(displayPoint);
-        contactPoints.Add(displayPoint);
+        // Store for line rendering
+        points.Add(hitPoint);
+        contactPoints.Add(hitPoint);
 
-        Vector3 reflection = Vector3.Reflect(currentDir, hit.normal);
-        reflection.y = 0;
+        // Compute reflection direction
+        Vector3 reflect = Vector3.Reflect(currentDir, hit.normal);
+        reflect.y = 0;
 
-        if (reflection.sqrMagnitude < 0.01f)
-        {
+        // If reflection too tiny, stop
+        if (reflect.sqrMagnitude < 0.01f)
           break;
-        }
 
-        currentDir = reflection.normalized;
+        // Continue tracing
+        currentDir = reflect.normalized;
         currentPos = hitPoint;
       }
       else
       {
-        // No contact found - check if it goes below baseline
+        // No hit: draw until max range
         Vector3 endPoint = currentPos + currentDir * maxDistance;
         endPoint.y = yLevel;
-
-        if (endPoint.z < aimConfig.baseLineZ)
-        {
-          // Cancel the shot - don't display anything
-          lineRenderer.positionCount = 0;
-          contactPoints.Clear();
-          return;
-        }
 
         points.Add(endPoint);
         break;
       }
     }
 
+
+
+    // ---------- 3. RENDER ----------
+
     lineRenderer.positionCount = points.Count;
     lineRenderer.SetPositions(points.ToArray());
   }
+
+  Vector3 ClampToCone(Vector3 dir, Vector3 leftDir, Vector3 rightDir)
+  {
+    // dir should stay between leftDir and rightDir
+    float leftCheck = Vector3.SignedAngle(leftDir, dir, Vector3.up);
+    float rightCheck = Vector3.SignedAngle(dir, rightDir, Vector3.up);
+
+    if (leftCheck < 0)
+      return leftDir;
+
+    if (rightCheck < 0)
+      return rightDir;
+
+    return dir;
+  }
+
 
   void ShootBall()
   {
     Plane plane = new(Vector3.up, shootOrigin.position);
     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-    if (plane.Raycast(ray, out float enter))
-    {
-      Vector3 hit = ray.GetPoint(enter);
+    if (!plane.Raycast(ray, out float enter))
+      return;
 
-      // Don't shoot if aim line is not displayed (cancelled)
-      if (lineRenderer.positionCount == 0)
-      {
-        return;
-      }
+    Vector3 hit = ray.GetPoint(enter);
 
-      // Clamp the shooting direction to baseline
-      Vector3 clampedHit = hit;
-      if (clampedHit.z < aimConfig.baseLineZ)
-      {
-        clampedHit.z = aimConfig.baseLineZ;
-      }
+    // Cancel if below cancel line Z
+    if (hit.z < aimConfig.CancelLineZ)
+      return;
 
-      Vector3 dir = (clampedHit - shootOrigin.position);
-      dir.y = 0;
-      dir.Normalize();
+    // If line renderer is invisible → invalid aim
+    if (lineRenderer.positionCount == 0)
+      return;
 
-      // Clear aim line
-      lineRenderer.positionCount = 0;
-      contactPoints.Clear();
+    // ----------- ANGLE CLAMP -----------
+    Vector3 rawDir = hit - shootOrigin.position;
+    rawDir.y = 0;
+    rawDir.Normalize();
 
-      // Start shooting
-      StartCoroutine(ShootBallsSequentially(dir));
-      EventBus.Publish(new PlayerCanShootEvent(false));
-    }
+    // Boundaries
+    Vector3 leftDir = (aimConfig.LeftMostPoint - shootOrigin.position);
+    Vector3 rightDir = (aimConfig.RightMostPoint - shootOrigin.position);
+
+    leftDir.y = 0; leftDir.Normalize();
+    rightDir.y = 0; rightDir.Normalize();
+
+    Vector3 clampedDir = ClampToCone(rawDir, leftDir, rightDir);
+
+    // ----------- CLEAR VISUALS -----------
+    lineRenderer.positionCount = 0;
+    contactPoints.Clear();
+
+    // ----------- FIRE BALLS -----------
+    StartCoroutine(ShootBallsSequentially(clampedDir));
+    EventBus.Publish(new PlayerCanShootEvent(false));
   }
+
 
   private IEnumerator ShootBallsSequentially(Vector3 dir)
   {
@@ -330,6 +367,7 @@ public class PlayerInputController : MonoBehaviour
     }
   }
 
+  // Visualize contact point with bigger sphere
   void OnRenderObject()
   {
     if (_whiteMat == null || _sphereMesh == null || contactPoints.Count == 0) return;

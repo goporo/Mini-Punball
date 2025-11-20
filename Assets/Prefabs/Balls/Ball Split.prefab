@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 53340005215034048}
-  - component: {fileID: 3517229946099691997}
+  - component: {fileID: 4609608658725818613}
   m_Layer: 0
-  m_Name: Missile Mesh
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 7080822373251320418}
   m_Father: {fileID: 1493542809236958416}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!96 &3517229946099691997
+--- !u!96 &4609608658725818613
 TrailRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -75,7 +75,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.25
+  m_Time: 0.075
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -106,8 +106,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.4, g: 0, b: 0.6, a: 1}
-      key1: {r: 0, g: 0, b: 0, a: 1}
+      key0: {r: 1, g: 0.72206724, b: 0.3150943, a: 1}
+      key1: {r: 1, g: 0.9110523, b: 0.1490565, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -197,7 +197,7 @@ MeshRenderer:
   m_GameObject: {fileID: 6228989431655104054}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -208,7 +208,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6e9d035854738f64883734f97ec8c08f, type: 2}
+  - {fileID: 2100000, guid: 214b269204152dc4e967804f0de59063, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -262,10 +262,14 @@ PrefabInstance:
     - target: {fileID: -8696365571415498249, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: config
       value: 
-      objectReference: {fileID: 11400000, guid: 5d7cd1dd1229cbd4dbe013c2637a7b74, type: 2}
+      objectReference: {fileID: 11400000, guid: c1b894bfb7f911b4795bd595f78612df, type: 2}
+    - target: {fileID: -3952465338590449914, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
+      propertyPath: behaviorSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 88500c94f6a5413459cf9d7bdb55839b, type: 2}
     - target: {fileID: 2350128812012421003, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_Name
-      value: Ball Missile
+      value: Ball Split
       objectReference: {fileID: 0}
     - target: {fileID: 4930770258818007516, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_Name
@@ -277,7 +281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -285,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.98
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalRotation.w

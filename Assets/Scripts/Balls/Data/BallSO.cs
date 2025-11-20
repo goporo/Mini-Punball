@@ -29,6 +29,7 @@ public enum BallType
     Stab,
     Void,
     Split,
+    SplitMini,
     Drill,
     Bomb
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class VFXMissile : VFXBase<MissileVFXParams>
 {
-  private readonly float speed = 5f;
+  private readonly float duration = 0.8f;
   private Enemy target;
   private Tween moveTween;
 
@@ -41,7 +41,6 @@ public class VFXMissile : VFXBase<MissileVFXParams>
             + new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
     }
     Vector3[] path = { start, mid, end };
-    float duration = Mathf.Max(Vector3.Distance(start, end), 1f) / speed;
 
     moveTween = transform.DOPath(path, duration, PathType.CatmullRom)
         .SetEase(Ease.Linear)

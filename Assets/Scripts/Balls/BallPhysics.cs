@@ -100,7 +100,8 @@ public class BallPhysics : MonoBehaviour
         float moveDistance = constantSpeed * Time.fixedDeltaTime;
 
         // Check for collision ahead
-        if (Physics.BoxCast(transform.position, BoxSize * 1.0f, moveDirection, out RaycastHit hit, transform.rotation, moveDistance, bounceLayer))
+        if (Physics.BoxCast(transform.position, BoxSize * 1.0f, moveDirection,
+            out RaycastHit hit, transform.rotation, moveDistance, bounceLayer))
         {
             // Move to just before the hit point
             float safeDistance = Mathf.Max(0, hit.distance - minCollisionDistance);
@@ -124,7 +125,6 @@ public class BallPhysics : MonoBehaviour
         }
     }
 
-    // Helper methods for behaviors to use
     public void ProcessDamage(RaycastHit hit)
     {
         var hitbox = hit.collider.gameObject.GetComponent<Hitbox>();
@@ -158,11 +158,13 @@ public class BallPhysics : MonoBehaviour
         }
     }
 
-    public void SpawnSplitBalls(Vector3 spawnPosition)
+    public Vector3 CalculateReflection(Vector3 normal)
     {
-        // TODO: Implement split ball spawning logic
-        Debug.Log("Split balls not yet implemented");
+        Vector3 reflection = Vector3.Reflect(moveDirection, normal);
+        reflection.y = 0;
+        return reflection.normalized;
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
