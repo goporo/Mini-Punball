@@ -1,16 +1,17 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BallSO", menuName = "MiniPunBall/BallSO", order = 0)]
+[CreateAssetMenu(fileName = "BallSO", menuName = "MiniPunBall/Ball/BallSO", order = 0)]
 public class BallSO : ScriptableObject
 {
     public BallType BallType;
-    public int BaseDamage;
+    public float BaseDamage;
     public IStatusEffect StatusEffect;
     public DamageType DamageType;
 
     [TextArea] public string Description;
     public GameObject BallPrefab;
     public EffectSO<EffectContext> OnHitEffect;
+    public BallPhysicsSO PhysicsBehavior;
 
 }
 
@@ -25,5 +26,9 @@ public enum BallType
     VLaser,
     Combat,
     Sniper,
-    Stab
+    Stab,
+    Void,
+    Split,
+    Drill,
+    Bomb
 }

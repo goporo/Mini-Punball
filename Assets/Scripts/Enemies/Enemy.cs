@@ -66,7 +66,7 @@ public class Enemy : BoardObject, IAttacker
 
     public override void HandleOnDeath()
     {
-        EventBus.Publish(new EnemyDeathEvent { Context = new BallHitContext(this, 69, null) });
+        EventBus.Publish(new EnemyDeathEvent { Context = new EnemyDeathContext(this) });
         DeathEffect.OnDeath(this, board);
         base.HandleOnDeath();
     }

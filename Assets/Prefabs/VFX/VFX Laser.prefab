@@ -86,7 +86,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.2500155
+        value: 0.14949036
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -149,4 +149,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5905c3bcbea6884e810e9de51841341, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserLifetime: 0.25
+  particleSystems: []

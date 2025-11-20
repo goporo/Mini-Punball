@@ -3,9 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnMissile", order = 0)]
 public class EffSpawnMissile : EffectSO<EffectContext>
 {
-  public int count = 1;
-  public int multiplier = 1;
-  public GameObject missilePrefab;
+  [SerializeField] private int count = 1;
+  [SerializeField] private int multiplier = 1;
+  [SerializeField] private GameObject missilePrefab;
   public override void Execute(EffectContext ctx)
   {
     var targets = LevelContext.Instance.BoardState.GetLowestHealthEnemies(count, ctx.Enemy);

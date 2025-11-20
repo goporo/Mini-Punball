@@ -24,6 +24,9 @@ public class BallPhysics : MonoBehaviour
             return boxCollider.size;
         }
     }
+
+    private IBallPhysicsBehavior behavior;
+
     private float topLineZ = 5f;
     private float startLineZ = -5f;
 
@@ -39,6 +42,8 @@ public class BallPhysics : MonoBehaviour
     {
         this.playerRunStats = playerRunStats;
         SetDirection(initialDirection);
+        behavior = ballBase.Stats.PhysicsBehavior.CreateBehaviorInstance();
+        behavior.Init(this, ballBase);
     }
     public void ResetState()
     {
@@ -81,48 +86,81 @@ public class BallPhysics : MonoBehaviour
             }
         }
     }
+
+    public void StandardMove(float deltaTime)
+    {
+        float moveDistance = constantSpeed * deltaTime;
+
+        transform.position += moveDirection * moveDistance;
+    }
     void MoveBall()
     {
+        if (behavior == null) return;
+
         float moveDistance = constantSpeed * Time.fixedDeltaTime;
 
-        // Classic brick breaker approach: BoxCast ahead, move, then bounce if hit
+        // Check for collision ahead
         if (Physics.BoxCast(transform.position, BoxSize * 1.0f, moveDirection, out RaycastHit hit, transform.rotation, moveDistance, bounceLayer))
         {
             // Move to just before the hit point
             float safeDistance = Mathf.Max(0, hit.distance - minCollisionDistance);
             transform.position += moveDirection * safeDistance;
 
+            // Let behavior handle the collision
             if (hit.collider.CompareTag("Enemy"))
             {
-                var hitbox = hit.collider.gameObject.GetComponent<Hitbox>();
-                if (hitbox)
-                {
-                    var ctx = DamageContext.CreateBallDamage(
-                        hitbox.Enemy,
-                        ballBase.Stats.BaseDamage,
-                        hitbox.Type,
-                        ballBase.Stats.BallType,
-                        ballBase.Stats.OnHitEffect,
-                        ballBase.Stats.DamageType
-                    );
-
-                    hitbox.OnHit(ctx);
-                }
-
+                behavior.OnHitEnemy(hit);
             }
-
-            Vector3 reflection = Vector3.Reflect(moveDirection, hit.normal);
-            reflection.y = 0;
-
-            if (reflection.sqrMagnitude > 0.01f)
+            else
             {
-                moveDirection = reflection.normalized;
+                // Hit a wall or other object, reflect
+                Reflect(hit);
             }
         }
         else
         {
-            transform.position += moveDirection * moveDistance;
+            // No collision, just move
+            behavior.Move(Time.fixedDeltaTime);
         }
+    }
+
+    // Helper methods for behaviors to use
+    public void ProcessDamage(RaycastHit hit)
+    {
+        var hitbox = hit.collider.gameObject.GetComponent<Hitbox>();
+        if (hitbox)
+        {
+            // Dynamically look up attack using ballBase reference
+            float ballATK = playerRunStats.Balls.GetBallAttack(ballBase);
+
+            var ctx = DamageContext.CreateBallDamage(
+                hitbox.Enemy,
+                ballATK,
+                hitbox.Type,
+                ballBase.Stats.BallType,
+                ballBase.Stats.OnHitEffect,
+                ballBase.Stats.DamageType
+            );
+
+            hitbox.OnHit(ctx);
+        }
+    }
+
+    public void Reflect(RaycastHit hit)
+    {
+        Vector3 reflection = Vector3.Reflect(moveDirection, hit.normal);
+        reflection.y = 0;
+
+        if (reflection.sqrMagnitude > 0.01f)
+        {
+            moveDirection = reflection.normalized;
+        }
+    }
+
+    public void SpawnSplitBalls(Vector3 spawnPosition)
+    {
+        // TODO: Implement split ball spawning logic
+        Debug.Log("Split balls not yet implemented");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -140,7 +178,7 @@ public class BallPhysics : MonoBehaviour
         HandleBallReturned(ball);
     }
 
-    void HandleBallReturned(BallBase ball)
+    public void HandleBallReturned(BallBase ball)
     {
         EventBus.Publish(new BallReturnedEvent(ball));
     }

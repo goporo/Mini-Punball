@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
+  m_Name: Skill_Eff_Void_Misile
+  m_EditorClassIdentifier: 
+  skillId: 65453307-8ef7-4b58-8365-65c69d6cf71b
+  skillName: VOID MISSILE
+  description: Fire missile on void ball hit an enemy
+  icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 11400000, guid: 2a7560508d74c914e8a2da65554f3456, type: 2}
+  conditions: []
+  effects:
+  - {fileID: 11400000, guid: 9f3362395f8873d48aef47c5638b3efe, type: 2}
+  maxStacks: 1

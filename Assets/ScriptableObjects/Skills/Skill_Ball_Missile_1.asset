@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Missile_1
   m_EditorClassIdentifier: 
-  skillId: 899cd724-c926-4e10-acc6-1f31c0f9f5fb
+  skillId: 43d5eb8b-8fd4-4e0e-a5e6-c2de07741019
   skillName: MISSILE BALL
   description: Add one missile ball
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
@@ -22,4 +22,4 @@ MonoBehaviour:
   conditions: []
   effects:
   - {fileID: 11400000, guid: 14aa8562fad95a041b2233a132101f2a, type: 2}
-  maxStacks: 3
+  maxStacks: 2

@@ -72,6 +72,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   minCollisionDistance: 0.01
+  behaviorSO: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}
+  moveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &-8696365571415498249
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
-  m_Name: Ball_Normal
+  m_Name: Ball_Missile
   m_EditorClassIdentifier: 
-  BallType: 0
-  BaseDamage: 1
-  DamageType: 0
+  BallType: 4
+  BaseDamage: 3
+  DamageType: 6
   Description: 
-  BallPrefab: {fileID: 2350128812012421003, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
-  OnHitEffect: {fileID: 11400000, guid: 26a33b39afd23cc42ace347b20b92bff, type: 2}
+  BallPrefab: {fileID: 6045920011965249609, guid: 6ee8f542604ddf64ea4ab79ceb879264, type: 3}
+  OnHitEffect: {fileID: 11400000, guid: 0e18f7537f1b477459599a4230201928, type: 2}
+  PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}

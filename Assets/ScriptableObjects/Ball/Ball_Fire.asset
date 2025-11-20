@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
-  m_Name: Ball_Lightning
+  m_Name: Ball_Fire
   m_EditorClassIdentifier: 
-  BallType: 3
+  BallType: 5
   BaseDamage: 2
-  DamageType: 4
+  DamageType: 5
   Description: 
-  BallPrefab: {fileID: 4761098442608947560, guid: abe839d0889bc97479e283d47b83c996, type: 3}
-  OnHitEffect: {fileID: 11400000, guid: 588f8eca9d30ddb43b2f197c533c1573, type: 2}
+  BallPrefab: {fileID: 6602140071421409616, guid: 4f74e31c45320b240b46a1e94f374ef6, type: 3}
+  OnHitEffect: {fileID: 11400000, guid: e7005475087f132428561903dcba7972, type: 2}
+  PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}

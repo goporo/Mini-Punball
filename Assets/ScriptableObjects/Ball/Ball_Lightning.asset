@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9afe87e2a192554439ac2d5b8ff97d42, type: 3}
-  m_Name: Ball_Laser_V
+  m_Name: Ball_Lightning
   m_EditorClassIdentifier: 
-  BallType: 6
-  BaseDamage: -1
-  DamageType: 5
+  BallType: 3
+  BaseDamage: 2
+  DamageType: 4
   Description: 
-  BallPrefab: {fileID: 6602140071421409616, guid: d3f6d22e9c20b684eb1e564866401330, type: 3}
-  OnHitEffect: {fileID: 11400000, guid: ec3def7986ba6ad44b42fbd0ef74a006, type: 2}
+  BallPrefab: {fileID: 4761098442608947560, guid: abe839d0889bc97479e283d47b83c996, type: 3}
+  OnHitEffect: {fileID: 11400000, guid: 588f8eca9d30ddb43b2f197c533c1573, type: 2}
+  PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}

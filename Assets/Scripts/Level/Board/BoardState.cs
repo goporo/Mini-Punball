@@ -112,14 +112,14 @@ public class BoardState : MonoBehaviour
   }
 
 
-  public List<BoardObject> GetSurroundingObjects(Vector2Int center, int radius)
+  public List<BoardObject> GetSurroundingObjects(Vector2Int center, int radius, bool includeCenter = false)
   {
     var objects = new HashSet<BoardObject>();
     for (int dx = -radius; dx <= radius; dx++)
     {
       for (int dy = -radius; dy <= radius; dy++)
       {
-        if (dx == 0 && dy == 0) continue; // Skip center
+        if (!includeCenter && dx == 0 && dy == 0) continue; // Skip center
         Vector2Int pos = new(center.x + dx, center.y + dy);
         if (IsInside(pos) && grid[pos.x, pos.y] != null)
         {
@@ -130,12 +130,12 @@ public class BoardState : MonoBehaviour
     return objects.ToList();
   }
 
-  public List<BoardObject> GetRowObjects(Vector2Int original)
+  public List<BoardObject> GetRowObjects(Vector2Int original, BoardObject exclude = null)
   {
     var rowObjects = new HashSet<BoardObject>();
     for (int x = 0; x < width; x++)
     {
-      if (grid[x, original.y] != null)
+      if (grid[x, original.y] != null && grid[x, original.y] != exclude)
       {
         rowObjects.Add(grid[x, original.y]);
       }
@@ -143,12 +143,12 @@ public class BoardState : MonoBehaviour
     return rowObjects.ToList();
   }
 
-  public List<BoardObject> GetColumnObjects(Vector2Int original)
+  public List<BoardObject> GetColumnObjects(Vector2Int original, BoardObject exclude = null)
   {
     var columnObjects = new HashSet<BoardObject>();
     for (int y = 0; y < height; y++)
     {
-      if (grid[original.x, y] != null)
+      if (grid[original.x, y] != null && grid[original.x, y] != exclude)
       {
         columnObjects.Add(grid[original.x, y]);
       }

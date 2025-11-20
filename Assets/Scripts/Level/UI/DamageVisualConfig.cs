@@ -22,6 +22,12 @@ public class DamageVisualConfig
         return Color.black;
       case DamageType.Heal:
         return Color.green;
+      case DamageType.Void:
+        return Color.black;
+      case DamageType.Split:
+        return Color.cyan;
+      case DamageType.Drill:
+        return Color.magenta;
       default:
         return Color.white;
     }

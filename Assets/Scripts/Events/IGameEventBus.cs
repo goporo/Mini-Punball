@@ -88,9 +88,14 @@ public struct SkillSelectionCompleteEvent : IGameEvent
 
 public struct EnemyDeathEvent : IGameEvent
 {
-  public Enemy Enemy => Context.Enemy;
-  public BallHitContext Context;
-  public EnemyDeathEvent(BallHitContext context) => Context = context;
+  public EnemyDeathContext Context;
+  public EnemyDeathEvent(EnemyDeathContext context) => Context = context;
+}
+
+public struct OnVoidHitEvent : IGameEvent
+{
+  public EffectContext Context;
+  public OnVoidHitEvent(EffectContext context) => Context = context;
 }
 
 public struct OnWaveStartEvent : IGameEvent

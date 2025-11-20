@@ -3,24 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum BallBuffTarget
+{
+    All,
+    Normal,
+    Special,
+    First,
+    Last,
+}
+
+public struct BallBuff
+{
+    public float AttackMultiplier;
+    public BallBuffTarget Target;
+
+    public BallBuff(float multiplier, BallBuffTarget target)
+    {
+        AttackMultiplier = multiplier;
+        Target = target;
+    }
+}
+
 public class BallManager : MonoBehaviour
 {
     private Coroutine ballStuckRoutine;
     [SerializeField] private BallDatabaseSO ballDatabaseSO;
 
     public List<BallBase> playerBalls = new(); // Balls player owns in order
+    public int RemainingBalls => Mathf.Max(0, playerBalls.Count - ballsShot);
 
     // Active wave tracking
     private List<BallBase> activeBalls = new(); // Balls currently in motion during this wave
     private List<BallBase> returnedBalls = new(); // Balls that have returned this wave
     private int ballsShot = 0; // How many balls have been shot this wave
 
-    // Properties
-    public List<BallBase> PlayerBalls => new(playerBalls);
-    public int RemainingBalls => Mathf.Max(0, playerBalls.Count - ballsShot);
 
     private CharacterSO characterSO;
-
+    private List<BallBuff> activeBallBuffs = new();
 
     public void Init(List<BallType> balls)
     {
@@ -56,6 +75,36 @@ public class BallManager : MonoBehaviour
         EventBus.Unsubscribe<AllBallShotEvent>(OnAllBallShot);
     }
 
+    public void ApplyBallBuff(BallBuff buff)
+    {
+        activeBallBuffs.Add(buff);
+    }
+
+    public float GetBallAttack(BallBase ball)
+    {
+        int ballIndex = playerBalls.IndexOf(ball);
+        if (ballIndex == -1)
+        {
+            Debug.LogWarning("Ball not found in playerBalls list, using base damage");
+            return ball.Stats.BaseDamage;
+        }
+
+        float baseAttack = ball.Stats.BaseDamage;
+        float multiplier = 1f;
+        foreach (var buff in activeBallBuffs)
+        {
+            if (buff.Target == BallBuffTarget.All ||
+                (buff.Target == BallBuffTarget.First && ballIndex == 0) ||
+                (buff.Target == BallBuffTarget.Last && ballIndex == playerBalls.Count - 1) ||
+                (buff.Target == BallBuffTarget.Normal && ball.Stats.BallType == BallType.Normal) ||
+                (buff.Target == BallBuffTarget.Special && ball.Stats.BallType != BallType.Normal))
+            {
+                multiplier *= buff.AttackMultiplier;
+            }
+        }
+        return baseAttack * multiplier;
+    }
+
     private void HandlePickupBall(PickupBallEvent e)
     {
         AddBall();
@@ -68,7 +117,16 @@ public class BallManager : MonoBehaviour
         var ballObj = Instantiate(ballConfig.BallPrefab, transform);
         var ballBase = ballObj.GetComponent<BallBase>();
         ballObj.SetActive(false);
-        playerBalls.Add(ballBase);
+
+        if (ballType == BallType.Void || ballType == BallType.Bomb)
+        {
+            // Special case: Void ball goes to the front
+            playerBalls.Insert(0, ballBase);
+        }
+        else
+        {
+            playerBalls.Add(ballBase);
+        }
         EventBus.Publish(new BallCountChangedEvent(playerBalls.Count));
     }
 

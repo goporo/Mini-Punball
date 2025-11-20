@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_VLaser_1
   m_EditorClassIdentifier: 
-  skillId: 6fc7c896-914c-407a-97c7-03304dd2cf79
+  skillId: 75304aa7-9615-42f4-bb1e-6cfca583afe7
   skillName: V-LASER BALL
   description: Add one vertical laser ball
   icon: {fileID: 0}
@@ -22,4 +22,4 @@ MonoBehaviour:
   conditions: []
   effects:
   - {fileID: 11400000, guid: 554f2749972f98441978f49ba0ef8dc5, type: 2}
-  maxStacks: 3
+  maxStacks: 2

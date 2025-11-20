@@ -51,6 +51,9 @@ public enum DamageType
   Lightning,
   Laser,
   Missile,
-  Explosion
+  Explosion,
+  Void,
+  Split,
+  Drill
 }
 

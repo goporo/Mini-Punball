@@ -10,7 +10,6 @@ public class ExplodeDeath : DeathEffect
   {
     var targets = board.GetSurroundingObjects(enemy.CurrentCell, radius);
 
-    // Spawn explosion VFX from centralized VFXManager pool (generic)
     LevelContext.Instance.VFXManager.SpawnVFX<VFXExplode, BasicVFXParams>(
       new BasicVFXParams
       {

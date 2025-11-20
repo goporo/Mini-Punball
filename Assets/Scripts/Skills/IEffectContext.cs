@@ -33,42 +33,12 @@ public class BallHitContext : IEffectContext
   }
 }
 
-public struct EnemyDeathContext
+public class EnemyDeathContext
 {
-  public LevelContext GameContext => LevelContext.Instance;
   public Enemy Enemy { get; }
-  public Vector3 Position { get; }
-  public EnemyDeathContext(Enemy enemy, Vector3 position)
+  // to do add source
+  public EnemyDeathContext(Enemy enemy)
   {
     Enemy = enemy;
-    Position = position;
-
-  }
-}
-
-
-public struct AddBallContext
-{
-
-  public BallType BallType { get; }
-
-  public AddBallContext(BallType ballType)
-  {
-
-    BallType = ballType;
-  }
-}
-
-
-
-public struct SkillSelectedContext
-{
-
-  public PlayerSkillSO SelectedSkill { get; }
-
-  public SkillSelectedContext(PlayerSkillSO selectedSkill)
-  {
-
-    SelectedSkill = selectedSkill;
   }
 }

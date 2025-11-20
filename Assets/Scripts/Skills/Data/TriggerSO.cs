@@ -3,7 +3,6 @@ using UnityEngine;
 
 public abstract class TriggerSO : ScriptableObject
 {
-  public TriggerType Type;
   public abstract IDisposable Subscribe(SkillRuntime runtime, Action<IEffectContext> fire);
 }
 

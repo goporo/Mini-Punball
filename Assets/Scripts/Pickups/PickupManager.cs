@@ -43,7 +43,7 @@ public class PickupManager : MonoBehaviour
       Collectible collectible = GetRandomCollectible();
       if (collectible != null)
       {
-        Vector3 spawnPosition = e.Enemy.transform.position;
+        Vector3 spawnPosition = e.Context.Enemy.transform.position;
         Instantiate(collectible, spawnPosition, Quaternion.identity, transform);
       }
     }

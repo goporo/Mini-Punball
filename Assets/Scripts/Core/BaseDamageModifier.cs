@@ -6,6 +6,6 @@ public class BaseDamageModifier : IDamageModifier
   {
     // handle player attack not passed
     int playerAttack = Mathf.Max(ctx.PlayerAttack, LevelContext.Instance.Player.CurrentAttack);
-    ctx.FinalDamage = playerAttack * ctx.BaseDamage;
+    ctx.FinalDamage = (int)(playerAttack * ctx.BaseDamage);
   }
 }

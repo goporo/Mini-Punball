@@ -10,7 +10,7 @@ public class DamageContext
   public DamageType DamageType;
   public DamageSourceType SourceType;
   public BallType ballType;
-  public int BaseDamage;
+  public float BaseDamage;
   public int PlayerAttack;
   public HitboxType Hitbox;
   public Enemy Enemy;
@@ -23,7 +23,7 @@ public class DamageContext
   // ---- FACTORY HELPERS ----
   public static DamageContext CreateBallDamage(
       Enemy enemy,
-      int baseDamage,
+      float baseDamage,
       HitboxType hitbox,
       BallType ballType,
       EffectSO<EffectContext> onHitEffect = null,
