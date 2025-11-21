@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Ball_Normal
   m_EditorClassIdentifier: 
-  skillId: 038dc702-6802-4989-b43d-0b6577765c65
+  skillId: d2b27022-a8fe-4449-95a2-af41ee092869
   skillName: NORMAL BALL UP
   description: Normal ball damage +20%
   icon: {fileID: 0}

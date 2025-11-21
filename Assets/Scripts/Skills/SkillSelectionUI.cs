@@ -12,12 +12,13 @@ public class SkillSelectionUI : MonoBehaviour
   public GameObject skillCardPrefab;
   public Transform skillCardContainer;
   public Button buttonResetSkills;
+  private List<PlayerSkillSO> currentSkills;
 
   private SkillManager skillManager => LevelContext.Instance.SkillManager;
 
   void OnEnable()
   {
-    LoadSkills();
+    currentSkills = LoadSkills();
     buttonResetSkills.onClick.AddListener(OnResetSkills);
     popupInfo.SetActive(false);
   }
@@ -31,13 +32,23 @@ public class SkillSelectionUI : MonoBehaviour
   private void OnResetSkills()
   {
     ClearSkills();
-    LoadSkills();
+    currentSkills = LoadSkills(currentSkills);
   }
 
-  private void LoadSkills()
+  private List<PlayerSkillSO> LoadSkills(List<PlayerSkillSO> excludeSkills = null)
   {
     int count = 3;
     List<PlayerSkillSO> availableSkills = new List<PlayerSkillSO>();
+    HashSet<string> excludeSkillIds = null;
+    if (excludeSkills != null)
+    {
+      excludeSkillIds = new HashSet<string>();
+      foreach (var exSkill in excludeSkills)
+      {
+        if (exSkill != null)
+          excludeSkillIds.Add(exSkill.SkillID);
+      }
+    }
     foreach (var skill in skills.GetAllSkills())
     {
       int currentStack = 0;
@@ -47,7 +58,8 @@ public class SkillSelectionUI : MonoBehaviour
         if (runtime != null)
           currentStack = runtime.stackCount;
       }
-      if (currentStack < skill.maxStacks)
+      bool isExcluded = excludeSkillIds != null && excludeSkillIds.Contains(skill.SkillID);
+      if (currentStack < skill.maxStacks && !isExcluded)
         availableSkills.Add(skill);
     }
 
@@ -56,12 +68,11 @@ public class SkillSelectionUI : MonoBehaviour
     for (int i = 0; i < n; i++)
     {
       int swapIdx = UnityEngine.Random.Range(i, n);
-      var temp = availableSkills[i];
-      availableSkills[i] = availableSkills[swapIdx];
-      availableSkills[swapIdx] = temp;
+      (availableSkills[swapIdx], availableSkills[i]) = (availableSkills[i], availableSkills[swapIdx]);
     }
 
     int pickCount = Mathf.Min(count, availableSkills.Count);
+    List<PlayerSkillSO> shownSkills = new List<PlayerSkillSO>();
     for (int i = 0; i < pickCount; i++)
     {
       PlayerSkillSO skill = availableSkills[i];
@@ -70,7 +81,9 @@ public class SkillSelectionUI : MonoBehaviour
       skillCard.Init(skill);
       skillCard.OnSkillInfoClicked += OnClickSkillInfo;
       skillCard.OnSkillSelected += OnSkillSelect;
+      shownSkills.Add(skill);
     }
+    return shownSkills;
   }
 
   private void ClearSkills()

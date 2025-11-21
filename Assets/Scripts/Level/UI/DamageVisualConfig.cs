@@ -28,6 +28,8 @@ public class DamageVisualConfig
         return Color.yellow;
       case DamageType.Drill:
         return Color.magenta;
+      case DamageType.Special:
+        return Color.black;
       default:
         return Color.white;
     }

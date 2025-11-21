@@ -340,21 +340,21 @@ public class PlayerInputController : MonoBehaviour
     contactPoints.Clear();
 
     // ----------- FIRE BALLS -----------
-    StartCoroutine(ShootBallsSequentially(clampedDir));
+    StartCoroutine(ShootBallsSequentially(clampedDir, rotation: Quaternion.LookRotation(clampedDir)));
     EventBus.Publish(new PlayerCanShootEvent(false));
   }
 
 
-  private IEnumerator ShootBallsSequentially(Vector3 dir)
+  private IEnumerator ShootBallsSequentially(Vector3 dir, Quaternion rotation = default)
   {
     float delay = 0.1f;
 
     while (ballManager.RemainingBalls > 0)
     {
-      var ballBase = ballManager.SpawnNextBall(shootOrigin.position, Quaternion.identity);
+      var ballBase = ballManager.SpawnNextBall(shootOrigin.position);
       if (ballBase != null)
       {
-        ballBase.Init(playerRunStats, dir);
+        ballBase.Init(playerRunStats, shootOrigin.position, dir, rotation);
         EventBus.Publish(new BallFiredEvent(ballBase));
 
         if (ballManager.RemainingBalls > 0)

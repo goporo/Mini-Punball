@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6adcc16a4c7854cbf8734b7307dec3, type: 3}
+  m_Name: Enemy_Shielder
+  m_EditorClassIdentifier: 
+  Name: Shielder
+  Variant: 0
+  Specie: 4
+  Icon: {fileID: 21300000, guid: da00effae492ced47ae74f8ca12fea0a, type: 3}
+  Description: Block attack from front
+  baseHealth: 400
+  baseAttack: 100
+  deathEffect: {fileID: 11400000, guid: 6971be3ce9013054eaef743527898c5f, type: 2}
+  enemySkillBehavior: {fileID: 11400000, guid: 9eeee0b1a238a7e4f9ada32901825aad, type: 2}
+  DefenseModifiers:
+  - {fileID: 11400000, guid: f9ebf4826fa1b6b438fa782f2aa4d519, type: 2}

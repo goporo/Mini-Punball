@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Death_Missile
   m_EditorClassIdentifier: 
-  skillId: acd0695b-6682-4adf-8fac-2e9abf921bae
+  skillId: c118c878-c3bc-48ed-a59f-d32ee776a42a
   skillName: DEATH MISSILE
   description: Fire missile on enemy death
   icon: {fileID: 0}

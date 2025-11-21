@@ -7,6 +7,15 @@ public interface IEffectContext
 
 }
 
+public class PlayerContext : IEffectContext
+{
+  public PlayerRunStats Player { get; }
+  public PlayerContext(PlayerRunStats player)
+  {
+    Player = player;
+  }
+}
+
 public class EffectContext : IEffectContext
 {
   public PlayerRunStats Player => LevelContext.Instance.Player;
@@ -14,6 +23,16 @@ public class EffectContext : IEffectContext
   public EffectContext(Enemy enemy)
   {
     Enemy = enemy;
+  }
+}
+
+public class WaveContext : IEffectContext
+{
+  public PlayerRunStats Player => LevelContext.Instance.Player;
+  public int WaveNumber;
+  public WaveContext(int waveNumber)
+  {
+    WaveNumber = waveNumber;
   }
 }
 

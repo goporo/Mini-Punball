@@ -35,9 +35,9 @@ public class PanelBossSpawn : CGBase
 
   private void SetupBossInfo(Enemy bossInfo)
   {
-    textBossName.text = bossInfo.Data.Name;
-    textBossDescription.text = bossInfo.Data.Description;
-    bossIcon.sprite = bossInfo.Data.Icon;
+    textBossName.text = bossInfo.Stats.Name;
+    textBossDescription.text = bossInfo.Stats.Description;
+    bossIcon.sprite = bossInfo.Stats.Icon;
   }
 
   private IEnumerator ShowAndHide()

@@ -7,8 +7,6 @@ public class BallBase : MonoBehaviour
 {
     [SerializeField] private BallSO config;
     public BallSO Stats => config;
-    private PlayerRunStats playerRunStats;
-    private Vector3 initialDirection;
     public BallPhysics Physics { get; private set; }
 
     void Awake()
@@ -16,11 +14,10 @@ public class BallBase : MonoBehaviour
         Physics = GetComponent<BallPhysics>();
     }
 
-    public void Init(PlayerRunStats playerRunStats, Vector3 initialDirection)
+    public void Init(PlayerRunStats playerRunStats, Vector3 initialPos, Vector3 initialDirection, Quaternion initialRotation)
     {
-        this.playerRunStats = playerRunStats;
-        this.initialDirection = initialDirection;
-        Physics.Init(playerRunStats, config, initialDirection);
+        transform.position = initialPos;
+        Physics.Init(playerRunStats, initialDirection, initialRotation);
     }
 
 

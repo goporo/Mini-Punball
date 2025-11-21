@@ -12,6 +12,7 @@ public class BallSO : ScriptableObject
     public EffectSO<EffectContext> OnHitEffect;
     public StatusEffectSO StatusEffect;
     public BallPhysicsSO PhysicsBehavior;
+    public DamageModifierSO[] DamageModifiers;
 
 }
 

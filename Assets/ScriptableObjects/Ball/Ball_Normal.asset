@@ -16,7 +16,8 @@ MonoBehaviour:
   BaseDamage: 1
   DamageType: 0
   Description: 
-  BallPrefab: {fileID: 2350128812012421003, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
+  BallPrefab: {fileID: 8909989075960267695, guid: c025015125e16cc45ac25c863cca9f73, type: 3}
   OnHitEffect: {fileID: 11400000, guid: 26a33b39afd23cc42ace347b20b92bff, type: 2}
   StatusEffect: {fileID: 11400000, guid: 6e47369776481d044bccd54c5958e221, type: 2}
   PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}
+  DamageModifier: {fileID: 11400000, guid: fbcc5ffdbc21af84e9b582824baa157e, type: 2}

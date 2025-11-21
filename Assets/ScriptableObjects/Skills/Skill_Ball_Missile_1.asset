@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Missile_1
   m_EditorClassIdentifier: 
-  skillId: 43d5eb8b-8fd4-4e0e-a5e6-c2de07741019
+  skillId: 0751999f-7570-45cb-afc6-98a778750cc9
   skillName: MISSILE BALL
   description: Add one missile ball
   icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}

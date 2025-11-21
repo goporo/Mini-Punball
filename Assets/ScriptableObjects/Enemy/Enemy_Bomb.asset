@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_Bomb
   m_EditorClassIdentifier: 
   Name: Bomber
-  Type: 0
+  Variant: 0
   Specie: 0
   Icon: {fileID: 21300000, guid: 6111b988046de1843909beff8a933fa1, type: 3}
   Description: Deals explosion damage on death
@@ -21,3 +21,4 @@ MonoBehaviour:
   baseAttack: 100
   deathEffect: {fileID: 11400000, guid: a597a6bd4ba6f3b45a03a224756a815d, type: 2}
   enemySkillBehavior: {fileID: 11400000, guid: 9eeee0b1a238a7e4f9ada32901825aad, type: 2}
+  DefenseModifier: {fileID: 11400000, guid: fbcc5ffdbc21af84e9b582824baa157e, type: 2}

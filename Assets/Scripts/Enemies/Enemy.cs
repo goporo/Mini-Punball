@@ -7,8 +7,8 @@ public class Enemy : BoardObject, IAttacker
     [SerializeField] private EnemyUI enemyUI;
 
     [SerializeField] private EnemySO data;
-    public EnemySO Data => data;
-    public WaveStats Stats;
+    public EnemySO Stats => data;
+    public WaveStatus WaveStats;
     private HealthComponent healthComponent;
     public HealthComponent HealthComponent => healthComponent;
     private EnemySkillBehavior EnemySkillBehavior => data.enemySkillBehavior;
@@ -31,7 +31,7 @@ public class Enemy : BoardObject, IAttacker
         baseAttack = Mathf.CeilToInt(data.baseAttack * attackMultiplier);
         enemyUI?.Init(baseHealth);
         healthComponent.Init(baseHealth);
-        Stats = new WaveStats(baseHealth, baseAttack);
+        WaveStats = new WaveStatus(baseHealth, baseAttack);
         this.board = board;
     }
 
@@ -79,11 +79,11 @@ public class Enemy : BoardObject, IAttacker
         base.HandleOnDeath();
     }
 
-    public struct WaveStats
+    public struct WaveStatus
     {
         public int Health;
         public int Attack;
-        public WaveStats(int health, int attack)
+        public WaveStatus(int health, int attack)
         {
             Health = health;
             Attack = attack;

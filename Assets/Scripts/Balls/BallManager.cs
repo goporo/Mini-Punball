@@ -139,7 +139,7 @@ public class BallManager : MonoBehaviour
         EventBus.Publish(new BallCountChangedEvent(playerBalls.Count));
     }
 
-    public void SpawnEphemeralBall(BallType type, int count, Vector3 position, Vector3 direction, Quaternion? rotation = null)
+    public void SpawnEphemeralBall(BallType type, int count, Vector3 position, Vector3 direction, Quaternion rotation)
     {
         var ballConfig = ballDatabaseSO.GetConfig(type);
         for (int i = 0; i < count; i++)
@@ -150,8 +150,7 @@ public class BallManager : MonoBehaviour
 
 
             // Fire the ball immediately
-            ballBase.transform.SetPositionAndRotation(position, rotation ?? Quaternion.identity);
-            ballBase.Init(LevelContext.Instance.Player, direction);
+            ballBase.Init(LevelContext.Instance.Player, position, direction, rotation);
 
             ephemeralBalls.Add(ballBase);
             activeBalls.Add(ballBase);
@@ -231,7 +230,7 @@ public class BallManager : MonoBehaviour
         returnedBalls.Clear();
     }
 
-    public BallBase SpawnNextBall(Vector3 position, Quaternion? rotation = null)
+    public BallBase SpawnNextBall(Vector3 position)
     {
         var ballBase = playerBalls[ballsShot];
         ballsShot++;
@@ -239,8 +238,9 @@ public class BallManager : MonoBehaviour
         {
             EventBus.Publish(new AllBallShotEvent());
         }
-        ballBase.transform.SetPositionAndRotation(position, rotation ?? Quaternion.identity);
+        ballBase.transform.position = position;
         ballBase.gameObject.SetActive(true);
+
         // Optionally reset state if needed
         var ballPhysics = ballBase.GetComponent<BallPhysics>();
         ballPhysics?.ResetState();

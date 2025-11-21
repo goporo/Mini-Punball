@@ -20,3 +20,4 @@ MonoBehaviour:
   OnHitEffect: {fileID: 11400000, guid: 26a33b39afd23cc42ace347b20b92bff, type: 2}
   StatusEffect: {fileID: 11400000, guid: 11d206cd24f650344bafbb7fb4a3d837, type: 2}
   PhysicsBehavior: {fileID: 11400000, guid: 2bb9874e11afbb34fa4525b9c8ae4edc, type: 2}
+  DamageModifier: {fileID: 11400000, guid: fbcc5ffdbc21af84e9b582824baa157e, type: 2}

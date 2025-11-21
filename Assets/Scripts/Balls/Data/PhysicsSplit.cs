@@ -44,8 +44,8 @@ public class PhysicsSplitRuntime : IBallPhysicsBehavior
       // Calculate split direction: one ball goes left, one goes right
       float angle = (i == 0) ? -angleOffset / 2f : angleOffset / 2f;
       Vector3 splitDirection = Quaternion.Euler(0, angle, 0) * originalDirection;
-
-      LevelContext.Instance.Player.Balls.SpawnEphemeralBall(ballType, 1, splitPoint, splitDirection);
+      var rotation = Quaternion.LookRotation(splitDirection, Vector3.up);
+      LevelContext.Instance.Player.Balls.SpawnEphemeralBall(ballType, 1, splitPoint, splitDirection, rotation);
     }
   }
 }

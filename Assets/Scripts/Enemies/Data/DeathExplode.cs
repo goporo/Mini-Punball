@@ -22,7 +22,7 @@ public class ExplodeDeath : DeathEffect
       if (obj == null) continue;
       if (obj.TryGetComponent<Enemy>(out var target))
       {
-        var amount = Mathf.RoundToInt(enemy.Stats.Health * damageByHealthRatio);
+        var amount = Mathf.RoundToInt(enemy.WaveStats.Health * damageByHealthRatio);
         var ctx = DamageContext.CreateFixedDamage(
             target,
             amount,

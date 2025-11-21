@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EnemyVariant
@@ -40,5 +41,6 @@ public class EnemySO : ScriptableObject, IBoardData
     [Header("Behaviors")]
     public DeathEffect deathEffect;
     public EnemySkillBehavior enemySkillBehavior;
+    public DamageModifierSO[] DefenseModifiers;
 
 }

@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4748156418224450484}
-  m_Father: {fileID: 2072445381396180425}
+  m_Father: {fileID: 6294514553700526130}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!96 &7294988013422736726
 TrailRenderer:
@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.47
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -285,7 +285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -315,6 +315,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7601688586482706775, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -323,13 +327,13 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 4930770258818007516, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 3195389124899008233, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5559993470882124227}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
---- !u!4 &2072445381396180425 stripped
+--- !u!4 &6294514553700526130 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7476002601807145746, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3195389124899008233, guid: 7184fcdde67ab0847a1852b9d82572a3, type: 3}
   m_PrefabInstance: {fileID: 8863883246968555227}
   m_PrefabAsset: {fileID: 0}

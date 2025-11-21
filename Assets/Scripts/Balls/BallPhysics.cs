@@ -24,6 +24,7 @@ public class BallPhysics : MonoBehaviour
             return boxCollider.size;
         }
     }
+    [SerializeField] private GameObject ballVisual;
 
     private IBallPhysicsBehavior behavior;
 
@@ -38,10 +39,10 @@ public class BallPhysics : MonoBehaviour
     private BoxCollider boxCollider;
 
 
-    public void Init(PlayerRunStats playerRunStats, BallSO ballSO, Vector3 initialDirection)
+    public void Init(PlayerRunStats playerRunStats, Vector3 initialDirection, Quaternion initialRotation)
     {
         this.playerRunStats = playerRunStats;
-        SetDirection(initialDirection);
+        SetDirectionAndRotation(initialDirection, initialRotation);
         behavior = ballBase.Stats.PhysicsBehavior.CreateBehaviorInstance();
         behavior.Init(this, ballBase);
     }
@@ -63,10 +64,12 @@ public class BallPhysics : MonoBehaviour
         StartCoroutine(DelayAutoReturn(lifeTime, ballBase));
     }
 
-    public void SetDirection(Vector3 direction)
+    public void SetDirectionAndRotation(Vector3 direction, Quaternion rotation)
     {
         moveDirection = direction.normalized;
         moveDirection.y = 0;
+        ballVisual.transform.rotation = rotation;
+        // Only rotate the visual, not the main GameObject
         isMoving = true;
         isReturnable = true;
     }
@@ -138,6 +141,7 @@ public class BallPhysics : MonoBehaviour
                 ballATK,
                 hitbox.Type,
                 ballBase.Stats.BallType,
+                ballBase.Stats.DamageModifiers,
                 ballBase.Stats.OnHitEffect,
                 ballBase.Stats.StatusEffect,
                 ballBase.Stats.DamageType
@@ -155,6 +159,7 @@ public class BallPhysics : MonoBehaviour
         if (reflection.sqrMagnitude > 0.01f)
         {
             moveDirection = reflection.normalized;
+            ballVisual.transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
         }
     }
 
@@ -192,7 +197,7 @@ public class BallPhysics : MonoBehaviour
         {
             var player = LevelContext.Instance.Player;
             Vector3 returnDirection = (player.transform.position - transform.position).normalized;
-            SetDirection(returnDirection);
+            SetDirectionAndRotation(returnDirection, Quaternion.LookRotation(returnDirection, Vector3.up));
 
             HandleBallReturned(ballBase);
         }

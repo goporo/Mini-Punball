@@ -6,13 +6,15 @@ public class CombatResolver : Singleton<CombatResolver>
 {
   private readonly List<IDamageModifier> BallModifiers = new()
     {
-      new BaseDamageModifier(),
+      new PlayerAttackModifier(),
+      new AttackModifier(),
+      new DefenseModifier(),
       new HitDistanceModifier(),
       new HitDirectionModifier(),
     };
   private readonly List<IDamageModifier> EffectModifiers = new()
     {
-      new BaseDamageModifier(),
+      new PlayerAttackModifier(),
     };
 
   private readonly List<IDamageModifier> FixedModifiers = new()
@@ -99,7 +101,7 @@ public class CombatResolver : Singleton<CombatResolver>
 
   private int ComputeDamage(DamageContext ctx)
   {
-    List<IDamageModifier> list =
+    List<IDamageModifier> globalModifiers =
         ctx.SourceType switch
         {
           DamageSourceType.Ball => BallModifiers,
@@ -108,7 +110,7 @@ public class CombatResolver : Singleton<CombatResolver>
           _ => throw new NotImplementedException()
         };
 
-    foreach (var m in list)
+    foreach (var m in globalModifiers)
     {
       m.Apply(ctx);
       if (ctx.IsBlocked) break;

@@ -51,7 +51,7 @@ public class LevelUI : MonoBehaviour
 
         if (monsterIndex >= 0 && monsterIndex < e.AvailableEnemies.Length)
         {
-            var enemyData = e.AvailableEnemies[monsterIndex].Data;
+            var enemyData = e.AvailableEnemies[monsterIndex].Stats;
             panelNewMonsterInfo.Setup(enemyData.Name, enemyData.Description, enemyData.Icon);
             panelNewMonsterInfo.ShowFor(panelDisplayDuration);
         }

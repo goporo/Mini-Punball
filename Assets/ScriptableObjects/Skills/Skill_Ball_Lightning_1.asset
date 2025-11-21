@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Lightning_1
   m_EditorClassIdentifier: 
-  skillId: 6b38f641-f11c-44b4-a63b-ff3239cf55ca
+  skillId: e5801731-4b1e-4b1c-9fa2-5b5a6b9e068b
   skillName: LIGHTNING BALL
   description: Add one lightning ball
   icon: {fileID: 0}

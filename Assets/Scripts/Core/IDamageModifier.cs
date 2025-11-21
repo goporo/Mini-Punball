@@ -16,6 +16,8 @@ public class DamageContext
   public Enemy Enemy;
   public EffectSO<EffectContext> OnHitEffect;
   public StatusEffectSO StatusEffect;
+  public DamageModifierSO[] AttackModifier;
+  public DamageModifierSO[] DefenseModifiers;
   public int FinalDamage;
   public bool IsBlocked;
 
@@ -27,6 +29,7 @@ public class DamageContext
       float baseDamage,
       HitboxType hitbox,
       BallType ballType,
+      DamageModifierSO[] attackModifier,
       EffectSO<EffectContext> onHitEffect = null,
       StatusEffectSO statusEffect = null,
       DamageType damageType = DamageType.Normal
@@ -34,6 +37,7 @@ public class DamageContext
   {
     return new DamageContext
     {
+      PlayerAttack = LevelContext.Instance.Player.CurrentAttack,
       SourceType = DamageSourceType.Ball,
       Enemy = enemy,
       BaseDamage = baseDamage,
@@ -42,6 +46,7 @@ public class DamageContext
       OnHitEffect = onHitEffect,
       StatusEffect = statusEffect,
       DamageType = damageType,
+      AttackModifier = attackModifier,
     };
   }
 
@@ -54,6 +59,7 @@ public class DamageContext
   {
     return new DamageContext
     {
+      PlayerAttack = LevelContext.Instance.Player.CurrentAttack,
       SourceType = DamageSourceType.Effect,
       Enemy = enemy,
       BaseDamage = baseDamage,
@@ -77,8 +83,7 @@ public class DamageContext
     };
   }
 
-  public static DamageContext CreateObstacleDamage(
-      )
+  public static DamageContext CreateObstacleDamage()
   {
     return new DamageContext
     {
@@ -90,11 +95,4 @@ public class DamageContext
 public class PlayerDamageContext
 {
   public int FinalDamage;
-}
-
-public enum DamageSourceType
-{
-  Ball,
-  Effect,
-  Fixed
 }

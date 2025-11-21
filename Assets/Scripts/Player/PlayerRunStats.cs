@@ -70,13 +70,13 @@ public class PlayerRunStats : MonoBehaviour
 
   public void ApplyAttackBuff(float multiplier)
   {
-    permanentStats.Attack = Mathf.RoundToInt(baseStats.Attack * (multiplier - 1));
+    permanentStats.Attack += Mathf.RoundToInt(baseStats.Attack * (multiplier - 1));
     Recalculate();
   }
 
   public void ApplyHealthBuff(float multiplier)
   {
-    permanentStats.Health = Mathf.RoundToInt(baseStats.Health * (multiplier - 1));
+    permanentStats.Health += Mathf.RoundToInt(baseStats.Health * (multiplier - 1));
     Recalculate();
     HealthComponent.SetMaxHealth(playerStats.Health);
   }

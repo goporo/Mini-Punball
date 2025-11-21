@@ -46,7 +46,7 @@ public class LevelController : MonoBehaviour
 
     private void HandleOnEnemyHit(OnHitEvent e)
     {
-        if (e.killed && e.enemy.Data.Variant == EnemyVariant.Boss)
+        if (e.killed && e.enemy.Stats.Variant == EnemyVariant.Boss)
             OnLevelComplete(LevelResult.Win);
     }
 

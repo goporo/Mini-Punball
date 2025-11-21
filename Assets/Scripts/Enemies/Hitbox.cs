@@ -8,6 +8,7 @@ public class Hitbox : MonoBehaviour
 
   public void OnHit(DamageContext ctx)
   {
+    ctx.DefenseModifiers = Enemy.Stats.DefenseModifiers;
     CombatResolver.Instance.ResolveHit(ctx);
   }
 }

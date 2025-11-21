@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 367175794018522329}
   m_Layer: 0
-  m_Name: Mesh Cube
+  m_Name: Rounded Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
