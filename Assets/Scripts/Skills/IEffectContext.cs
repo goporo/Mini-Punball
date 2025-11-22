@@ -26,6 +26,18 @@ public class EffectContext : IEffectContext
   }
 }
 
+public class EffectCastContext : IEffectContext
+{
+  public PlayerRunStats Player => LevelContext.Instance.Player;
+  public EffectSO<EffectCastContext> Effect;
+  public bool IsOriginalCast;
+  public EffectCastContext(EffectSO<EffectCastContext> effect = null, bool isOriginalCast = true)
+  {
+    this.Effect = effect;
+    this.IsOriginalCast = isOriginalCast;
+  }
+}
+
 public class WaveContext : IEffectContext
 {
   public PlayerRunStats Player => LevelContext.Instance.Player;

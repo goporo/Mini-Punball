@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Void
   m_EditorClassIdentifier: 
-  skillId: 0668d73b-ff29-4855-9337-95b8f400f855
+  skillId: 1c7e1948-bbf5-4de9-8730-deb0256bf3e7
   skillName: VOID BALL
   description: Add one void ball
   icon: {fileID: 0}

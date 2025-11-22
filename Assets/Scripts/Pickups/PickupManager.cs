@@ -97,7 +97,9 @@ public class PickupManager : MonoBehaviour
             EventBus.Publish(new PickupBallEvent());
             break;
           case CollectibleType.Health:
-            int healAmount = levelMultiplierSO.GetWaveHealAmount(LevelContext.Instance.LevelController.CurrentLevel);
+            int healAmount = LevelContext.Instance.Player.GetModifiedHealAmount(
+              levelMultiplierSO.GetWaveHealAmount(LevelContext.Instance.LevelController.CurrentLevel)
+            );
             EventBus.Publish(new PickupHealthEvent(healAmount));
             break;
           case CollectibleType.Coin:

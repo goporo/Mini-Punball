@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_HLaser_1
   m_EditorClassIdentifier: 
-  skillId: 99593e58-4dc2-488e-bfce-3410263e88b5
+  skillId: d0a56590-c38a-49d7-afb2-1bf09cc97008
   skillName: H-LASER BALL
   description: Add one horizontal laser ball
   icon: {fileID: 0}

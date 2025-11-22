@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffDropComet")]
-public class EffDropComet : EffectSO<PlayerContext>
+public class EffDropComet : EffectSO<EffectCastContext>
 {
   [SerializeField] private CometType cometType;
   [SerializeField] private int multiplier = 2;
@@ -26,7 +26,7 @@ public class EffDropComet : EffectSO<PlayerContext>
     { CometType.Void, DamageType.Void }
   };
 
-  public override void Execute(PlayerContext ctx)
+  public override void Execute(EffectCastContext ctx)
   {
     var enemies = LevelContext.Instance.BoardState.GetRandomEnemies(1);
     if (enemies == null || enemies.Count == 0)
@@ -48,6 +48,9 @@ public class EffDropComet : EffectSO<PlayerContext>
     );
 
     SpawnCometVFX(vfxType, target, dmgCtx);
+    if (ctx.IsOriginalCast)
+      EventBus.Publish(new OnComboCastEvent(this));
+
   }
 
   private void SpawnCometVFX(System.Type vfxType, Enemy target, DamageContext dmgCtx)

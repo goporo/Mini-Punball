@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Split_1
   m_EditorClassIdentifier: 
-  skillId: 464db57b-b30c-4840-b6e2-d9d8d83702c1
+  skillId: b9a69461-2430-4acd-837f-8b9b74272ff1
   skillName: SPLIT BALL
   description: Add one split ball that split into two on impact
   icon: {fileID: 0}

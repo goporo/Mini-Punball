@@ -2,18 +2,19 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerComboReach")]
-public class TriggerComboReach : TriggerSO<PlayerContext>
+public class TriggerComboReach : TriggerSO<EffectCastContext>
 {
   [SerializeField] private int comboThreshold = 40;
 
-  public override IDisposable Subscribe(SkillRuntime runtime, Action<PlayerContext> fire)
+  public override IDisposable Subscribe(SkillRuntime runtime, Action<EffectCastContext> fire)
   {
     Action<OnComboChangedEvent> onComboChange = (OnComboChangedEvent e) =>
     {
       var currentThreshold = LevelContext.Instance.ComboManager.GetDiscountedComboThreshold(comboThreshold);
       if (currentThreshold <= 0 || e.CurrentCombo % currentThreshold != 0) return;
-      var context = new PlayerContext(LevelContext.Instance.Player);
+      var context = new EffectCastContext(null, true);
       fire(context);
+
     };
 
     EventBus.Subscribe<OnComboChangedEvent>(onComboChange);

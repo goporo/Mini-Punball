@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Combo_Fire
   m_EditorClassIdentifier: 
-  skillId: b41de7d1-819c-4a1b-ad28-dbe136f20c3a
+  skillId: 6f54201a-7567-4c83-859d-2daba4e82b65
   skillName: COMBO FIREBALL
   description: Drop a fire comet every 40 combos
   icon: {fileID: 0}

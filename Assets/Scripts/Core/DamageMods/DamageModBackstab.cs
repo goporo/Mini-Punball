@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/DamageModifier/Backstab")]
-public class BackstabModifierSO : DamageModifierSO
+public class BackstabMod : DamageModifierSO
 {
   [SerializeField] private int multiplier = 15;
 

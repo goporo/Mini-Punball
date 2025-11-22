@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb6d58561ba2e5b4c9191d7b06c6345f, type: 3}
   m_Name: Eff_Combo_Discount_10
   m_EditorClassIdentifier: 
-  discountValue: 0.5
+  discountValue: 0.1

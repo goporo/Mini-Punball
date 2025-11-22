@@ -6,6 +6,7 @@ public class PlayerRunStats : MonoBehaviour
   private PlayerStats permanentStats;  // permanent per-run modifiers
   private PlayerStats roundStats;      // changes every round
   private PlayerStats playerStats;     // final computed stats
+  private RunBuffs runBuffs;
 
   public int CurrentAttack => playerStats.Attack;
   public int CurrentHealth => playerStats.Health;
@@ -33,6 +34,12 @@ public class PlayerRunStats : MonoBehaviour
         new PlayerStats(Mathf.RoundToInt(a.Health * m), Mathf.RoundToInt(a.Attack * m));
   }
 
+  [System.Serializable]
+  public struct RunBuffs
+  {
+    public float HealPickupMultiplier;
+  }
+
   void Awake()
   {
     baseStats = new PlayerStats(
@@ -41,6 +48,7 @@ public class PlayerRunStats : MonoBehaviour
 
     permanentStats = new PlayerStats(0, 0);
     roundStats = new PlayerStats(0, 0);
+    runBuffs = new RunBuffs { HealPickupMultiplier = 1f };
 
     Recalculate();
     HealthComponent.Init(playerStats.Health);
@@ -79,6 +87,17 @@ public class PlayerRunStats : MonoBehaviour
     permanentStats.Health += Mathf.RoundToInt(baseStats.Health * (multiplier - 1));
     Recalculate();
     HealthComponent.SetMaxHealth(playerStats.Health);
+  }
+
+  public void ApplyHealPickupBuff(float multiplier)
+  {
+    runBuffs.HealPickupMultiplier *= multiplier;
+
+  }
+
+  public int GetModifiedHealAmount(int baseHeal)
+  {
+    return Mathf.RoundToInt(baseHeal * runBuffs.HealPickupMultiplier);
   }
 
   public void ApplyRoundBuff(PlayerStats roundBuff)

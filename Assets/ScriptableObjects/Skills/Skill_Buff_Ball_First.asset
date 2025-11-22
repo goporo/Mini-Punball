@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Ball_First
   m_EditorClassIdentifier: 
-  skillId: 79704387-f6ea-4787-adb0-15b6fb99f8e9
+  skillId: 8686d4e0-fab2-49b2-addd-9dc3239dbd89
   skillName: SUPER ENTRY
   description: First ball damage x300%
   icon: {fileID: 0}

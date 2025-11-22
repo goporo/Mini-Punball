@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Void_Misile
   m_EditorClassIdentifier: 
-  skillId: 4e4548d4-50e1-4006-ac92-763d9e8f9ce5
+  skillId: 495abd3a-8083-4e5f-bbf5-fab47f42775d
   skillName: VOID MISSILE
   description: Fire missile on void ball hit an enemy
   icon: {fileID: 0}

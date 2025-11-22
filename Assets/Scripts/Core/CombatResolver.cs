@@ -128,4 +128,10 @@ public class CombatResolver : Singleton<CombatResolver>
     return ctx.FinalDamage;
   }
 
+  public void InjectGlobalModifier(IDamageModifier modifier)
+  {
+    BallModifiers.Add(modifier);
+    EffectModifiers.Add(modifier);
+  }
+
 }

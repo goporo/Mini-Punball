@@ -195,3 +195,12 @@ public struct OnComboDiscountAddedEvent : IGameEvent
   public float Discount;
   public OnComboDiscountAddedEvent(float discount) => Discount = discount;
 }
+
+public struct OnComboCastEvent : IGameEvent
+{
+  public EffectSO<EffectCastContext> Effect;
+  public OnComboCastEvent(EffectSO<EffectCastContext> effect)
+  {
+    Effect = effect;
+  }
+}

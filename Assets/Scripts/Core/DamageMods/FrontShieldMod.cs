@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/DamageModifier/Front Shield")]
-public class FrontShieldModifierSO : DamageModifierSO
+public class FrontShieldMod : DamageModifierSO
 {
   public override void Apply(DamageContext ctx)
   {
