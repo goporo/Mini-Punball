@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
+  m_Name: Skill_Buff_Combo_Discount
+  m_EditorClassIdentifier: 
+  skillId: 74a10429-c848-4dac-ab7d-e3007075773c
+  skillName: COMBO DISCOUNT
+  description: Combo require -10%
+  icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
+  conditions: []
+  effects:
+  - {fileID: 11400000, guid: a543d5be7e3e8914a9ea68df1eb92edd, type: 2}
+  maxStacks: 2

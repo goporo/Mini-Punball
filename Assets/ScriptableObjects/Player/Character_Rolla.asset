@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseHealth: 50000
   BaseAttack: 100
-  BaseBallConfig: {fileID: 11400000, guid: f57f3863f9e54b245809ff6fb9b7947f, type: 2}
-  BaseBallsCount: 1
+  BaseBallConfig: {fileID: 11400000, guid: 5bf057be5b9c97e469af4c68ec023447, type: 2}
+  BaseBallsCount: 5

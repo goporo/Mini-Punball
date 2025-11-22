@@ -59,20 +59,24 @@ public class VFXManager : MonoBehaviour
     {
       var componentType = component.GetType();
 
-      var baseType = componentType.BaseType;
-      if (baseType != null && baseType.IsGenericType &&
-          baseType.GetGenericTypeDefinition() == typeof(VFXBase<>))
+      // Walk up the inheritance chain to find VFXBase<TParams>
+      var currentType = componentType;
+      while (currentType != null && currentType != typeof(object))
       {
-        // Extract the TParams type from VFXBase<TParams>
-        var paramsType = baseType.GetGenericArguments()[0];
+        if (currentType.IsGenericType && currentType.GetGenericTypeDefinition() == typeof(VFXBase<>))
+        {
+          // Extract the TParams type from VFXBase<TParams>
+          var paramsType = currentType.GetGenericArguments()[0];
 
-        // Create VFXPool<T, TParams> using reflection
-        var poolType = typeof(VFXPool<,>).MakeGenericType(componentType, paramsType);
-        var pool = Activator.CreateInstance(poolType, prefab, poolParent, initialPoolSize) as IVFXPool;
+          // Create VFXPool<T, TParams> using reflection
+          var poolType = typeof(VFXPool<,>).MakeGenericType(componentType, paramsType);
+          var pool = Activator.CreateInstance(poolType, prefab, poolParent, initialPoolSize) as IVFXPool;
 
-        vfxPools[componentType] = pool;
-        Debug.Log($"✅ Registered VFX Pool for {componentType.Name}<{paramsType.Name}> with {initialPoolSize} instances");
-        return;
+          vfxPools[componentType] = pool;
+          Debug.Log($"✅ Registered VFX Pool for {componentType.Name}<{paramsType.Name}> with {initialPoolSize} instances");
+          return;
+        }
+        currentType = currentType.BaseType;
       }
     }
 
@@ -134,6 +138,34 @@ public class VFXManager : MonoBehaviour
 
     Debug.LogError($"VFX Pool for {typeof(T).Name} not found! Did you add the prefab to VFXManager?");
     return null;
+  }
+
+  /// <summary>
+  /// Spawn a VFX by class type (non-generic, uses reflection)
+  /// </summary>
+  public void SpawnVFXByClassType(System.Type vfxType, IVFXSpawnParams spawnParams)
+  {
+    if (vfxPools.TryGetValue(vfxType, out var pool))
+    {
+      // Find the GetTyped method via reflection
+      var poolType = pool.GetType();
+      var getTypedMethod = poolType.GetMethod("GetTyped");
+      if (getTypedMethod != null)
+      {
+        var vfxInstance = getTypedMethod.Invoke(pool, null);
+        if (vfxInstance != null)
+        {
+          // Find OnSpawn method
+          var onSpawnMethod = vfxInstance.GetType().GetMethod("OnSpawn");
+          if (onSpawnMethod != null)
+          {
+            onSpawnMethod.Invoke(vfxInstance, new object[] { spawnParams });
+            return;
+          }
+        }
+      }
+    }
+    Debug.LogError($"VFX Pool for {vfxType.Name} not found or could not spawn! Did you add the prefab to VFXManager?");
   }
 
   #endregion

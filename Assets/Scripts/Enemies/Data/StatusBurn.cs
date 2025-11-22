@@ -5,7 +5,7 @@ public class StatusBurn : StatusEffectSO
 {
   [SerializeField] private int damageMultiply = 2;
 
-  protected override IStatusEffect CreateRuntimeInstance()
+  protected override StatusEffectBase CreateRuntimeInstance()
   {
     return new BurnEffect(damageMultiply, duration, triggerChance);
   }

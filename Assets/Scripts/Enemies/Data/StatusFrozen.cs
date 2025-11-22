@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "MiniPunBall/Enemy/StatusFrozen")]
 public class StatusFrozen : StatusEffectSO
 {
-  protected override IStatusEffect CreateRuntimeInstance()
+  protected override StatusEffectBase CreateRuntimeInstance()
   {
     return new FrozenEffect(duration, triggerChance);
   }

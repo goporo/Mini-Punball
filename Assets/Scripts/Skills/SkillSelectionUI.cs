@@ -37,7 +37,7 @@ public class SkillSelectionUI : MonoBehaviour
 
   private List<PlayerSkillSO> LoadSkills(List<PlayerSkillSO> excludeSkills = null)
   {
-    int count = 3;
+    int count = 4;
     List<PlayerSkillSO> availableSkills = new List<PlayerSkillSO>();
     HashSet<string> excludeSkillIds = null;
     if (excludeSkills != null)

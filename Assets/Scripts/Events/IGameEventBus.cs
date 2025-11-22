@@ -183,3 +183,15 @@ public struct LevelCompleteEvent : IGameEvent
 public struct OnPlayerDiedEvent : IGameEvent
 {
 }
+
+public struct OnComboChangedEvent : IGameEvent
+{
+  public int CurrentCombo;
+  public OnComboChangedEvent(int currentCombo) => CurrentCombo = currentCombo;
+}
+
+public struct OnComboDiscountAddedEvent : IGameEvent
+{
+  public float Discount;
+  public OnComboDiscountAddedEvent(float discount) => Discount = discount;
+}

@@ -8,7 +8,7 @@ public class EffApplyStatus : EffectSO<AOEContext>
   {
     for (int i = 0; i < ctx.Targets.Count; i++)
     {
-      statusEffect.ApplyTo(ctx.Targets[i]);
+      statusEffect.ApplyEffect(ctx.Targets[i]);
     }
   }
 }

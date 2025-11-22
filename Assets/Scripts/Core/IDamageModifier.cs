@@ -15,7 +15,7 @@ public class DamageContext
   public HitboxType Hitbox;
   public Enemy Enemy;
   public EffectSO<EffectContext> OnHitEffect;
-  public StatusEffectSO StatusEffect;
+  public StatusEffectType StatusEffect;
   public DamageModifierSO[] AttackModifier;
   public DamageModifierSO[] DefenseModifiers;
   public int FinalDamage;
@@ -31,7 +31,7 @@ public class DamageContext
       BallType ballType,
       DamageModifierSO[] attackModifier,
       EffectSO<EffectContext> onHitEffect = null,
-      StatusEffectSO statusEffect = null,
+      StatusEffectType statusEffect = StatusEffectType.None,
       DamageType damageType = DamageType.Normal
       )
   {
@@ -54,7 +54,7 @@ public class DamageContext
       Enemy enemy,
       int baseDamage,
       DamageType damageType = DamageType.Normal,
-      StatusEffectSO statusEffect = null
+      StatusEffectType statusEffect = StatusEffectType.None
       )
   {
     return new DamageContext

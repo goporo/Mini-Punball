@@ -1,13 +1,13 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class VFXMissile : VFXBase<MissileVFXParams>
+public class VFXMissile : VFXBase<TargetVFXParams>
 {
   private readonly float duration = 0.8f;
   private Enemy target;
   private Tween moveTween;
 
-  public override void OnSpawn(MissileVFXParams spawnParams)
+  public override void OnSpawn(TargetVFXParams spawnParams)
   {
     base.OnSpawn();
     transform.position = spawnParams.Position;

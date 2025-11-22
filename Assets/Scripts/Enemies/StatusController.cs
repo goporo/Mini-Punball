@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class StatusController
 {
   private readonly Enemy enemy;
-  private readonly List<IStatusEffect> effects = new();
+  private readonly List<StatusEffectBase> effects = new();
 
   // Priority dictionary: higher value = higher priority
   private static readonly Dictionary<StatusEffectType, int> effectPriorities = new()
@@ -18,8 +18,11 @@ public class StatusController
     this.enemy = enemy;
   }
 
-  public void AddEffect(IStatusEffect effect)
+  public void AddEffect(StatusEffectBase effect)
   {
+    bool isActive = effect.TryTrigger();
+    if (!isActive) return;
+
     int newPriority = GetPriority(effect.EffectType);
     if (effects.Count > 0)
     {

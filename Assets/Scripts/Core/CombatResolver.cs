@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CombatResolver : Singleton<CombatResolver>
 {
+  [SerializeField] private StatusEffectDatabase statusEffectDatabase;
   private readonly List<IDamageModifier> BallModifiers = new()
     {
       new PlayerAttackModifier(),
@@ -23,6 +24,9 @@ public class CombatResolver : Singleton<CombatResolver>
 
   public HitResult ResolveHit(DamageContext ctx)
   {
+    // Due to extremely fast pace, the enemy might be already dead
+    if (!ctx.Enemy) return new HitResult { finalDamage = 0, killed = false };
+
     // 1) compute damage (from player stats, ball stats, skills, etc.)
     int damage = ComputeDamage(ctx);
 
@@ -38,11 +42,16 @@ public class CombatResolver : Singleton<CombatResolver>
     }
 
     // 3.1) apply StatusEffect from hitbox (if any)
-    if (!killed && ctx.StatusEffect != null)
-      ctx.StatusEffect.ApplyTo(ctx.Enemy);
+    if (!killed && ctx.StatusEffect != StatusEffectType.None)
+    {
+      var statusEffectConfig = statusEffectDatabase.GetConfig(ctx.StatusEffect);
+      Debug.Log("Applying status effect: " + statusEffectConfig + ctx.StatusEffect);
+      statusEffectConfig?.ApplyEffect(ctx.Enemy);
+    }
 
     // 4) update global combo (if you count each contact)
-    LevelContext.Instance.ComboManager.Increment(1);
+    if (ctx.SourceType == DamageSourceType.Ball)
+      LevelContext.Instance.ComboManager.Increment(1);
 
     // 5) publish ONE rich event for reactions (skills, UI, sounds)
     var evt = new OnHitEvent(

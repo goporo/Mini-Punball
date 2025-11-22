@@ -52,7 +52,7 @@ public class Enemy : BoardObject, IAttacker
         healthComponent.OnDied -= HandleOnDeath;
     }
 
-    public void ApplyStatusEffect(IStatusEffect effect)
+    public void ApplyStatusEffect(StatusEffectBase effect)
     {
         StatusController.AddEffect(effect);
     }

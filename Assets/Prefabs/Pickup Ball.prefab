@@ -115,7 +115,7 @@ MeshRenderer:
   m_GameObject: {fileID: 6655424852632887561}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 6655424852632887561}
+  size: {x: 1, y: 1}
   moveBehavior: {fileID: 11400000, guid: afa9caf59c91bbf42aa3e9b1c145f8f7, type: 2}
   EnemySkillBehavior: {fileID: 11400000, guid: d049e9082834fc94582afad3a9cdf6e3, type: 2}
   collectiblePrefab: {fileID: 9026529445473134637, guid: ef11c5156c3b46149bc016d12d94b8b5, type: 3}

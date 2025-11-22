@@ -4,7 +4,6 @@ public abstract class StatusEffectBase : IStatusEffect
 {
   protected int duration;
   protected float triggerChance;
-  protected bool isActive;
 
   public abstract StatusEffectType EffectType { get; }
 
@@ -16,25 +15,21 @@ public abstract class StatusEffectBase : IStatusEffect
 
   public virtual void OnApply(Enemy enemy)
   {
-    isActive = TryTrigger();
-    if (!isActive) return;
     ApplyEffect(enemy);
   }
 
   public virtual void OnRound(Enemy enemy)
   {
-    if (!isActive) return;
     OnRoundEffect(enemy);
     duration--;
   }
 
   public virtual void OnExpire(Enemy enemy)
   {
-    if (!isActive) return;
     ExpireEffect(enemy);
   }
 
-  protected virtual bool TryTrigger()
+  public bool TryTrigger()
   {
     if (triggerChance >= 1f) return true;
     float roll = Random.Range(0f, 1f);
