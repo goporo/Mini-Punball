@@ -9,24 +9,39 @@ public class EffSpawnLaser : EffectSO<EffectContext>
 
   public override void Execute(EffectContext ctx)
   {
-    Vector3 startPoint;
-    Vector3 endPoint;
-    List<BoardObject> targets;
-
     if (direction == Direction.Horizontal)
     {
-      startPoint = new Vector3(ctx.Enemy.Position.x - 10f, 1f, ctx.Enemy.Position.z);
-      endPoint = new Vector3(ctx.Enemy.Position.x + 10f, 1f, ctx.Enemy.Position.z);
-      targets = LevelContext.Instance.BoardState.GetRowObjects(ctx.Enemy.CurrentCell, ctx.Enemy);
+      SpawnAndApplyLaser(
+        new Vector3(ctx.Enemy.Position.x - 15f, 1f, ctx.Enemy.Position.z),
+        new Vector3(ctx.Enemy.Position.x + 15f, 1f, ctx.Enemy.Position.z),
+        LevelContext.Instance.BoardState.GetRowObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
     }
-    else // Vertical
+    else if (direction == Direction.Vertical)
     {
-      startPoint = new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z - 10f);
-      endPoint = new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z + 10f);
-      targets = LevelContext.Instance.BoardState.GetColumnObjects(ctx.Enemy.CurrentCell, ctx.Enemy);
+      SpawnAndApplyLaser(
+        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z - 15f),
+        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z + 15f),
+        LevelContext.Instance.BoardState.GetColumnObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
+    }
+    else // Both
+    {
+      // Horizontal
+      SpawnAndApplyLaser(
+        new Vector3(ctx.Enemy.Position.x - 15f, 1f, ctx.Enemy.Position.z),
+        new Vector3(ctx.Enemy.Position.x + 15f, 1f, ctx.Enemy.Position.z),
+        LevelContext.Instance.BoardState.GetRowObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
+
+      // Vertical
+      SpawnAndApplyLaser(
+        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z - 15f),
+        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z + 15f),
+        LevelContext.Instance.BoardState.GetColumnObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
     }
 
-    // Spawn laser VFX from centralized VFXManager pool (generic)
+  }
+
+  private void SpawnAndApplyLaser(Vector3 startPoint, Vector3 endPoint, List<BoardObject> targets)
+  {
     LevelContext.Instance.VFXManager.SpawnVFX<VFXLaser, LaserVFXParams>(
       new LaserVFXParams
       {
@@ -34,12 +49,10 @@ public class EffSpawnLaser : EffectSO<EffectContext>
         EndPoint = endPoint,
       }
     );
-
-    // Apply damage to targets
-    ApplyDamageToSelectedTargets(ctx, targets);
+    ApplyDamageToSelectedTargets(targets);
   }
 
-  private void ApplyDamageToSelectedTargets(EffectContext effCtx, List<BoardObject> targets)
+  private void ApplyDamageToSelectedTargets(List<BoardObject> targets)
   {
     foreach (var obj in targets)
     {
@@ -61,10 +74,16 @@ public class EffSpawnLaser : EffectSO<EffectContext>
     }
   }
 
+  public void SetDirection(Direction dir)
+  {
+    direction = dir;
+  }
+
   public enum Direction
   {
     Horizontal,
-    Vertical
+    Vertical,
+    Both
   }
 }
 

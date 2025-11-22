@@ -2,8 +2,8 @@ using UnityEngine;
 
 public abstract class StatusEffectBase : IStatusEffect
 {
-  protected int duration;
-  protected float triggerChance;
+  private int duration;
+  private float triggerChance;
 
   public abstract StatusEffectType EffectType { get; }
 

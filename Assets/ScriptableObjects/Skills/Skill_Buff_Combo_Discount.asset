@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Combo_Discount
   m_EditorClassIdentifier: 
-  skillId: 9beb2100-96ee-4814-931a-c01c2208b5e0
+  skillId: e89a54a3-ec58-4bf7-8747-c0f78d70bff0
   skillName: COMBO DISCOUNT
   description: Combo require -10%
   icon: {fileID: 0}

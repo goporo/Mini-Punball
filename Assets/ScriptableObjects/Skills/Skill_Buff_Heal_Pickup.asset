@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Heal_Pickup
   m_EditorClassIdentifier: 
-  skillId: 273a840a-9781-416e-981e-dfec9de73aaa
+  skillId: ad850a41-6f35-4864-8d0f-0949166445db
   skillName: RECOVERY UP
   description: Recover 50% more from pickups
   icon: {fileID: 0}

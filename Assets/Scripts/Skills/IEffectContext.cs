@@ -30,11 +30,11 @@ public class EffectCastContext : IEffectContext
 {
   public PlayerRunStats Player => LevelContext.Instance.Player;
   public EffectSO<EffectCastContext> Effect;
-  public bool IsOriginalCast;
-  public EffectCastContext(EffectSO<EffectCastContext> effect = null, bool isOriginalCast = true)
+  public bool IsComboCast;
+  public EffectCastContext(EffectSO<EffectCastContext> effect = null, bool isComboCast = true)
   {
     this.Effect = effect;
-    this.IsOriginalCast = isOriginalCast;
+    this.IsComboCast = isComboCast;
   }
 }
 

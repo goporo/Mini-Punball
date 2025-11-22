@@ -8,7 +8,7 @@ public class EffComboDouble : EffectSO<EffectCastContext>
   private float delay = 0.5f;
   public override void Execute(EffectCastContext ctx)
   {
-    if (Random.value > chance && !ctx.IsOriginalCast) return;
+    if (Random.value > chance && !ctx.IsComboCast) return;
 
     // Start coroutine on player MonoBehaviour
     ctx.Player.StartCoroutine(DelayedExecute(ctx));

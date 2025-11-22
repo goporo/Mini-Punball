@@ -33,6 +33,12 @@ public class EffSpawnLightning : EffectSO<EffectContext>
       }
     }
   }
+
+  public void IncreaseCount(int amount)
+  {
+    maxTargets += amount;
+  }
+
 }
 
 

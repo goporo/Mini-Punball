@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class StatusEffectSO : ScriptableObject
 {
-  [Tooltip("Type of status effect")]
   [SerializeField] private StatusEffectType type;
   public StatusEffectType Type => type;
 
@@ -11,6 +10,7 @@ public class StatusEffectSO : ScriptableObject
 
   [Tooltip("Chance to trigger (0-1)")]
   [SerializeField] protected float triggerChance = 1f;
+
 
   protected virtual StatusEffectBase CreateRuntimeInstance()
   {

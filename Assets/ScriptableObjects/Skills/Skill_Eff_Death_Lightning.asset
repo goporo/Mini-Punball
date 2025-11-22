@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Death_Lightning
   m_EditorClassIdentifier: 
-  skillId: 16fd4433-6c04-425e-9fa2-770d57a55f26
+  skillId: 2dd53445-0d4a-4a78-8b40-750862254590
   skillName: DEATH LIGHTNING
   description: Cast lightning on enemy death
   icon: {fileID: 0}

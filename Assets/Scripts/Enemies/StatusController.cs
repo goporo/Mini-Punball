@@ -18,6 +18,11 @@ public class StatusController
     this.enemy = enemy;
   }
 
+  public List<StatusEffectBase> GetActiveEffects()
+  {
+    return effects;
+  }
+
   public void AddEffect(StatusEffectBase effect)
   {
     bool isActive = effect.TryTrigger();

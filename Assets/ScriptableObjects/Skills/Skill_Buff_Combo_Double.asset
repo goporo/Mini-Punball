@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Combo_Double
   m_EditorClassIdentifier: 
-  skillId: 4c279c4a-e70b-4334-9e8c-5db5f101a890
+  skillId: 90d77a8c-42e8-4258-bc35-c758b371dbb1
   skillName: DOUBLE EFFECT
   description: Small chance to double combo effect
   icon: {fileID: 0}

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5f541ab2c984f46a34137bdb9f6edb, type: 3}
   m_Name: Trigger_Combo_40
   m_EditorClassIdentifier: 
-  comboThreshold: 8
+  comboThreshold: 40

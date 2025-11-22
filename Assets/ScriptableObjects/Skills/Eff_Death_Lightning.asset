@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fdcaac6d1e8843488c193675d6779db, type: 3}
   m_Name: Eff_Death_Lightning
   m_EditorClassIdentifier: 
-  multiplier: 4
+  multiplier: 6
   maxTargets: 3

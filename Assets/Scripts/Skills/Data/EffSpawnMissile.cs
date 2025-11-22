@@ -7,6 +7,8 @@ public class EffSpawnMissile : EffectSO<EffectContext>
   [SerializeField] private int multiplier = 1;
   public override void Execute(EffectContext ctx)
   {
+
+
     var targets = LevelContext.Instance.BoardState.GetLowestHealthEnemies(count, ctx.Enemy);
 
     for (int i = 0; i < targets.Count; i++)
@@ -31,6 +33,11 @@ public class EffSpawnMissile : EffectSO<EffectContext>
         );
       }
     }
+  }
+
+  public void IncreaseCount(int amount)
+  {
+    count += amount;
   }
 }
 

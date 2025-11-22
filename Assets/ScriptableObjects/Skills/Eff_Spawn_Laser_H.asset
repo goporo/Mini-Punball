@@ -14,4 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   multiplier: 2
   direction: 0
-  laserPrefab: {fileID: 6961892878001724902, guid: d3906f70e52041342b182a86c8d82ba5, type: 3}

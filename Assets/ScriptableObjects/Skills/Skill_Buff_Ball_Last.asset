@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Ball_Last
   m_EditorClassIdentifier: 
-  skillId: 4e54b4f2-e9af-4dec-87f4-d73c31a35fcd
+  skillId: 7fd484cc-9dd7-42c2-b942-9a5080669cbd
   skillName: FINAL CHARGE
   description: Last ball damage x300%
   icon: {fileID: 0}

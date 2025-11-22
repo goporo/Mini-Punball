@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Master_Laser
   m_EditorClassIdentifier: 
-  skillId: 48929dc7-c51d-4e73-89b6-9783008fa146
+  skillId: 82da8f51-fe22-419b-8d0a-097bac0c2d1c
   skillName: LASER MASTER
-  description: All laser damage x2, laser effect now fire in both direction
+  description: All laser damage increase, laser effect now fire in both direction
   icon: {fileID: 0}
   rarity: 0
   triggers:

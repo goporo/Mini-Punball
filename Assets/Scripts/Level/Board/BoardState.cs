@@ -130,6 +130,34 @@ public class BoardState : MonoBehaviour
     return objects.ToList();
   }
 
+  public List<Enemy> GetAdjacentEnemies(Vector2Int center, bool includeCenter = false)
+  {
+    var enemies = new HashSet<Enemy>();
+    var directions = new List<Vector2Int>
+    {
+      new Vector2Int(0, 1),  // Up
+      new Vector2Int(1, 0),  // Right
+      new Vector2Int(0, -1), // Down
+      new Vector2Int(-1, 0)  // Left
+    };
+
+    foreach (var dir in directions)
+    {
+      Vector2Int pos = center + dir;
+      if (IsInside(pos) && grid[pos.x, pos.y] is Enemy enemy)
+      {
+        enemies.Add(enemy);
+      }
+    }
+
+    if (includeCenter && IsInside(center) && grid[center.x, center.y] is Enemy centerEnemy)
+    {
+      enemies.Add(centerEnemy);
+    }
+
+    return enemies.ToList();
+  }
+
   public List<BoardObject> GetRowObjects(Vector2Int original, BoardObject exclude = null)
   {
     var rowObjects = new HashSet<BoardObject>();

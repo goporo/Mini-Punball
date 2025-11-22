@@ -26,6 +26,14 @@ public class EffDropComet : EffectSO<EffectCastContext>
     { CometType.Void, DamageType.Void }
   };
 
+  private static readonly Dictionary<CometType, StatusEffectType> CometTypeToStatus = new()
+  {
+    { CometType.Fire, StatusEffectType.Burn },
+    { CometType.Ice, StatusEffectType.Frozen },
+    { CometType.Bomb, StatusEffectType.None },
+    { CometType.Void, StatusEffectType.None }
+  };
+
   public override void Execute(EffectCastContext ctx)
   {
     var enemies = LevelContext.Instance.BoardState.GetRandomEnemies(1);
@@ -40,15 +48,16 @@ public class EffDropComet : EffectSO<EffectCastContext>
 
     var target = enemies[0];
     var damageType = CometTypeToDamage[cometType];
+    var statusEffectType = CometTypeToStatus[cometType];
     var dmgCtx = DamageContext.CreateEffectDamage(
       target,
       multiplier,
       damageType,
-      StatusEffectType.Burn
+      statusEffectType
     );
 
     SpawnCometVFX(vfxType, target, dmgCtx);
-    if (ctx.IsOriginalCast)
+    if (ctx.IsComboCast)
       EventBus.Publish(new OnComboCastEvent(this));
 
   }

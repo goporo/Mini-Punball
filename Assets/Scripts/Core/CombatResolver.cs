@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CombatResolver : Singleton<CombatResolver>
 {
+  public StatusEffectDatabase StatusEffectDatabase => statusEffectDatabase;
   [SerializeField] private StatusEffectDatabase statusEffectDatabase;
   private readonly List<IDamageModifier> BallModifiers = new()
     {
@@ -37,7 +38,7 @@ public class CombatResolver : Singleton<CombatResolver>
     if (ctx.OnHitEffect)
     {
       var effectCtx = new EffectContext(ctx.Enemy);
-      ctx.OnHitEffect.Execute(effectCtx);
+      EffectExecutor.Instance.Execute(ctx.OnHitEffect, effectCtx);
 
     }
 
@@ -45,8 +46,7 @@ public class CombatResolver : Singleton<CombatResolver>
     if (!killed && ctx.StatusEffect != StatusEffectType.None)
     {
       var statusEffectConfig = statusEffectDatabase.GetConfig(ctx.StatusEffect);
-      Debug.Log("Applying status effect: " + statusEffectConfig + ctx.StatusEffect);
-      statusEffectConfig?.ApplyEffect(ctx.Enemy);
+      StatusExecutor.Instance.Execute(statusEffectConfig, ctx.Enemy);
     }
 
     // 4) update global combo (if you count each contact)

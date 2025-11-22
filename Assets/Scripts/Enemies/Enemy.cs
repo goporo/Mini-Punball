@@ -52,11 +52,6 @@ public class Enemy : BoardObject, IAttacker
         healthComponent.OnDied -= HandleOnDeath;
     }
 
-    public void ApplyStatusEffect(StatusEffectBase effect)
-    {
-        StatusController.AddEffect(effect);
-    }
-
 
     public IEnumerator DoAttack(BoardState board)
     {

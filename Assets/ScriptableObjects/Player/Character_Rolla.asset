@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Character_Rolla
   m_EditorClassIdentifier: 
   BaseHealth: 5000
-  BaseAttack: 1000
-  BaseBallConfig: {fileID: 11400000, guid: 7d6ab2fae18faa54db383ebf1edb5f50, type: 2}
+  BaseAttack: 100
+  BaseBallConfig: {fileID: 11400000, guid: 5bf057be5b9c97e469af4c68ec023447, type: 2}
   BaseBallsCount: 5

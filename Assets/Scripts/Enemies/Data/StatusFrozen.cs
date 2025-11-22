@@ -7,6 +7,18 @@ public class StatusFrozen : StatusEffectSO
   {
     return new FrozenEffect(duration, triggerChance);
   }
+
+  public void IncreaseChance(float multiplier)
+  {
+    triggerChance *= multiplier;
+    if (triggerChance > 1f)
+      triggerChance = 1f;
+  }
+
+  public void IncreaseDuration(int extraTurns)
+  {
+    duration += extraTurns;
+  }
 }
 
 public class FrozenEffect : StatusEffectBase
