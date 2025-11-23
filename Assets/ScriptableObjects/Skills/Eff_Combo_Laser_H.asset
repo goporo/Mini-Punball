@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e5f541ab2c984f46a34137bdb9f6edb, type: 3}
-  m_Name: Trigger_Combo_40
+  m_Script: {fileID: 11500000, guid: da4cab6b5db17f1418b0086c12049e18, type: 3}
+  m_Name: Eff_Combo_Laser_H
   m_EditorClassIdentifier: 
-  comboThreshold: 8
+  multiplier: 2
+  direction: 0

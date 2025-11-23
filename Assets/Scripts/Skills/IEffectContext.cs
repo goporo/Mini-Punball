@@ -26,15 +26,27 @@ public class EffectContext : IEffectContext
   }
 }
 
+public class SkillGainContext : IEffectContext
+{
+  public PlayerRunStats Player => LevelContext.Instance.Player;
+  public SkillRuntime SkillRuntime { get; }
+  public SkillGainContext(SkillRuntime skillRuntime)
+  {
+    SkillRuntime = skillRuntime;
+  }
+}
+
 public class EffectCastContext : IEffectContext
 {
   public PlayerRunStats Player => LevelContext.Instance.Player;
   public EffectSO<EffectCastContext> Effect;
-  public bool IsComboCast;
-  public EffectCastContext(EffectSO<EffectCastContext> effect = null, bool isComboCast = true)
+  public Enemy Target;
+  public ECastOrigin CastOrigin;
+  public EffectCastContext(EffectSO<EffectCastContext> effect = null, Enemy target = null, ECastOrigin castOrigin = ECastOrigin.Enemy)
   {
     this.Effect = effect;
-    this.IsComboCast = isComboCast;
+    this.Target = target;
+    this.CastOrigin = castOrigin;
   }
 }
 

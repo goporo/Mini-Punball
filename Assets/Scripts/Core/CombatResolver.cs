@@ -34,11 +34,11 @@ public class CombatResolver : Singleton<CombatResolver>
     // 2) apply to health (keep health logic minimal & local)
     bool killed = ApplyDamage(ctx);
 
-    // 3) apply OnHitEffect from ball
+    // 3) apply OnHitEffect from hit
     if (ctx.OnHitEffect)
     {
-      var effectCtx = new EffectContext(ctx.Enemy);
-      EffectExecutor.Instance.Execute(ctx.OnHitEffect, effectCtx);
+      var effectCtx = new EffectCastContext(ctx.OnHitEffect, ctx.Enemy, ECastOrigin.Enemy);
+      EffectExecutor.Instance.Execute(effectCtx, ctx.OnHitEffect);
 
     }
 

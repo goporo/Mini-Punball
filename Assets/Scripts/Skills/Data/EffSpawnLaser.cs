@@ -2,41 +2,53 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnLaser")]
-public class EffSpawnLaser : EffectSO<EffectContext>
+public class EffSpawnLaser : EffectSO<EffectCastContext>
 {
   public int multiplier = 1;
   [SerializeField] private Direction direction = Direction.Horizontal;
+  private ICastOrigin origin;
 
-  public override void Execute(EffectContext ctx)
+  public override void Execute(EffectCastContext ctx)
   {
+    origin = CastOriginFactory.GetCastInstance(ctx.CastOrigin);
+    var target = ctx.Target;
+    if (target == null)
+    {
+      target = LevelContext.Instance.BoardState.GetRandomEnemy();
+      if (target == null) return;
+    }
+    var spawnPos = CastOriginFactory.GetGroundOrigin(target);
+
+
     if (direction == Direction.Horizontal)
     {
       SpawnAndApplyLaser(
-        new Vector3(ctx.Enemy.Position.x - 15f, 1f, ctx.Enemy.Position.z),
-        new Vector3(ctx.Enemy.Position.x + 15f, 1f, ctx.Enemy.Position.z),
-        LevelContext.Instance.BoardState.GetRowObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
+        spawnPos - 15f * Vector3.right,
+        spawnPos + 15f * Vector3.right,
+        LevelContext.Instance.BoardState.GetRowObjects(target.CurrentCell));
     }
     else if (direction == Direction.Vertical)
     {
       SpawnAndApplyLaser(
-        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z - 15f),
-        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z + 15f),
-        LevelContext.Instance.BoardState.GetColumnObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
+        spawnPos - 15f * Vector3.forward,
+        spawnPos + 15f * Vector3.forward,
+        LevelContext.Instance.BoardState.GetColumnObjects(target.CurrentCell));
     }
     else // Both
     {
       // Horizontal
       SpawnAndApplyLaser(
-        new Vector3(ctx.Enemy.Position.x - 15f, 1f, ctx.Enemy.Position.z),
-        new Vector3(ctx.Enemy.Position.x + 15f, 1f, ctx.Enemy.Position.z),
-        LevelContext.Instance.BoardState.GetRowObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
+        spawnPos - 15f * Vector3.right,
+        spawnPos + 15f * Vector3.right,
+        LevelContext.Instance.BoardState.GetRowObjects(target.CurrentCell));
 
       // Vertical
       SpawnAndApplyLaser(
-        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z - 15f),
-        new Vector3(ctx.Enemy.Position.x, 1f, ctx.Enemy.Position.z + 15f),
-        LevelContext.Instance.BoardState.GetColumnObjects(ctx.Enemy.CurrentCell, ctx.Enemy));
+        spawnPos - 15f * Vector3.forward,
+        spawnPos + 15f * Vector3.forward,
+        LevelContext.Instance.BoardState.GetColumnObjects(target.CurrentCell, target));
     }
+    origin.OnSpawn(this);
 
   }
 

@@ -3,10 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffBuffHealPickup")]
 public class EffBuffHealPickup : EffectSO
 {
-  [SerializeField] private float buffPercent = 50;
+  [SerializeField] private float multiplier = 1.5f;
   public override void Execute(IEffectContext ctx)
   {
-    ctx.Player.ApplyHealPickupBuff(1 + buffPercent / 100f);
+    ctx.Player.ApplyHealPickupBuff(multiplier);
   }
 
 }

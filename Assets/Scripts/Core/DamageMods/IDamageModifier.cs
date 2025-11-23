@@ -14,7 +14,7 @@ public class DamageContext
   public int PlayerAttack;
   public HitboxType Hitbox;
   public Enemy Enemy;
-  public EffectSO<EffectContext> OnHitEffect;
+  public EffectSO<EffectCastContext> OnHitEffect;
   public StatusEffectType StatusEffect;
   public DamageModifierSO[] AttackModifier;
   public DamageModifierSO[] DefenseModifiers;
@@ -30,7 +30,7 @@ public class DamageContext
       HitboxType hitbox,
       BallType ballType,
       DamageModifierSO[] attackModifier,
-      EffectSO<EffectContext> onHitEffect = null,
+      EffectSO<EffectCastContext> onHitEffect = null,
       StatusEffectType statusEffect = StatusEffectType.None,
       DamageType damageType = DamageType.Normal
       )

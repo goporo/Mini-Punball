@@ -11,7 +11,7 @@ public class EffectExecutor : Singleton<EffectExecutor>
     modifiers.Add(modifier);
   }
 
-  public void Execute(EffectSO<EffectContext> effect, EffectContext ctx)
+  public void Execute(IEffectContext ctx, EffectSO effect)
   {
     // create runtime copy so SO asset is never mutated
     var runtimeEffect = ScriptableObject.Instantiate(effect);

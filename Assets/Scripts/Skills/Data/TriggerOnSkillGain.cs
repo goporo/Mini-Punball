@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerOnSkillGain")]
-public class TriggerOnSkillGain : TriggerSO<PlayerContext>
+public class TriggerOnSkillGain : TriggerSO<SkillGainContext>
 {
-  public override IDisposable Subscribe(SkillRuntime runtime, Action<PlayerContext> fire)
+  public override IDisposable Subscribe(SkillRuntime runtime, Action<SkillGainContext> fire)
   {
-    fire(new PlayerContext(LevelContext.Instance.Player));
+    fire(new SkillGainContext(runtime));
     return new DummyDisposable();
   }
 

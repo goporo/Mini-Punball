@@ -8,6 +8,7 @@ public class EffDropComet : EffectSO<EffectCastContext>
 {
   [SerializeField] private CometType cometType;
   [SerializeField] private int multiplier = 2;
+  [SerializeField] private ECastOrigin castOrigin = ECastOrigin.Enemy;
 
   // Static mapping from enum to VFX type - initialize once
   private static readonly Dictionary<CometType, System.Type> CometTypeToVFX = new()
@@ -36,6 +37,7 @@ public class EffDropComet : EffectSO<EffectCastContext>
 
   public override void Execute(EffectCastContext ctx)
   {
+    var origin = CastOriginFactory.GetCastInstance(castOrigin);
     var enemies = LevelContext.Instance.BoardState.GetRandomEnemies(1);
     if (enemies == null || enemies.Count == 0)
       return;
@@ -57,8 +59,7 @@ public class EffDropComet : EffectSO<EffectCastContext>
     );
 
     SpawnCometVFX(vfxType, target, dmgCtx);
-    if (ctx.IsComboCast)
-      EventBus.Publish(new OnComboCastEvent(this));
+    origin.OnSpawn(this);
 
   }
 
@@ -70,7 +71,7 @@ public class EffDropComet : EffectSO<EffectCastContext>
 
     var spawnParams = new TargetVFXParams
     {
-      Position = target.Position + Vector3.up * 5f,
+      Position = CastOriginFactory.GetSkyOrigin(target),
       Target = target,
       Callback = () => CombatResolver.Instance.ResolveHit(dmgCtx)
     };

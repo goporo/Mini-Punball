@@ -12,7 +12,7 @@ public class TriggerComboReach : TriggerSO<EffectCastContext>
     {
       var currentThreshold = LevelContext.Instance.ComboManager.GetDiscountedComboThreshold(comboThreshold);
       if (currentThreshold <= 0 || e.CurrentCombo % currentThreshold != 0) return;
-      var context = new EffectCastContext(null, true);
+      var context = new EffectCastContext(null, null, ECastOrigin.Combo);
       fire(context);
 
     };

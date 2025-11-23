@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,19 +55,23 @@ public class SkillManager : MonoBehaviour
     try
     {
       var runtime = new SkillRuntime(skill);
+      Action<IEffectContext> effectAction = (IEffectContext ctx) =>
+      {
+        // Check all conditions first
+        if (!CheckConditions(skill.conditions, ctx))
+          return;
+
+        // Execute all effects immediately if conditions pass
+        foreach (var effect in skill.effects)
+        {
+          EffectExecutor.Instance.Execute(ctx, effect);
+
+        }
+      };
 
       foreach (var trigger in skill.triggers)
       {
-        var disposable = trigger.Subscribe(runtime, ctx =>
-        {
-          // Check all conditions first
-          if (!CheckConditions(skill.conditions, ctx))
-            return;
-
-          // Execute all effects immediately if conditions pass
-          foreach (var effect in skill.effects)
-            effect.Execute(ctx);
-        });
+        var disposable = trigger.Subscribe(runtime, effectAction);
         runtime.subscriptions.Add(disposable);
       }
 

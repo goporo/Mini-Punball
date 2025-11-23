@@ -9,7 +9,7 @@ public class BallSO : ScriptableObject
 
     [TextArea] public string Description;
     public GameObject BallPrefab;
-    public EffectSO<EffectContext> OnHitEffect;
+    public EffectSO<EffectCastContext> OnHitEffect;
     public StatusEffectSO StatusEffect;
     public BallPhysicsSO PhysicsBehavior;
     public DamageModifierSO[] DamageModifiers;

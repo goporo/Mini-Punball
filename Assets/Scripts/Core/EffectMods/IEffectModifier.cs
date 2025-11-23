@@ -5,6 +5,6 @@ public interface IEffectModifier
 
 public class EffectExecutionContext
 {
-  public EffectSO<EffectContext> Effect;
-  public EffectContext Context;
+  public EffectSO Effect;
+  public IEffectContext Context;
 }

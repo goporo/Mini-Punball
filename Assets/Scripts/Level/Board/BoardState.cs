@@ -35,6 +35,12 @@ public class BoardState : MonoBehaviour
     return GetAllBoardObjects().OfType<Enemy>().ToList();
   }
 
+  public Enemy GetRandomEnemy(Enemy exclude = null)
+  {
+    var enemies = GetRandomEnemies(1, exclude);
+    return enemies.Count > 0 ? enemies[0] : null;
+  }
+
   public List<Enemy> GetRandomEnemies(int count, Enemy exclude = null)
   {
     var enemies = exclude == null

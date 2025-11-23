@@ -30,7 +30,6 @@ public class VFXCometBase : VFXBase<TargetVFXParams>
 
     // Add z to the original position
     Vector3 start = transform.position;
-    start.z += 6 - enemy.CurrentCell.y;
     transform.position = start;
     Vector3 end = target.Position;
 
