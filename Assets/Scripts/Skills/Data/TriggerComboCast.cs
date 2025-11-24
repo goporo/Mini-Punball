@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerComboCast")]
-public class TriggerComboCast : TriggerSO<EffectCastContext>
+public class TriggerComboCast : TriggerSO<ComboCastContext>
 {
 
-  public override IDisposable Subscribe(SkillRuntime runtime, Action<EffectCastContext> fire)
+  public override IDisposable Subscribe(SkillRuntime runtime, Action<ComboCastContext> fire)
   {
     Action<OnComboCastEvent> onComboCast = (OnComboCastEvent e) =>
     {
-      var context = new EffectCastContext(e.Effect);
+      var context = new ComboCastContext(e.Effect);
       fire(context);
     };
 

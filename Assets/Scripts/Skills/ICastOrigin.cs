@@ -2,17 +2,19 @@ using UnityEngine;
 
 public interface ICastOrigin
 {
-  void OnSpawn(EffectSO<EffectCastContext> ctx);   // optional hook
+  public void OnSpawn(EffectSO<EffectCastContext> ctx);   // optional hook
+
 }
 
 public static class CastOriginFactory
 {
-  public static ICastOrigin GetCastInstance(ECastOrigin origin)
+  public static ICastOrigin GetCastInstance(ECastSource origin)
   {
     return origin switch
     {
-      ECastOrigin.Enemy => new EnemyOrigin(),
-      ECastOrigin.Combo => new ComboOrigin(),
+      ECastSource.Enemy => new EnemyOrigin(),
+      ECastSource.Combo => new ComboOrigin(),
+      ECastSource.Effect => new EffectOrigin(),
       _ => new EnemyOrigin(),
     };
   }
@@ -35,7 +37,7 @@ public static class CastOriginFactory
       return Vector3.zero;
     }
 
-    float adjustedZ = target.Position.z + (6 - target.CurrentCell.y);
+    float adjustedZ = target.Position.z + (6 - target.CurrentCell.y) + 3; // Adjust Z so it spawns from top screen
     return new Vector3(target.Position.x, 5f, adjustedZ);
   }
 }
@@ -53,9 +55,14 @@ public class ComboOrigin : ICastOrigin
   }
 }
 
-public enum ECastOrigin
+public class EffectOrigin : ICastOrigin
 {
-  Enemy,
-  Combo,
-  Clone
+  public void OnSpawn(EffectSO<EffectCastContext> ctx) { }
+}
+
+public enum ECastSource
+{
+  Enemy, // effect spawned from an enemy
+  Combo, // effect spawned from a combo
+  Effect // effect spawned from another effect
 }

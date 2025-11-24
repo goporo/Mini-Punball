@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cometType: 0
   multiplier: 2
+  hitEffect: {fileID: 11400000, guid: 26a33b39afd23cc42ace347b20b92bff, type: 2}

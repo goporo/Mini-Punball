@@ -2,21 +2,22 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffExplode")]
-public class EffExplode : EffectSO<EffectContext>
+public class EffExplode : EffectSO<EffectCastContext>
 {
   [SerializeField] private int multiplier = 6;
   private int radius = 1;
 
-  public override void Execute(EffectContext ctx)
+  public override void Execute(EffectCastContext ctx)
   {
-    var targets = LevelContext.Instance.BoardState.GetSurroundingObjects(ctx.Enemy.CurrentCell, radius);
+    if (!ctx.CastEnemy) return;
+    var targets = LevelContext.Instance.BoardState.GetSurroundingObjects(ctx.CastEnemy.CurrentCell, radius, true);
     var enemies = targets.OfType<Enemy>().ToList();
     EventBus.Publish(new OnBombExplodeEvent(new AOEContext(enemies)));
 
     LevelContext.Instance.VFXManager.SpawnVFX<VFXExplode, BasicVFXParams>(
       new BasicVFXParams
       {
-        Position = ctx.Enemy.Position,
+        Position = ctx.CastEnemy.Position,
       }
     );
 

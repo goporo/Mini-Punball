@@ -28,4 +28,9 @@ public class PhysicsBounceRuntime : IBallPhysicsBehavior
     physics.ProcessDamage(hit);
     physics.Reflect(hit);
   }
+
+  public void OnHitWall(RaycastHit hit)
+  {
+    physics.Reflect(hit);
+  }
 }

@@ -19,8 +19,6 @@ public class VFXLightning : VFXBase<LightningVFXParams>
       arcs = GetComponentsInChildren<LineRenderer>();
   }
 
-
-
   private LightningVFXParams currentParams;
 
   public override void OnSpawn(LightningVFXParams p)

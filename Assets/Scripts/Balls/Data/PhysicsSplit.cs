@@ -33,7 +33,6 @@ public class PhysicsSplitRuntime : IBallPhysicsBehavior
     physics.HandleBallReturned(ball);
   }
 
-
   private void Split(BallType ballType, Vector3 splitPoint, Vector3 originalDirection)
   {
     int splitCount = 2; // Number of split balls
@@ -47,6 +46,11 @@ public class PhysicsSplitRuntime : IBallPhysicsBehavior
       var rotation = Quaternion.LookRotation(splitDirection, Vector3.up);
       LevelContext.Instance.Player.Balls.SpawnEphemeralBall(ballType, 1, splitPoint, splitDirection, rotation);
     }
+  }
+
+  public void OnHitWall(RaycastHit hit)
+  {
+    physics.Reflect(hit);
   }
 }
 

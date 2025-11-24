@@ -37,4 +37,9 @@ public class PhysicsDestructRuntime : IBallPhysicsBehavior
     );
     physics.HandleBallReturned(ball);
   }
+
+  public void OnHitWall(RaycastHit hit)
+  {
+    physics.Reflect(hit);
+  }
 }

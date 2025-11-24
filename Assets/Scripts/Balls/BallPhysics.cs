@@ -110,15 +110,20 @@ public class BallPhysics : MonoBehaviour
             float safeDistance = Mathf.Max(0, hit.distance - minCollisionDistance);
             transform.position += moveDirection * safeDistance;
 
-            // Let behavior handle the collision
             if (hit.collider.CompareTag("Enemy"))
             {
                 behavior.OnHitEnemy(hit);
+                // After hitting enemy, continue moving the remaining distance
+                float remainingDistance = moveDistance - safeDistance;
+                if (remainingDistance > 0.001f)
+                {
+                    transform.position += moveDirection * remainingDistance;
+                }
             }
             else
             {
                 // Hit a wall or other object, reflect
-                Reflect(hit);
+                behavior.OnHitWall(hit);
             }
         }
         else
@@ -160,6 +165,15 @@ public class BallPhysics : MonoBehaviour
         {
             moveDirection = reflection.normalized;
             ballVisual.transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+        }
+    }
+
+    public void Penetrate(RaycastHit hit)
+    {
+        // No change to moveDirection, just continue moving forward if hit enemy, but reflect if hit wall
+        if (!hit.collider.CompareTag("Enemy"))
+        {
+            Reflect(hit);
         }
     }
 

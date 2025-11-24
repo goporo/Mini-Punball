@@ -8,15 +8,15 @@ public class EffDropComet : EffectSO<EffectCastContext>
 {
   [SerializeField] private CometType cometType;
   [SerializeField] private int multiplier = 2;
-  [SerializeField] private ECastOrigin castOrigin = ECastOrigin.Enemy;
+  [SerializeField] private EffectSO<EffectCastContext> hitEffect;
 
   // Static mapping from enum to VFX type - initialize once
   private static readonly Dictionary<CometType, System.Type> CometTypeToVFX = new()
   {
     { CometType.Fire, typeof(VFXCometFire) },
-    // { CometType.Ice, typeof(VFXCometIce) },
-    // { CometType.Bomb, typeof(VFXCometBomb) },
-    // { CometType.Void, typeof(VFXCometVoid) }
+    { CometType.Ice, typeof(VFXCometIce) },
+    { CometType.Bomb, typeof(VFXCometBomb) },
+    { CometType.Void, typeof(VFXCometVoid) }
   };
 
   private static readonly Dictionary<CometType, DamageType> CometTypeToDamage = new()
@@ -35,9 +35,17 @@ public class EffDropComet : EffectSO<EffectCastContext>
     { CometType.Void, StatusEffectType.None }
   };
 
+  private static readonly Dictionary<CometType, StatusEffectType> CometTypeToHitEffect = new()
+  {
+    // { CometType.Fire, EffectSO },
+    // { CometType.Ice, StatusEffectType.Frozen },
+    // { CometType.Bomb, StatusEffectType.None },
+    // { CometType.Void, StatusEffectType.None }
+  };
+
   public override void Execute(EffectCastContext ctx)
   {
-    var origin = CastOriginFactory.GetCastInstance(castOrigin);
+    var origin = CastOriginFactory.GetCastInstance(ctx.CastSource);
     var enemies = LevelContext.Instance.BoardState.GetRandomEnemies(1);
     if (enemies == null || enemies.Count == 0)
       return;
@@ -73,7 +81,15 @@ public class EffDropComet : EffectSO<EffectCastContext>
     {
       Position = CastOriginFactory.GetSkyOrigin(target),
       Target = target,
-      Callback = () => CombatResolver.Instance.ResolveHit(dmgCtx)
+      Callback = () =>
+      {
+        CombatResolver.Instance.ResolveHit(dmgCtx);
+        if (hitEffect != null)
+        {
+          var effectCtx = new EffectCastContext(target, ECastSource.Effect);
+          EffectExecutor.Instance.Execute(effectCtx, hitEffect);
+        }
+      }
     };
 
     // Use reflection to call SpawnVFX<T, TParams> with runtime type

@@ -8,7 +8,7 @@ public class TriggerOnEnemyDeath : TriggerSO<EffectCastContext>
   {
     Action<EnemyDeathEvent> onEnemyDeath = (EnemyDeathEvent e) =>
     {
-      var context = new EffectCastContext(null, e.Context.Enemy, ECastOrigin.Enemy);
+      var context = new EffectCastContext(e.Context.Enemy, ECastSource.Enemy);
       fire(context);
     };
 

@@ -37,7 +37,7 @@ public class CombatResolver : Singleton<CombatResolver>
     // 3) apply OnHitEffect from hit
     if (ctx.OnHitEffect)
     {
-      var effectCtx = new EffectCastContext(ctx.OnHitEffect, ctx.Enemy, ECastOrigin.Enemy);
+      var effectCtx = new EffectCastContext(ctx.Enemy, ECastSource.Enemy);
       EffectExecutor.Instance.Execute(effectCtx, ctx.OnHitEffect);
 
     }

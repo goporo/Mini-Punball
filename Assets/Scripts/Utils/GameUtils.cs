@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class GameUtils
 {
   public static string FormatHealthText(int health)
@@ -5,24 +7,33 @@ public class GameUtils
     if (health < 10000)
       return health.ToString();
 
-    string[] suffixes = { "K", "M", "B", "T" };
-    double value = health;
-    int suffixIndex = -1;
-
-    while (value >= 10000 && suffixIndex < suffixes.Length - 1)
+    if (health < 1_000_000)
     {
-      value /= 1000;
-      suffixIndex++;
+      int thousands = health / 1000;
+      int decimalPart = (health % 1000) / 100;
+
+      return decimalPart > 0
+          ? $"{thousands}.{decimalPart}K"
+          : $"{thousands}K";
     }
 
-    if (suffixIndex == -1)
-      return health.ToString();
+    if (health < 1_000_000_000)
+    {
+      int millions = health / 1_000_000;
+      int decimalPart = (health % 1_000_000) / 100_000;
 
-    // Show one decimal if value < 100, else no decimal
-    if (value < 100)
-      return $"{value:0.0}{suffixes[suffixIndex]}";
-    else
-      return $"{value:0}{suffixes[suffixIndex]}";
+      return decimalPart > 0
+          ? $"{millions}.{decimalPart}M"
+          : $"{millions}M";
+    }
+
+    int billions = health / 1_000_000_000;
+    int decimalB = (health % 1_000_000_000) / 100_000_000;
+
+    return decimalB > 0
+        ? $"{billions}.{decimalB}B"
+        : $"{billions}B";
   }
+
 
 }

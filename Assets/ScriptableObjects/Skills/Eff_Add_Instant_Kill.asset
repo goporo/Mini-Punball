@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8775075d2ce4954bb11612b82c8f69e, type: 3}
-  m_Name: Mod_Backstab
+  m_Script: {fileID: 11500000, guid: 2902c7cf09d6d994e936956eb2bf615b, type: 3}
+  m_Name: Eff_Add_Instant_Kill
   m_EditorClassIdentifier: 
-  multiplier: 15
+  BallType: 15

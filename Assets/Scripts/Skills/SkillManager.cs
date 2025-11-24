@@ -55,7 +55,7 @@ public class SkillManager : MonoBehaviour
     try
     {
       var runtime = new SkillRuntime(skill);
-      Action<IEffectContext> effectAction = (IEffectContext ctx) =>
+      void effectAction(IEffectContext ctx)
       {
         // Check all conditions first
         if (!CheckConditions(skill.conditions, ctx))
@@ -67,7 +67,7 @@ public class SkillManager : MonoBehaviour
           EffectExecutor.Instance.Execute(ctx, effect);
 
         }
-      };
+      }
 
       foreach (var trigger in skill.triggers)
       {

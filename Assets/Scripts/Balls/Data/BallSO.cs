@@ -32,5 +32,6 @@ public enum BallType
     Split,
     SplitMini,
     Drill,
-    Bomb
+    Bomb,
+    InstantKill
 }

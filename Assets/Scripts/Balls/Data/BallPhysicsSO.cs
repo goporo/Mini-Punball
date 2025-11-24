@@ -13,4 +13,5 @@ public interface IBallPhysicsBehavior
     void Init(BallPhysics physics, BallBase ballBase);
     void Move(float deltaTime);
     void OnHitEnemy(RaycastHit hit);
+    void OnHitWall(RaycastHit hit);
 }

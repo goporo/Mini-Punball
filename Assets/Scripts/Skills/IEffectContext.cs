@@ -39,14 +39,23 @@ public class SkillGainContext : IEffectContext
 public class EffectCastContext : IEffectContext
 {
   public PlayerRunStats Player => LevelContext.Instance.Player;
+  public Enemy CastEnemy;
+  public ECastSource CastSource;
+  public EffectCastContext(Enemy castEnemy = null, ECastSource castOrigin = ECastSource.Enemy)
+  {
+    this.CastEnemy = castEnemy;
+    this.CastSource = castOrigin;
+  }
+}
+
+public class ComboCastContext : IEffectContext
+{
+  public PlayerRunStats Player => LevelContext.Instance.Player;
   public EffectSO<EffectCastContext> Effect;
-  public Enemy Target;
-  public ECastOrigin CastOrigin;
-  public EffectCastContext(EffectSO<EffectCastContext> effect = null, Enemy target = null, ECastOrigin castOrigin = ECastOrigin.Enemy)
+  public ECastSource CastOrigin => ECastSource.Combo;
+  public ComboCastContext(EffectSO<EffectCastContext> effect)
   {
     this.Effect = effect;
-    this.Target = target;
-    this.CastOrigin = castOrigin;
   }
 }
 

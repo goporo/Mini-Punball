@@ -6,18 +6,17 @@ public class EffSpawnLaser : EffectSO<EffectCastContext>
 {
   public int multiplier = 1;
   [SerializeField] private Direction direction = Direction.Horizontal;
-  private ICastOrigin origin;
 
   public override void Execute(EffectCastContext ctx)
   {
-    origin = CastOriginFactory.GetCastInstance(ctx.CastOrigin);
-    var target = ctx.Target;
-    if (target == null)
+    var originInstance = CastOriginFactory.GetCastInstance(ctx.CastSource);
+    var enemy = ctx.CastEnemy;
+    if (enemy == null)
     {
-      target = LevelContext.Instance.BoardState.GetRandomEnemy();
-      if (target == null) return;
+      enemy = LevelContext.Instance.BoardState.GetRandomEnemy();
+      if (enemy == null) return;
     }
-    var spawnPos = CastOriginFactory.GetGroundOrigin(target);
+    var spawnPos = CastOriginFactory.GetGroundOrigin(enemy);
 
 
     if (direction == Direction.Horizontal)
@@ -25,14 +24,14 @@ public class EffSpawnLaser : EffectSO<EffectCastContext>
       SpawnAndApplyLaser(
         spawnPos - 15f * Vector3.right,
         spawnPos + 15f * Vector3.right,
-        LevelContext.Instance.BoardState.GetRowObjects(target.CurrentCell));
+        LevelContext.Instance.BoardState.GetRowObjects(enemy.CurrentCell));
     }
     else if (direction == Direction.Vertical)
     {
       SpawnAndApplyLaser(
         spawnPos - 15f * Vector3.forward,
         spawnPos + 15f * Vector3.forward,
-        LevelContext.Instance.BoardState.GetColumnObjects(target.CurrentCell));
+        LevelContext.Instance.BoardState.GetColumnObjects(enemy.CurrentCell));
     }
     else // Both
     {
@@ -40,15 +39,15 @@ public class EffSpawnLaser : EffectSO<EffectCastContext>
       SpawnAndApplyLaser(
         spawnPos - 15f * Vector3.right,
         spawnPos + 15f * Vector3.right,
-        LevelContext.Instance.BoardState.GetRowObjects(target.CurrentCell));
+        LevelContext.Instance.BoardState.GetRowObjects(enemy.CurrentCell));
 
       // Vertical
       SpawnAndApplyLaser(
         spawnPos - 15f * Vector3.forward,
         spawnPos + 15f * Vector3.forward,
-        LevelContext.Instance.BoardState.GetColumnObjects(target.CurrentCell, target));
+        LevelContext.Instance.BoardState.GetColumnObjects(enemy.CurrentCell, enemy));
     }
-    origin.OnSpawn(this);
+    originInstance.OnSpawn(this);
 
   }
 
