@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4841b8bae3b55e64fbf8e61ec63922fc, type: 3}
   m_Name: Eff_Buff_HP_5
   m_EditorClassIdentifier: 
-  buffPercent: 5
+  multiplier: 1.05

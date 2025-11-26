@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
+  m_Name: Skill_Eff_Combo_Ice
+  m_EditorClassIdentifier: 
+  skillId: 3231e57b-82b2-4457-a373-828422ab5d45
+  skillName: COMBO ICEBALL
+  description: Drop an ice comet every 40 combos
+  icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 11400000, guid: 19e999f82c698084e8c9f226e070364f, type: 2}
+  conditions: []
+  effects:
+  - {fileID: 11400000, guid: 5efd26fe612311041b57feb3e062aefe, type: 2}
+  maxStacks: 1

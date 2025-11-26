@@ -1,19 +1,17 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnMissile")]
-public class EffSpawnMissile : EffectSO<EffectContext>
+public class EffSpawnMissile : EffectSO<EffectCastContext>
 {
-  [SerializeField] private int count = 1;
   [SerializeField] private int multiplier = 1;
-  public override void Execute(EffectContext ctx)
+  [SerializeField] private int maxTargets = 1;
+  public override void Execute(EffectCastContext ctx)
   {
-
-
-    var targets = LevelContext.Instance.BoardState.GetLowestHealthEnemies(count, ctx.Enemy);
+    var targets = LevelContext.Instance.BoardState.GetLowestHealthEnemies(maxTargets, ctx.CastEnemy);
+    var spawnPos = ctx.CastEnemy != null ? ctx.CastEnemy.Position : CastOriginFactory.GetDefaultEnemySpawnOrigin();
 
     for (int i = 0; i < targets.Count; i++)
     {
-
       var target = targets[i];
       if (target != null)
       {
@@ -26,7 +24,7 @@ public class EffSpawnMissile : EffectSO<EffectContext>
         LevelContext.Instance.VFXManager.SpawnVFX<VFXMissile, TargetVFXParams>(
           new TargetVFXParams
           {
-            Position = ctx.Enemy.Position,
+            Position = spawnPos,
             Target = target,
             Callback = () => CombatResolver.Instance.ResolveHit(dmgCtx)
           }
@@ -37,7 +35,7 @@ public class EffSpawnMissile : EffectSO<EffectContext>
 
   public void IncreaseCount(int amount)
   {
-    count += amount;
+    maxTargets += amount;
   }
 }
 

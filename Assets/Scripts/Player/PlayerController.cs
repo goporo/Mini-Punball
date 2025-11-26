@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
   [SerializeField] private BallManager ballManager;
   private HealthComponent healthComponent;
 
-
   void Awake()
   {
     healthComponent = GetComponent<HealthComponent>();
@@ -50,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
   public void HandleDeath()
   {
-    EventBus.Publish(new OnPlayerDiedEvent());
+    healthComponent.TryRevive();
   }
 
 }

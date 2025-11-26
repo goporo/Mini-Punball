@@ -139,6 +139,27 @@ public class BallManager : MonoBehaviour
         EventBus.Publish(new BallCountChangedEvent(playerBalls.Count));
     }
 
+    public void UpgradeBalls(BallType newType, int count)
+    {
+        // replace normal balls with newType balls
+        int upgraded = 0;
+        for (int i = 0; i < playerBalls.Count && upgraded < count; i++)
+        {
+            if (playerBalls[i].Stats.BallType == BallType.Normal)
+            {
+                var ballConfig = ballDatabaseSO.GetConfig(newType);
+                var ballObj = Instantiate(ballConfig.BallPrefab, transform);
+                var ballBase = ballObj.GetComponent<BallBase>();
+                ballObj.SetActive(false);
+
+                // Replace in the same position
+                Destroy(playerBalls[i].gameObject);
+                playerBalls[i] = ballBase;
+                upgraded++;
+            }
+        }
+    }
+
     public void SpawnEphemeralBall(BallType type, int count, Vector3 position, Vector3 direction, Quaternion rotation)
     {
         var ballConfig = ballDatabaseSO.GetConfig(type);
@@ -155,6 +176,26 @@ public class BallManager : MonoBehaviour
             ephemeralBalls.Add(ballBase);
             activeBalls.Add(ballBase);
         }
+    }
+
+    public void CloneAttackingBall()
+    {
+        if (activeBalls.Count == 0) return;
+        var ballToClone = activeBalls[Random.Range(0, activeBalls.Count)];
+        var spawnPos = CastOriginFactory.GetDefaultBallSpawnOrigin();
+
+        // Random angle between 210 and 330 degrees in XZ plane (0° = positive X axis)
+        float angle = Random.Range(210f, 330f);
+        var rotation = Quaternion.Euler(0, angle, 0);
+        Vector3 direction = rotation * Vector3.right;
+
+        SpawnEphemeralBall(
+            ballToClone.Stats.BallType,
+            1,
+            spawnPos,
+            direction,
+            rotation
+        );
     }
 
     public bool HasBall(BallType type)

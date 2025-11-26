@@ -27,16 +27,16 @@ public class LevelController : MonoBehaviour
     void OnEnable()
     {
         EventBus.Subscribe<OnHitEvent>(HandleOnEnemyHit);
-        EventBus.Subscribe<OnPlayerDiedEvent>(HandleOnPlayerDied);
+        EventBus.Subscribe<GameLostEvent>(HandleGameLost);
     }
 
     void OnDisable()
     {
         EventBus.Unsubscribe<OnHitEvent>(HandleOnEnemyHit);
-        EventBus.Unsubscribe<OnPlayerDiedEvent>(HandleOnPlayerDied);
+        EventBus.Unsubscribe<GameLostEvent>(HandleGameLost);
     }
 
-    private void HandleOnPlayerDied(OnPlayerDiedEvent e)
+    private void HandleGameLost(GameLostEvent e)
     {
         // Optionally handle player death (e.g., stop level, show UI, etc.)
         Debug.Log("💀 Player died! Level failed.");

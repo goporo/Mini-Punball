@@ -40,6 +40,16 @@ public static class CastOriginFactory
     float adjustedZ = target.Position.z + (6 - target.CurrentCell.y) + 3; // Adjust Z so it spawns from top screen
     return new Vector3(target.Position.x, 5f, adjustedZ);
   }
+
+  public static Vector3 GetDefaultEnemySpawnOrigin()
+  {
+    return new Vector3(2.5f, 1f, 0.5f);
+  }
+
+  public static Vector3 GetDefaultBallSpawnOrigin()
+  {
+    return new Vector3(2.5f, 0f, 4f);
+  }
 }
 
 public class EnemyOrigin : ICastOrigin

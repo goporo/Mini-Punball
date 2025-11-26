@@ -51,7 +51,7 @@ public class CombatResolver : Singleton<CombatResolver>
 
     // 4) update global combo (if you count each contact)
     if (ctx.SourceType == DamageSourceType.Ball)
-      LevelContext.Instance.ComboManager.Increment(1);
+      LevelContext.Instance.ComboManager.ExecuteIncrement(ctx.ballType, 1);
 
     // 5) publish ONE rich event for reactions (skills, UI, sounds)
     var evt = new OnHitEvent(
@@ -89,14 +89,13 @@ public class CombatResolver : Singleton<CombatResolver>
     if (ctx.FinalDamage <= 0) return;
 
     var player = LevelContext.Instance.Player;
-    var damageText = "-" + GameUtils.FormatHealthText(ctx.FinalDamage);
-    SpawnDamagePopup(player.Position, damageText);
+
 
     player.HealthComponent.PlayerTakeDamage(ctx);
   }
 
 
-  public void SpawnDamagePopup(Vector3 pos, string dmgTxt, DamageType dmgType = DamageType.Normal)
+  public static void SpawnDamagePopup(Vector3 pos, string dmgTxt, DamageType dmgType = DamageType.Normal)
   {
     var pool = LevelContext.Instance.UIPool;
     var popup = pool.GetDamagePopup();

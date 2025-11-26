@@ -14,6 +14,7 @@ public class PlayerRunStats : MonoBehaviour
   public BallManager Balls;
   public HealthComponent HealthComponent;
   public Vector3 Position => transform.position + Vector3.up;
+  [SerializeField] private PlayerController playerController;
 
   [System.Serializable]
   public struct PlayerStats
@@ -100,10 +101,9 @@ public class PlayerRunStats : MonoBehaviour
     return Mathf.RoundToInt(baseHeal * runBuffs.HealPickupMultiplier);
   }
 
-  public void ApplyRoundBuff(PlayerStats roundBuff)
+  public void ApplyInvincibleBuff(int durationRounds)
   {
-    roundStats = roundBuff;
-    Recalculate();
+    HealthComponent.ApplyInvincible(durationRounds);
   }
 
   private void Recalculate()

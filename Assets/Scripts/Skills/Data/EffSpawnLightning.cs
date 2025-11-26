@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffSpawnLightning")]
@@ -12,7 +11,7 @@ public class EffSpawnLightning : EffectSO<EffectCastContext>
     var originInstance = CastOriginFactory.GetCastInstance(ctx.CastSource);
     var targets = LevelContext.Instance.BoardState.GetRandomEnemies(maxTargets, ctx.CastEnemy);
     if (targets == null || targets.Count == 0) return;
-    var spawnPos = CastOriginFactory.GetGroundOrigin(ctx.CastEnemy);
+    var spawnPos = CastOriginFactory.GetGroundOrigin(ctx.CastEnemy ?? targets[0]);
 
     for (int i = 0; i < targets.Count; i++)
     {

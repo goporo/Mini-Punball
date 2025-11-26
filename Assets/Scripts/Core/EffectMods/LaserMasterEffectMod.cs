@@ -4,6 +4,7 @@ public class LaserMasterEffectMod : IEffectModifier
   {
     if (ctx.Effect is not EffSpawnLaser laser)
       return;
+
     laser.SetDirection(EffSpawnLaser.Direction.Both);
   }
 }

@@ -184,6 +184,10 @@ public struct OnPlayerDiedEvent : IGameEvent
 {
 }
 
+public struct GameLostEvent : IGameEvent
+{
+}
+
 public struct OnComboChangedEvent : IGameEvent
 {
   public int CurrentCombo;

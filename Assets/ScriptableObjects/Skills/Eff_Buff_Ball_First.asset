@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Eff_Buff_Ball_First
   m_EditorClassIdentifier: 
   target: 3
-  buffMultiplier: 3
+  multiplier: 3

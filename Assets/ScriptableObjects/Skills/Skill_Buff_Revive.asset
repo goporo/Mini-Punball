@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
+  m_Name: Skill_Buff_Revive
+  m_EditorClassIdentifier: 
+  skillId: 64db01e6-a974-4f13-858b-593a5c0381d1
+  skillName: REVIVE
+  description: Revive 1 on death
+  icon: {fileID: 0}
+  rarity: 0
+  triggers:
+  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
+  conditions: []
+  effects:
+  - {fileID: 11400000, guid: d9d2aa249f3c14f4bb2b66784ee336fd, type: 2}
+  maxStacks: 1
