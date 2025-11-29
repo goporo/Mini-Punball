@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: Skill_Eff_Void_Misile
+  m_Name: Skill_Buff_Ball_Special_Combo
   m_EditorClassIdentifier: 
-  skillId: 9f7a583f-1362-4703-a0d2-aeabc7ebc34f
-  skillName: VOID MISSILE
-  description: Fire missile on void ball hit an enemy
-  icon: {fileID: 0}
+  skillId: 6bce06c1-d72b-42b9-b975-d986064d7f1f
+  skillName: SPECIAL BALL COMBO
+  description: Special ball hit count 5 combos
+  icon: {fileID: 21300000, guid: 70d459d56f3f846438c65ab2f1cae8a2, type: 3}
   rarity: 0
   triggers:
-  - {fileID: 11400000, guid: 2a7560508d74c914e8a2da65554f3456, type: 2}
+  - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
   conditions: []
   effects:
-  - {fileID: 11400000, guid: 9f3362395f8873d48aef47c5638b3efe, type: 2}
+  - {fileID: 11400000, guid: 83c8ae890df64744282c72f50ef568e6, type: 2}
   maxStacks: 1

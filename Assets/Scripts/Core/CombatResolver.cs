@@ -59,8 +59,8 @@ public class CombatResolver : Singleton<CombatResolver>
         ctx.Enemy,
         damage,
         killed,
-        ctx.DamageType
-
+        ctx.DamageType,
+        ctx.ballType
         );
     EventBus.Publish(evt);
 

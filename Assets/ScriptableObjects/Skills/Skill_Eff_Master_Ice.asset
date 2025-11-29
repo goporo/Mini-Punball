@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Master_Ice
   m_EditorClassIdentifier: 
-  skillId: 9d4486fd-68fc-4115-9c75-8b6d8e964ee1
+  skillId: 392b549a-e54e-4268-b571-a14a22b5e02a
   skillName: ICE MASTER
   description: All ice damage increase, frozen chance increase and freeze 1 more
     turn
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 666839bf6d1a2e2499eff4242348dede, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

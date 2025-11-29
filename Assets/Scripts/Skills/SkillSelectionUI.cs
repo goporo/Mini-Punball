@@ -13,6 +13,8 @@ public class SkillSelectionUI : MonoBehaviour
   public Transform skillCardContainer;
   public Button buttonResetSkills;
   private List<PlayerSkillSO> currentSkills;
+  private int resetCount = 0;
+
 
   private SkillManager skillManager => LevelContext.Instance.SkillManager;
 
@@ -33,11 +35,18 @@ public class SkillSelectionUI : MonoBehaviour
   {
     ClearSkills();
     currentSkills = LoadSkills(currentSkills);
+#if !UNITY_EDITOR
+    resetCount++;
+    if (resetCount >= 1)
+    {
+      buttonResetSkills.interactable = false;
+    }
+#endif
   }
 
   private List<PlayerSkillSO> LoadSkills(List<PlayerSkillSO> excludeSkills = null)
   {
-    int count = 4;
+    int count = 3;
     List<PlayerSkillSO> availableSkills = new List<PlayerSkillSO>();
     HashSet<string> excludeSkillIds = null;
     if (excludeSkills != null)

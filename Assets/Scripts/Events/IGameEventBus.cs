@@ -137,19 +137,23 @@ public struct OnHitEvent : IGameEvent
   public int damageDealt;
   public bool killed;
   public DamageType damageType;
+  public BallType ballType;
 
   public OnHitEvent(
       PlayerRunStats player,
       Enemy enemy,
       int damageDealt,
       bool killed,
-      DamageType damageType)
+      DamageType damageType,
+      BallType ballType
+      )
   {
     this.player = player;
     this.enemy = enemy;
     this.damageDealt = damageDealt;
     this.killed = killed;
     this.damageType = damageType;
+    this.ballType = ballType;
   }
 }
 

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_ATK
   m_EditorClassIdentifier: 
-  skillId: 29511871-c2e6-4ec5-adcd-5690f004c3d8
+  skillId: 292f032e-6224-46b5-8769-56e1513c2c51
   skillName: ATTACK UP
   description: Increase player attack by 10%
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 52c0e3e2e80ab3c4cbd555c857bdb6dc, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

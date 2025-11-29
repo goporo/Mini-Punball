@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Combo_Lightning
   m_EditorClassIdentifier: 
-  skillId: 3231e57b-82b2-4457-a373-828422ab5d45
+  skillId: 6e6801f0-fbc5-45b3-a762-7733a4af64ee
   skillName: COMBO LIGHTNING
-  description: Drop a fire void every 40 combos
-  icon: {fileID: 0}
+  description: Drop lightning strike every 40 combos
+  icon: {fileID: 21300000, guid: afd700e6201f49c43889ed11ea7f3d71, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 19e999f82c698084e8c9f226e070364f, type: 2}

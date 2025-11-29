@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Void
   m_EditorClassIdentifier: 
-  skillId: 2371f963-0e16-4281-90ee-29238bb1b17d
+  skillId: ac47ebb1-acf7-4f91-9f1c-02d07cb497d3
   skillName: VOID BALL
-  description: Add one void ball
-  icon: {fileID: 0}
+  description: Add one void ball, deals massive damage on hit
+  icon: {fileID: 21300000, guid: 536d7601a3b1a1d4da8dcef4bc4e3bc3, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

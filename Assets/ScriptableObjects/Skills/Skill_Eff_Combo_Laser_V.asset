@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Combo_Laser_V
   m_EditorClassIdentifier: 
-  skillId: 3231e57b-82b2-4457-a373-828422ab5d45
+  skillId: b0cec61a-8e05-432a-9cc1-f30f22e68795
   skillName: COMBO LASER-V
   description: Shoot a vertical laser every 40 combos
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 04f65dc66ec4a6d45b42a066894d1734, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 19e999f82c698084e8c9f226e070364f, type: 2}

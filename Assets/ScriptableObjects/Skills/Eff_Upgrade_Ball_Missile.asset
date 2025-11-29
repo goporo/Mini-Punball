@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f71d832a2a6a824386e17b542a701c2, type: 3}
   m_Name: Eff_Upgrade_Ball_Missile
   m_EditorClassIdentifier: 
-  BallType: 2
+  BallType: 4

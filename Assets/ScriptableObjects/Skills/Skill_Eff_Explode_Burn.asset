@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Explode_Burn
   m_EditorClassIdentifier: 
-  skillId: 376855c5-ae7c-4964-8a73-e06640cfc072
+  skillId: 82fc1a00-5b50-4d55-bd6e-12984dd86af9
   skillName: Explode Burn
-  description: Bombs explosion now apply burn to target
-  icon: {fileID: 0}
+  description: Bomb explosion applys burn to target
+  icon: {fileID: 21300000, guid: 831c9bd6c00a5cf44a6699853a05de29, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 22404fd434fd3eb4280cc81b44976886, type: 2}

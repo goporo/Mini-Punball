@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Combo_Void
   m_EditorClassIdentifier: 
-  skillId: 3231e57b-82b2-4457-a373-828422ab5d45
+  skillId: 6abfa460-518b-4460-819c-68e1e03071f0
   skillName: COMBO VOID
-  description: Drop a fire void every 40 combos
-  icon: {fileID: 0}
+  description: Drop a void every 40 combos
+  icon: {fileID: 21300000, guid: 8d26b37f14d965a47b4fa0f4af821944, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 19e999f82c698084e8c9f226e070364f, type: 2}

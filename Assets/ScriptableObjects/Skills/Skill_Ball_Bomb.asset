@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
-  m_Name: Skill_Buff_Special_Ball_Combo
+  m_Name: Skill_Ball_Bomb
   m_EditorClassIdentifier: 
-  skillId: 7b7e3276-3895-4afb-81d8-a4e7433bc931
-  skillName: SPECIAL BALL COMBO
-  description: Special ball hit count 5 combo
-  icon: {fileID: 0}
+  skillId: cb61f257-ae8f-476f-b6c7-069043423fec
+  skillName: BOMB BALL
+  description: Add one bomb ball
+  icon: {fileID: 21300000, guid: f4fdaef4eebb6e74483011c938284730, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
   conditions: []
   effects:
-  - {fileID: 11400000, guid: 83c8ae890df64744282c72f50ef568e6, type: 2}
-  maxStacks: 1
+  - {fileID: 11400000, guid: 610e1dd64bf9f974c85ffea806fe7a67, type: 2}
+  maxStacks: 2

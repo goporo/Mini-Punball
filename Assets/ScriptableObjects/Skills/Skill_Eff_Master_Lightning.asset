@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Master_Lightning
   m_EditorClassIdentifier: 
-  skillId: c0aed16b-8e19-4538-9cbe-eb9814c4f3cc
+  skillId: ca8e5b6c-bb54-47e7-aab8-60573441efbf
   skillName: LIGHTNING MASTER
   description: All lightning damage increase, lightning now strike 2 more targets
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 8c914399b5c1b624fa6c113f9c5986a0, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

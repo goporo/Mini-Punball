@@ -15,4 +15,4 @@ MonoBehaviour:
   BaseHealth: 5000
   BaseAttack: 100
   BaseBallConfig: {fileID: 11400000, guid: 5bf057be5b9c97e469af4c68ec023447, type: 2}
-  BaseBallsCount: 6
+  BaseBallsCount: 5

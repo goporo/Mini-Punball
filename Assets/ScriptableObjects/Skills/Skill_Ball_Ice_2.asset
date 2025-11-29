@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Ice_2
   m_EditorClassIdentifier: 
-  skillId: 798516eb-045d-4547-9f1f-d5ea2806ccbb
-  skillName: MISSILE BALL
-  description: Add one missile ball
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  skillId: f82ce0c0-e277-4700-9dfc-317edfbce3f4
+  skillName: UPGRADE ICE BALL
+  description: Upgrade 2 normal balls to ice balls
+  icon: {fileID: 21300000, guid: 826e04dc4d000c344b6e474e1396c10c, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

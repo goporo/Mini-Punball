@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Clone_Ball
   m_EditorClassIdentifier: 
-  skillId: 9f7a583f-1362-4703-a0d2-aeabc7ebc34f
-  skillName: COMBO CLONE
+  skillId: 02b9a3bf-e77c-4609-85d2-a3cb6562fbb7
+  skillName: COMBO CLONE BALL
   description: Clone attacking ball every 40 combos
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 40db78d20e6a00940a4010ce0a705e79, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 19e999f82c698084e8c9f226e070364f, type: 2}

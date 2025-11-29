@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Fire_2
   m_EditorClassIdentifier: 
-  skillId: fdf9fb08-a63d-4c12-b270-b648b7b63096
+  skillId: 6ce075da-b883-4a13-84d6-c0839da85bbd
   skillName: UPGRADE FIRE BALL
-  description: Upgrade 2 normal ball to fire laser ball
-  icon: {fileID: 0}
+  description: Upgrade 2 normal balls to fire balls
+  icon: {fileID: 21300000, guid: 6a86d2dd6e5690b4d8e1e6e0e3c4ffc9, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

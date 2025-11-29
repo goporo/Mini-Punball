@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Invincible
   m_EditorClassIdentifier: 
-  skillId: 64db01e6-a974-4f13-858b-593a5c0381d1
+  skillId: 38fbbcd7-3dbc-4cba-b98a-168ecc400f67
   skillName: INVINCIBLE
   description: Become invincible every 5 rounds
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 31ed63be17ec1bc45a6088d2740562ad, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: a16a294d0683e494e888cad6e24ba04b, type: 2}

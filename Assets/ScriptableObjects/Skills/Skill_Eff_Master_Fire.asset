@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Master_Fire
   m_EditorClassIdentifier: 
-  skillId: ccfd7a43-0aee-4710-913c-d78644c95ec4
+  skillId: 8b4a739a-105b-4b5f-b330-22301e608ec4
   skillName: FIRE MASTER
   description: All fire damage increase, burn effect spread to nearby monster
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e5a23db287a700b49a58db4066f632c3, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

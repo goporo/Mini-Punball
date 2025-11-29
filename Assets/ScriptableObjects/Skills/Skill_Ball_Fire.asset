@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Fire
   m_EditorClassIdentifier: 
-  skillId: 798516eb-045d-4547-9f1f-d5ea2806ccbb
-  skillName: MISSILE BALL
-  description: Add one missile ball, fire 1 missile on hit
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  skillId: 1e77aa07-147c-4557-8106-e21df587ccda
+  skillName: FIRE BALL
+  description: Add one fire ball, burn enemy on hit
+  icon: {fileID: 21300000, guid: eddcc23e210cc894491686c57dac4dd7, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

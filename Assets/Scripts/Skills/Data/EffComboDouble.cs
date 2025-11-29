@@ -4,7 +4,7 @@ using System.Collections;
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/EffComboDouble")]
 public class EffComboDouble : EffectSO<ComboCastContext>
 {
-  private float chance = 0.25f;
+  [SerializeField] private float chance = 0.25f;
   private float delay = 0.5f;
   public override void Execute(ComboCastContext ctx)
   {

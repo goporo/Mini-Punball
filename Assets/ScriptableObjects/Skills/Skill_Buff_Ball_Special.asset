@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Ball_Special
   m_EditorClassIdentifier: 
-  skillId: 95a7049d-44a0-42de-aef7-29d9a5bcc0e5
+  skillId: 69f229d5-ee9c-4f09-880b-29359e1a4587
   skillName: SPECIAL BALL UP
   description: Special ball damage +20%
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: af3d3d36374da8f4fb7a9a7a2e12d3e4, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

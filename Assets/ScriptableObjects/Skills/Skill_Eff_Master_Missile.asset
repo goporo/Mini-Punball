@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Master_Missile
   m_EditorClassIdentifier: 
-  skillId: 9a4878d7-7bbe-4c6e-9f17-dff3972d2830
+  skillId: db1397b8-2014-434e-b392-23175fa0db6b
   skillName: MISSILE MASTER
   description: All missile damage increase, fire 1 more missile when spawn missile
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d49aeecd7e09f2c41b151750bafed585, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

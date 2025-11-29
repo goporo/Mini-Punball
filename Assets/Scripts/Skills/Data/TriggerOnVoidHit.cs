@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "MiniPunBall/Skill/TriggerOnVoidHit")]
-public class TriggerOnVoidHit : TriggerSO<EffectContext>
+public class TriggerOnVoidHit : TriggerSO<EffectCastContext>
 {
-  public override IDisposable Subscribe(SkillRuntime runtime, Action<EffectContext> fire)
+  public override IDisposable Subscribe(SkillRuntime runtime, Action<EffectCastContext> fire)
   {
     Action<OnVoidHitEvent> onVoidHit = (OnVoidHitEvent e) =>
     {
-      var context = new EffectContext(e.Context.Enemy);
+      var context = new EffectCastContext(e.Context.Enemy, ECastSource.Enemy);
       fire(context);
     };
 

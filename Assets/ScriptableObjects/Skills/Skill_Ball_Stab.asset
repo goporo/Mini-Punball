@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Stab
   m_EditorClassIdentifier: 
-  skillId: 798516eb-045d-4547-9f1f-d5ea2806ccbb
+  skillId: 25fb9773-1cfa-4e13-b975-6eb84b78db9c
   skillName: STAB BALL
-  description: Add one stab ball
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  description: Add one stab ball, deals more damage when hit behind
+  icon: {fileID: 21300000, guid: 7d180e7661f2ebb49be084841d4131c9, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}
   conditions: []
   effects:
-  - {fileID: 11400000, guid: 0402e71607b56d24f8f25020bb22a870, type: 2}
+  - {fileID: 11400000, guid: f3931c8874df37e4cab4e216693defd9, type: 2}
   maxStacks: 2

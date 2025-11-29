@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Combo_Laser_H
   m_EditorClassIdentifier: 
-  skillId: 3231e57b-82b2-4457-a373-828422ab5d45
+  skillId: 584b623f-aaf7-40cf-a7d3-a0de0c82d292
   skillName: COMBO LASER-H
   description: Shoot a horizontal laser every 40 combos
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1eba3134c8d732a4687c5e5e16890bdd, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 19e999f82c698084e8c9f226e070364f, type: 2}

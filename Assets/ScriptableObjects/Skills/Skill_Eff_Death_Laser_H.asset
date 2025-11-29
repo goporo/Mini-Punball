@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Eff_Death_Laser_H
   m_EditorClassIdentifier: 
-  skillId: 9c761da5-adeb-4240-bb8b-dde935146217
+  skillId: 8e4cad21-7256-447d-8488-325656d012ab
   skillName: DEATH LASER
   description: Shoots a laser on enemy death
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 05d31b66cc41d1a468c296eccdd03965, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 46f4c25c440a61d498ec88d6af558730, type: 2}

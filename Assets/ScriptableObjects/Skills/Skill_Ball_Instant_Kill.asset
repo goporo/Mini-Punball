@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_Instant_Kill
   m_EditorClassIdentifier: 
-  skillId: f8e8ec1d-fea1-41fc-bd0b-89c8c772565c
+  skillId: b1bfd47f-7230-4d8d-9961-9f5b6543827b
   skillName: INSTANT KILL BALL
-  description: Add one instant kill ball, has small chance to execute enemy on hit
-  icon: {fileID: 0}
+  description: Add one instant kill ball, small chance to kill enemy
+  icon: {fileID: 21300000, guid: f311029ad0a49224e8e0b473f6d636ec, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

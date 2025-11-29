@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_HLaser_2
   m_EditorClassIdentifier: 
-  skillId: fdf9fb08-a63d-4c12-b270-b648b7b63096
+  skillId: 0b64737a-fd46-4912-b0ae-3b85f5594fa0
   skillName: UPGRADE LASER BALL
   description: Upgrade 2 normal ball to horizontal laser ball
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c468ebf753701f74cbc4bea21b2b861d, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

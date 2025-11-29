@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_Revive
   m_EditorClassIdentifier: 
-  skillId: 64db01e6-a974-4f13-858b-593a5c0381d1
-  skillName: REVIVE
-  description: Revive 1 on death
-  icon: {fileID: 0}
+  skillId: 840593db-3e30-43ef-9d78-8e46a485d5b0
+  skillName: SECOND CHANCE
+  description: Revive 1 time on death
+  icon: {fileID: 21300000, guid: 5afee5fef57eb4b419bb841536c4da64, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

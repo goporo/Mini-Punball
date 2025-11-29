@@ -88,6 +88,11 @@ public class EffDropComet : EffectSO<EffectCastContext>
         {
           var effectCtx = new EffectCastContext(target, ECastSource.Effect);
           EffectExecutor.Instance.Execute(effectCtx, hitEffect);
+          if (cometType == CometType.Void)
+          {
+            EventBus.Publish(new OnVoidHitEvent(new EffectContext(target)));
+          }
+
         }
       }
     };

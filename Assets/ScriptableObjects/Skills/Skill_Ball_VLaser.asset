@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Ball_VLaser
   m_EditorClassIdentifier: 
-  skillId: f8e8ec1d-fea1-41fc-bd0b-89c8c772565c
+  skillId: 0e297837-bfab-422d-84ab-20bb6fbd07b9
   skillName: V-LASER BALL
   description: Add one vertical laser ball
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5648628937e241641874ab80e6064638, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: 18d266a119f965c4c99659c32ba012dc, type: 2}

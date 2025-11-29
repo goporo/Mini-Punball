@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab40d3dcc89d204282f3cb27f990959, type: 3}
   m_Name: Skill_Buff_HP_Wave
   m_EditorClassIdentifier: 
-  skillId: 9d66a8aa-ea6b-4283-ad60-945616b1a221
+  skillId: 473a6baa-a3a2-4017-b88f-ba609a972929
   skillName: STRENGTH
   description: Increase player HP by 5% every 5 waves
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 4f88943c9802e3c44a7dd40f51cf86b5, type: 3}
   rarity: 0
   triggers:
   - {fileID: 11400000, guid: a16a294d0683e494e888cad6e24ba04b, type: 2}

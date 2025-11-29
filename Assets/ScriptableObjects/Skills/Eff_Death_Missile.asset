@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f25813be5b5bef54e963181444ac5d5f, type: 3}
   m_Name: Eff_Death_Missile
   m_EditorClassIdentifier: 
-  count: 2
   multiplier: 9
-  missilePrefab: {fileID: 7028563249317134327, guid: 3dce1ab622414884c9212abcafbcf5bf, type: 3}
+  maxTargets: 2
