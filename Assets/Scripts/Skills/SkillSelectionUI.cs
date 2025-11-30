@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class SkillSelectionUI : MonoBehaviour
 {
-  public GameObject popupInfo;
-  public TMP_Text popupSkillName;
-  public TMP_Text popupSkillDescription;
-  public SkillDatabaseSO skills;
-  public GameObject skillCardPrefab;
-  public Transform skillCardContainer;
-  public Button buttonResetSkills;
+  [SerializeField] private GameObject popupInfo;
+  [SerializeField] private TMP_Text popupSkillName;
+  [SerializeField] private TMP_Text popupSkillDescription;
+  [SerializeField] private GameObject skillCardPrefab;
+  [SerializeField] private Transform skillCardContainer;
+  [SerializeField] private Button buttonResetSkills;
+  private SkillDatabaseSO skills => GlobalContext.Instance.skills;
   private List<PlayerSkillSO> currentSkills;
+
+#if !UNITY_EDITOR
   private int resetCount = 0;
+#endif
 
 
   private SkillManager skillManager => LevelContext.Instance.SkillManager;
@@ -23,6 +26,10 @@ public class SkillSelectionUI : MonoBehaviour
     currentSkills = LoadSkills();
     buttonResetSkills.onClick.AddListener(OnResetSkills);
     popupInfo.SetActive(false);
+    buttonResetSkills.interactable = true;
+#if !UNITY_EDITOR
+    resetCount = 0;
+#endif
   }
 
   void OnDisable()

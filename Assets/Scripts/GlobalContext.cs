@@ -12,6 +12,9 @@ public class GlobalContext : MonoBehaviour
 {
   public static GlobalContext Instance;
   [SerializeField] CharacterSO characterSO;
+  public SkillDatabaseSO skills;
+  public BallDatabaseSO ballDatabaseSO;
+
 
   public CharacterSO CharacterSO => characterSO;
 

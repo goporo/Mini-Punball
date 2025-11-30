@@ -7,9 +7,13 @@ using UnityEngine.UI;
 public class LevelUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text textWaveNumber;
+    [SerializeField] private TMP_Text textGameSpeed;
+    [SerializeField] private Button buttonToggleSpeed;
+
     [SerializeField] private PanelMonsterInfo panelNewMonsterInfo;
     [SerializeField] private PanelNewSkillInfo panelNewSkillInfo;
     [SerializeField] private PanelLevelComplete panelLevelComplete;
+
 
     private float panelDisplayDuration = 3f;
 
@@ -19,17 +23,25 @@ public class LevelUI : MonoBehaviour
         textWaveNumber.text = "1";
     }
 
+    void Start()
+    {
+        UpdateGameSpeedText();
+    }
+
     void OnEnable()
     {
         EventBus.Subscribe<OnWaveStartEvent>(HandleWaveChange);
         EventBus.Subscribe<OnSkillPickedEvent>(HandleSkillPicked);
         EventBus.Subscribe<LevelCompleteEvent>(HandleLevelComplete);
+        buttonToggleSpeed.onClick.AddListener(OnToggleSpeed);
+
     }
     void OnDisable()
     {
         EventBus.Unsubscribe<OnWaveStartEvent>(HandleWaveChange);
         EventBus.Unsubscribe<OnSkillPickedEvent>(HandleSkillPicked);
         EventBus.Unsubscribe<LevelCompleteEvent>(HandleLevelComplete);
+        buttonToggleSpeed.onClick.RemoveListener(OnToggleSpeed);
     }
 
     private void HandleLevelComplete(LevelCompleteEvent e)
@@ -61,6 +73,17 @@ public class LevelUI : MonoBehaviour
     {
         panelNewSkillInfo.Setup(e.SkillData.skillName, e.SkillData.description);
         panelNewSkillInfo.ShowFor(panelDisplayDuration);
+    }
+
+    private void OnToggleSpeed()
+    {
+        LevelContext.Instance.LevelController.ToggleGameSpeed();
+        UpdateGameSpeedText();
+    }
+
+    private void UpdateGameSpeedText()
+    {
+        textGameSpeed.text = $"{"x" + LevelContext.Instance.LevelController.GetGameSpeed()}";
     }
 
     // Panels now manage their own hide timing

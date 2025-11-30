@@ -15,7 +15,7 @@ MonoBehaviour:
   LevelNumber: 1
   boardPrefab: {fileID: 8629729260284965448, guid: 9bc7ab830c767c645a9358414093b869, type: 3}
   availableEnemies:
-  - {fileID: 5675986024820118595, guid: 7172b579b4406cf4592f909216020aeb, type: 3}
+  - {fileID: 5409952272315634615, guid: 0a0f930037c1bad43a0a8ecd377ab812, type: 3}
   - {fileID: 5675986024820118595, guid: 7172b579b4406cf4592f909216020aeb, type: 3}
   - {fileID: 7839028478513046216, guid: bda9aa2f7704b714880808c1fde48285, type: 3}
   bossLists:

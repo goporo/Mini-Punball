@@ -25,6 +25,17 @@ public class SkillManager : MonoBehaviour
     EventBus.Unsubscribe<PickupBoxEvent>(OnPickupBoxEvent);
   }
 
+  public List<PlayerSkillSO> GetActiveSkills()
+  {
+    List<PlayerSkillSO> skills = new List<PlayerSkillSO>();
+    foreach (var runtime in activeSkills)
+    {
+      skills.Add(runtime.skill);
+    }
+    return skills;
+
+  }
+
 
   public void AddSkill(PlayerSkillSO skill)
   {

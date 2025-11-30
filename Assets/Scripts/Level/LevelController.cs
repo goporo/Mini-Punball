@@ -80,14 +80,20 @@ public class LevelController : MonoBehaviour
         // Show summary, unlock next level, etc.
     }
 
-    public void Toggle2xGameSpeed()
+    public void ToggleGameSpeed()
     {
         if (Time.timeScale == 1f)
         {
-            Time.timeScale = 5f;
+            Time.timeScale = 2f;
             return;
         }
         Time.timeScale = 1f;
     }
+
+    public int GetGameSpeed()
+    {
+        return (int)Time.timeScale;
+    }
+
 }
 

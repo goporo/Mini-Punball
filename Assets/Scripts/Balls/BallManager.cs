@@ -27,7 +27,7 @@ public struct BallBuff
 public class BallManager : MonoBehaviour
 {
     private Coroutine ballStuckRoutine;
-    [SerializeField] private BallDatabaseSO ballDatabaseSO;
+    private BallDatabaseSO ballDatabaseSO => GlobalContext.Instance.ballDatabaseSO;
 
     public List<BallBase> playerBalls = new(); // Balls player owns in order
     public int RemainingBalls => Mathf.Max(0, playerBalls.Count - ballsShot);
