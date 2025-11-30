@@ -553,6 +553,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterSO: {fileID: 11400000, guid: 91bb9b638660de641afa6ffa8c366007, type: 2}
+  skills: {fileID: 11400000, guid: 5598f98760244c54b92c909ba7de2dcf, type: 2}
+  ballDatabaseSO: {fileID: 11400000, guid: 4abc1cd495b5962458ae0b6d0caa5a60, type: 2}
 --- !u!4 &1337036941
 Transform:
   m_ObjectHideFlags: 0
